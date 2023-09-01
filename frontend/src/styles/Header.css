@@ -1,0 +1,137 @@
+/* Header.css */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #063cd3;
+  color: #fff;
+  padding: 20px;
+  text-align: left;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.header:hover {
+  background-color: #152f5d; /* Albastru mai închis la hover */
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+  text-align: left;
+}
+
+nav li {
+  margin: 0 10px;
+  display: inline-block;
+  transform: translateY(0);
+  transition: transform 0.2s ease-in-out;
+}
+
+nav li:hover {
+  transform: translateY(-5px);
+}
+
+nav a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: #ff6f00; /* Portocaliu la hover */
+}
+
+.circle-container {
+  display: flex; /* Face cercul și butonul de temă să fie în același rând */
+  align-items: center; /* Aliniază elementele pe verticală în centru */
+}
+
+.circle {
+  width: 50px;
+  height: 50px;
+  background-color: #ff6f00; /* Portocaliu pentru cerc */
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative; /* Adăugați acest stil pentru a menține meniul în interiorul cercului */
+}
+
+.icon {
+  color: #fff;
+  font-size: 24px;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: calc(100% + 10px); /* Poziționare sub cerc cu o mică spațiere */
+  right: 0;
+  background-color: #333;
+  display: none;
+  border-radius: 4px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  opacity: 0; /* Inițial faceți meniul invizibil */
+  transform: translateY(10px); /* Inițial faceți meniul puțin coborât */
+  border-top-left-radius: 10px; /* Ajustează colțurile din stânga sus și stânga jos ale meniului pentru a face un aspect mai rotund */
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.circle:hover .menu {
+  display: block;
+  opacity: 1; /* La hover faceți meniul vizibil */
+  transform: translateY(0); /* La hover ridicați meniul */
+  transition-delay: 0.2s; /* Adăugați o întârziere mică pentru a menține meniul deschis */
+}
+
+.menu li {
+  padding: 10px;
+  text-align: center;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.menu li:hover {
+  background-color: #555;
+}
+
+.menu a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 10px 20px;
+  transition: color 0.3s ease-in-out;
+}
+
+.menu a:hover {
+  color: #ff6f00; /* Portocaliu la hover pentru elementele meniului */
+  text-decoration: underline;
+}
+

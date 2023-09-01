@@ -130,12 +130,12 @@ def change_password_view(request):
         msg = {'Password was modified successfully'}
         return response.Response(msg, status=status.HTTP_200_OK)
 
-    user_token = models.UserToken.objects.get(
-        user_id=request.user.pk,
-        access_token=request.auth
-    )
-    user_token.access_token = None
-    user_token.refresh_token = None
-    user_token.logout_time = datetime.now()
-    user_token.save()
+    # user_token = models.UserToken.objects.get(
+    #     user_id=request.user.pk,
+    #     access_token=request.auth
+    # )
+    # user_token.access_token = None
+    # user_token.refresh_token = None
+    # user_token.logout_time = datetime.now()
+    # user_token.save()
     return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
