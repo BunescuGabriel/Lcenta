@@ -48,6 +48,7 @@ function Header() {
               <ul className="menu">
                 <li><Link to="/login">Login</Link></li>
                 <li><Link to="/register">Register</Link></li>
+                  <li><Link to="/reset-password">Reset Password</Link></li>
               </ul>
             )}
           </>

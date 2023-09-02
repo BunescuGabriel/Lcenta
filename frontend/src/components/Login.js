@@ -1,6 +1,6 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 function Login() {
   const navigate = useNavigate();
@@ -63,7 +63,13 @@ function Login() {
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Login</button>
+        <div>
+          <button type="submit">Login</button>
+        </div>
+
+        <div>
+          <Link to="/reset-password">Reset Password</Link>
+        </div>
       </form>
     </div>
   );

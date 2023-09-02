@@ -57,7 +57,7 @@ class TokenAuthentication(authentication.BaseAuthentication):
         try:
             auth = request.headers['Authorization'].split()
         except KeyError:
-            msg = 'User trying to view content with out any authorization'
+            msg = ('User trying to view content with out any authorization')
             raise exceptions.AuthenticationFailed(msg)
             # Bad and ugly idea
         # TODO: Check on front-end if None can be send so python can catch it in the right way!

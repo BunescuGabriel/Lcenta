@@ -1,12 +1,16 @@
 from rest_framework import generics, response, status
 from authen import serializers
 from rest_framework import decorators
+
+from authen.serializers import ChangePasswordSerializer
 from users import models
 import random
 import string
 from django.core.mail import send_mail
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
+
+from users.models import UserToken
 
 
 class RegisterView(generics.CreateAPIView):
@@ -87,17 +91,16 @@ def resetpassword_view(request):
     except:
         msg = {'User does not exist'}
         return response.Response(msg, status=status.HTTP_404_NOT_FOUND)
-    if models.Users.objects.filter(username=request.data['username']).exists() or models.Users.objects.filter(
-            email=request.data['username']).exists():
+    if models.Users.objects.filter(username=request.data['username']).exists() or models.Users.objects.filter(email=request.data['username']).exists():
         characters = string.ascii_letters + string.digits + string.punctuation
         password = ''.join(random.choice(characters) for i in range(8))
         user.set_password(password)
         user.save(update_fields=['password'])
         send_mail(
-            'reset_password',
-            f'You can find your password here:  {password}',
-            'admin@admin.com',
-            [request.data['username']],
+          'reset_password',
+          f'You can find your password here:  {password}',
+          'admin@admin.com',
+          [request.data['username']],
         )
         msg = {'Password reset email sent successfully'}
         return response.Response(msg, status=status.HTTP_200_OK)
@@ -130,12 +133,12 @@ def change_password_view(request):
         msg = {'Password was modified successfully'}
         return response.Response(msg, status=status.HTTP_200_OK)
 
-    # user_token = models.UserToken.objects.get(
-    #     user_id=request.user.pk,
-    #     access_token=request.auth
-    # )
-    # user_token.access_token = None
-    # user_token.refresh_token = None
-    # user_token.logout_time = datetime.now()
-    # user_token.save()
+    user_token = models.UserToken.objects.get(
+        user_id=request.user.pk,
+        access_token=request.auth
+    )
+    user_token.access_token = None
+    user_token.refresh_token = None
+    user_token.logout_time = datetime.now()
+    user_token.save()
     return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

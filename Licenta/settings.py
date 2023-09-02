@@ -48,14 +48,12 @@ MIDDLEWARE = [
 
 ]
 
-CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
-]
+
 
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    # Alte origini permise pot fi adăugate aici
+
 ]
 
 # Activează suportul pentru cookies
@@ -190,5 +188,6 @@ SIMPLE_JWT = {
 
 EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
 EMAIL_HOST_USER = '6257188763291d'
-EMAIL_HOST_PASSWORD = '********179c'
+EMAIL_HOST_PASSWORD = '6f753aa84d179c'
+
 EMAIL_PORT = '2525'
