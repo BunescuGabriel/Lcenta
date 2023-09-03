@@ -1,6 +1,10 @@
 // src/components/Login.js
 import React, { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+const baseURL = process.env.REACT_APP_BASE_URL;
+axios.defaults.baseURL = `${baseURL}/authen`;
 
 function Login() {
   const navigate = useNavigate();
@@ -8,33 +12,31 @@ function Login() {
     username: '',
     password: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:8000/api/authen/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post('/login', formData);
 
       if (response.status === 200) {
-        const data = await response.json();
+        const data = response.data;
         localStorage.setItem('accessToken', data.access_token);
+        console.log(localStorage);
 
-        // Redirect to the home page
         navigate('/');
       } else {
-        const errorData = await response.json();
-        console.error(errorData);
+        console.error('Login error:', response.data);
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -57,11 +59,14 @@ function Login() {
         <div>
           <label>Password:</label>
           <input
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             name="password"
             value={formData.password}
             onChange={handleChange}
           />
+          <button type="button" onClick={toggleShowPassword}>
+            {showPassword ? 'Hide' : 'Show'} Password
+          </button>
         </div>
         <div>
           <button type="submit">Login</button>

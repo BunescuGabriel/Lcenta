@@ -1,11 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Importați useNavigate
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+const baseURL = process.env.REACT_APP_BASE_URL;
+axios.defaults.baseURL = `${baseURL}/authen`;
 
 const Register = () => {
-  const navigate = useNavigate(); // Obțineți funcția navigate din hook-ul useNavigate
+  const navigate = useNavigate();
 
   const [formData, setFormData] = React.useState({
     email: '',
@@ -16,8 +17,14 @@ const Register = () => {
     success: false,
   });
 
+  const [showPassword, setShowPassword] = React.useState(false); // Adăugăm starea pentru a controla vizualizarea parolei
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword); // Inversăm starea la apăsarea butonului
   };
 
   const handleSubmit = (e) => {
@@ -29,16 +36,14 @@ const Register = () => {
     }
 
     axios
-      .post('http://localhost:8000/api/authen/register/', {
+      .post('/register/', {
         email,
         username,
         password,
         confirm_password,
       })
       .then((response) => {
-        // După înregistrare cu succes, actualizați starea pentru a afișa mesajul de succes
         setFormData({ ...formData, success: true, error: '' });
-        // Utilizați navigate pentru a naviga către pagina "Home"
         navigate('/');
       })
       .catch((error) => {
@@ -78,16 +83,19 @@ const Register = () => {
         <div>
           <label>Password:</label>
           <input
-            type="password"
+            type={showPassword ? 'text' : 'password'} // Schimbăm tipul de input în funcție de starea showPassword
             name="password"
             value={password}
             onChange={handleChange}
           />
+          <button type="button" onClick={toggleShowPassword}>
+            {showPassword ? 'Hide' : 'Show'} Password
+          </button>
         </div>
         <div>
           <label>Confirm Password:</label>
           <input
-            type="password"
+            type={showPassword ? 'text' : 'password'} // Schimbăm tipul de input în funcție de starea showPassword
             name="confirm_password"
             value={confirm_password}
             onChange={handleChange}

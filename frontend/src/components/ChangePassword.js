@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+const baseURL = process.env.REACT_APP_BASE_URL;
+axios.defaults.baseURL = `${baseURL}/authen`;
 
 const ChangePassword = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +14,16 @@ const ChangePassword = () => {
   const [showPasswords, setShowPasswords] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [accessToken, setAccessToken] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedAccessToken = localStorage.getItem("accessToken");
+
+    if (storedAccessToken) {
+      setAccessToken(storedAccessToken);
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,22 +37,25 @@ const ChangePassword = () => {
     e.preventDefault();
     try {
       const response = await axios.patch(
-        "http://localhost:8000/api/authen/change/",
-        formData
+        "/change/",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
       );
 
-      // Verificați răspunsul de la server și gestionați-l în consecință.
       console.log("Răspuns de la server:", response.data);
       setMessage("Password changed successfully!");
-      setError(""); // Resetăm eroarea
+      setError("");
 
-      // Puteți adăuga aici logică suplimentară pentru a trata răspunsul de la server.
+      navigate("/");
     } catch (error) {
       console.error("Eroare de la server:", error.response.data);
-      setMessage(""); // Resetăm mesajul
-      setError(error.response.data.error || "An error occurred.");
-
-      // Puteți gestiona erorile de la server aici.
+      setMessage("");
+      setError(error.response.data[0] || "An error occurred.");
     }
   };
 
@@ -49,7 +65,7 @@ const ChangePassword = () => {
 
   return (
     <div>
-      <form style={{ maxWidth: "300px", margin: "0 auto" }}>
+      <form style={{ maxWidth: "300px", margin: "0 auto" }} onSubmit={handleSubmit}>
         <input
           type={showPasswords ? "text" : "password"}
           name="old_password"
@@ -74,7 +90,7 @@ const ChangePassword = () => {
           onChange={handleChange}
           required
         />
-        <button onClick={handleSubmit}>Confirm</button>
+        <button type="submit">Confirm</button>
         {message && <p style={{ color: "green" }}>{message}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>

@@ -1,16 +1,14 @@
 from rest_framework import generics, response, status
+
 from authen import serializers
 from rest_framework import decorators
 
-from authen.serializers import ChangePasswordSerializer
 from users import models
 import random
 import string
 from django.core.mail import send_mail
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
-
-from users.models import UserToken
 
 
 class RegisterView(generics.CreateAPIView):
@@ -91,20 +89,23 @@ def resetpassword_view(request):
     except:
         msg = {'User does not exist'}
         return response.Response(msg, status=status.HTTP_404_NOT_FOUND)
-    if models.Users.objects.filter(username=request.data['username']).exists() or models.Users.objects.filter(email=request.data['username']).exists():
+    if models.Users.objects.filter(username=request.data['username']).exists() or models.Users.objects.filter(
+            email=request.data['username']).exists():
         characters = string.ascii_letters + string.digits + string.punctuation
         password = ''.join(random.choice(characters) for i in range(8))
         user.set_password(password)
         user.save(update_fields=['password'])
         send_mail(
-          'reset_password',
-          f'You can find your password here:  {password}',
-          'admin@admin.com',
-          [request.data['username']],
+            'reset_password',
+            f'You can find your password here:  {password}',
+            'admin@admin.com',
+            [request.data['username']],
         )
         msg = {'Password reset email sent successfully'}
         return response.Response(msg, status=status.HTTP_200_OK)
     return response.Response(status=status.HTTP_200_OK)
+
+
 
 
 @decorators.api_view(['PATCH'])
@@ -121,11 +122,11 @@ def change_password_view(request):
             return response.Response(msg, status=status.HTTP_400_BAD_REQUEST)
 
         if len(serializer.data.get("new_password")) < 8:
-            msg = {'Your password is to short'}
+            msg = {'Your password is too short'}
             return response.Response(msg, status=status.HTTP_400_BAD_REQUEST)
 
         if len(serializer.data.get("new_password")) > 16:
-            msg = {'Your password is to long'}
+            msg = {'Your password is too long'}
             return response.Response(msg, status=status.HTTP_400_BAD_REQUEST)
 
         user.set_password(serializer.data.get("new_password"))
@@ -142,3 +143,4 @@ def change_password_view(request):
     user_token.logout_time = datetime.now()
     user_token.save()
     return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
