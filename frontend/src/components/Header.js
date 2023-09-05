@@ -10,12 +10,18 @@ function Header() {
   const isAuthenticated = !!localStorage.getItem('accessToken');
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
 
   const [userProfile, setUserProfile] = useState({
     first_name: '',
     last_name: '',
     avatar: '',
   });
+
+   const toggleMenu = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  }
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('accessToken');
@@ -24,6 +30,7 @@ function Header() {
       setAccessToken(storedAccessToken);
     }
   }, []);
+
 
   useEffect(() => {
     const loadData = async () => {
@@ -84,9 +91,9 @@ function Header() {
     };
   }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  // const toggleMenu = () => {
+  //   setIsMenuOpen(!isMenuOpen);
+  // };
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
@@ -120,7 +127,7 @@ function Header() {
                 />
               </div>
             )}
-            {isMenuOpen && (
+            {isDropdownOpen && (
               <ul className="menu">
                 <li>{userProfile.first_name} {userProfile.last_name}</li>
                 <li><Link to="/profile">Profile</Link></li>
@@ -136,7 +143,7 @@ function Header() {
 
 
             <div className="menu-container">
-    {isMenuOpen && (
+    {isDropdownOpen && (
       <ul className="menu">
         <li>{userProfile.first_name} {userProfile.last_name}</li>
         <li><Link to="/profile">Profile</Link></li>

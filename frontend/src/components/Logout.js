@@ -1,17 +1,12 @@
-// src/components/Logout.js
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
-const baseURL = process.env.REACT_APP_BASE_URL;
-axios.defaults.baseURL = `${baseURL}/authen`;
 
-
-export function Logout() {
+function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
     // Make a request to your logout endpoint on the server to invalidate the user's session
-    fetch('/logout', {
+    fetch('http://localhost:8000/api/authen/logout', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
