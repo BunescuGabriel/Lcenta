@@ -1,4 +1,5 @@
 /* Header.css */
+
 .header {
   display: flex;
   align-items: center;
@@ -9,10 +10,12 @@
   text-align: left;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease-in-out;
+  margin-bottom: 40px; /* Adauga o margine inferioara pentru a face loc pentru meniu */
+  position: relative; /* Adauga pozitie relativ pentru a controla z-index */
 }
 
 .header:hover {
-  background-color: #152f5d; /* Albastru mai închis la hover */
+  background-color: #152f5d;
 }
 
 .header h1 {
@@ -59,68 +62,66 @@ nav a {
 
 nav a:hover {
   text-decoration: underline;
-  color: #ff6f00; /* Portocaliu la hover */
+  color: #ff6f00;
 }
 
-.circle-container {
-  display: flex; /* Face cercul și butonul de temă să fie în același rând */
-  align-items: center; /* Aliniază elementele pe verticală în centru */
-}
-
-.circle {
+.avatar-circle {
   width: 50px;
   height: 50px;
-  background-color: #ff6f00; /* Portocaliu pentru cerc */
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Adăugați acest stil pentru a menține meniul în interiorul cercului */
+  position: relative;
+  overflow: hidden;
+  margin-right: 10px;
 }
 
-.icon {
-  color: #fff;
-  font-size: 24px;
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.menu {
+.avatar-circle .menu {
   list-style: none;
   padding: 0;
   margin: 0;
   position: absolute;
-  top: calc(100% + 10px); /* Poziționare sub cerc cu o mică spațiere */
-  right: 0;
+  top: calc(100% + 10px); /* Ajusteaza distanta dorita intre avatar si meniu */
+  right: 10px;
   background-color: #333;
   display: none;
   border-radius: 4px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  opacity: 0; /* Inițial faceți meniul invizibil */
-  transform: translateY(10px); /* Inițial faceți meniul puțin coborât */
-  border-top-left-radius: 10px; /* Ajustează colțurile din stânga sus și stânga jos ale meniului pentru a face un aspect mai rotund */
+  opacity: 0;
+  transform: translateY(10px);
+  border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  z-index: 2; /* Face meniul sa fie vizibil deasupra continutului */
 }
 
-.circle:hover .menu {
+.avatar-circle:hover .menu {
   display: block;
-  opacity: 1; /* La hover faceți meniul vizibil */
-  transform: translateY(0); /* La hover ridicați meniul */
-  transition-delay: 0.2s; /* Adăugați o întârziere mică pentru a menține meniul deschis */
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
 }
 
-.menu li {
+.avatar-circle .menu li {
   padding: 10px;
   text-align: center;
   transition: background-color 0.3s ease-in-out;
 }
 
-.menu li:hover {
+.avatar-circle .menu li:hover {
   background-color: #555;
 }
 
-.menu a {
+.avatar-circle .menu a {
   text-decoration: none;
   color: #fff;
   display: block;
@@ -130,8 +131,9 @@ nav a:hover {
   transition: color 0.3s ease-in-out;
 }
 
-.menu a:hover {
-  color: #ff6f00; /* Portocaliu la hover pentru elementele meniului */
+.avatar-circle .menu a:hover {
+  color: #ff6f00;
   text-decoration: underline;
 }
 
+/* Restul stilurilor existente */

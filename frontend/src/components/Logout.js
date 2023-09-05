@@ -6,7 +6,7 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.baseURL = `${baseURL}/authen`;
 
 
-function Logout() {
+export function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {

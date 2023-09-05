@@ -19,37 +19,52 @@ class AddressList(generics.ListCreateAPIView):
     serializer_class = serializers.AddressSerializer
 
 
-# class ProfilesList(generics.ListCreateAPIView):
-#     queryset = models.Profiles.objects.all()
-#     serializer_class = serializers.ProfilesSerializer
 
-from rest_framework import generics
-from rest_framework import permissions
-from rest_framework import status
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from helpers.permissions import IsLoggedIn
+
+from . import serializers, models
 
 
 class ProfilesList(generics.ListCreateAPIView):
     serializer_class = serializers.ProfilesSerializer
-    permission_classes = [IsLoggedIn]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        # Returnăm profilul utilizatorului autentificat, sau un QuerySet gol dacă nu există
         if self.request.user.is_authenticated:
             return models.Profiles.objects.filter(user=self.request.user)
         return models.Profiles.objects.none()
 
     def create(self, request, *args, **kwargs):
-        # Verificăm dacă utilizatorul are deja un profil
         if self.get_queryset().exists():
             return Response({'detail': 'Utilizatorul are deja un profil.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Dacă utilizatorul nu are încă un profil, creăm unul nou
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def patch(self, request, *args, **kwargs):
+        # Obțineți profilul utilizatorului autentificat (dacă există)
+        queryset = self.get_queryset()
+
+        if not queryset.exists():
+            return Response({'detail': 'Profilul utilizatorului nu există.'}, status=status.HTTP_404_NOT_FOUND)
+
+        profile = queryset.first()
+
+        # Verificați dacă utilizatorul curent este proprietarul profilului
+        if profile.user != request.user:
+            return Response({'detail': 'Nu aveți permisiunea de a modifica acest profil.'},
+                            status=status.HTTP_403_FORBIDDEN)
+
+        # Actualizați profilul cu datele din request
+        serializer = self.get_serializer(profile, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 

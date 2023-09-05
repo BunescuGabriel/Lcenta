@@ -110,7 +110,7 @@ const ProfilePage = () => {
             <div>
               <h2>Personal Information:</h2>
               <div className="avatar-container">
-                <img src={userProfile.avatar} alt="Avatar" className="avatar" />
+                <img src={userProfile.avatar} alt="Avatar" className="avatarr" />
               </div>
               <p>Name: {userProfile.first_name} {userProfile.last_name}</p>
               <p>Email: {userProfile.email}</p>
