@@ -35,7 +35,7 @@ class Profiles(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phoneNumber = PhoneNumberField(unique=True, null=True)
-    avatar = models.ImageField(upload_to="media/avatar", null=True)
+    avatar = models.ImageField(upload_to="avatar/", null=True)
     birthday = models.DateField(null=True)
     user = models.OneToOneField(Users, unique=True, on_delete=models.CASCADE)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)

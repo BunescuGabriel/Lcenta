@@ -16,4 +16,14 @@ class IsSuperAdmin(permissions.BasePermission):
             return True
         return False
 
+from rest_framework import permissions
+
+class IsLoggedIn(permissions.BasePermission):
+    """
+    Permisiune personalizată pentru a verifica dacă utilizatorul este autentificat folosind tokenul de acces.
+    """
+
+    def has_permission(self, request, view):
+        # Verificați dacă utilizatorul este autentificat pe baza tokenului de acces furnizat
+        return request.user and request.auth
 
