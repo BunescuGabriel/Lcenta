@@ -10,14 +10,20 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class AddressSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+
     class Meta:
         model = models.Address
         fields = '__all__'
 
+    def create(self, validated_data):
+        validated_data['user_id'] = self.initial_data.get('user_id')
+        # validated_data['address_id'] = self.initial_data.get('address_id')
+        return models.Address.objects.create(**validated_data)
+
 
 class ProfilesSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    address = AddressSerializer(read_only=True)
 
     class Meta:
         model = models.Profiles
@@ -25,6 +31,6 @@ class ProfilesSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['user_id'] = self.initial_data.get('user_id')
-        validated_data['address_id'] = self.initial_data.get('address_id')
+        # validated_data['address_id'] = self.initial_data.get('address_id')
         return models.Profiles.objects.create(**validated_data)
 

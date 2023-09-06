@@ -75,6 +75,9 @@ function Login() {
         <div>
           <Link to="/reset-password">Reset Password</Link>
         </div>
+        <div>
+          <button><Link to="/register">Register</Link></button>
+        </div>
       </form>
     </div>
   );

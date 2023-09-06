@@ -4,9 +4,9 @@ import RegisterPage from './pages/Register';
 import Home from "./pages/Home";
 import ResetPasswordPage from "./pages/ResetPassword";
 import LoginPage from "./pages/Login";
-import Profile from "./pages/Profile";
 import ChangePasswordPage from "./pages/ChangePasswordPages";
 import Logout from "./components/Logout";
+import Profile from "./pages/Profile";
 
 
 function App() {

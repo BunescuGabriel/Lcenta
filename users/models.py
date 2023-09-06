@@ -20,6 +20,7 @@ class Address(models.Model):
     street = models.CharField(max_length=255)
     house_number = models.CharField(max_length=255)
     Apartment = models.CharField(max_length=50, null=True)
+    user = models.OneToOneField(Users, unique=True, on_delete=models.CASCADE)
 
 
 class Profiles(models.Model):
@@ -38,7 +39,7 @@ class Profiles(models.Model):
     avatar = models.ImageField(upload_to="avatar/", null=True)
     birthday = models.DateField(null=True)
     user = models.OneToOneField(Users, unique=True, on_delete=models.CASCADE)
-    address = models.ForeignKey(Address, on_delete=models.CASCADE)
+    # address = models.ForeignKey(Address, on_delete=models.CASCADE)
     gender = models.IntegerField(choices=GENDER_CHOICES, default=NOT_SPECIFIED)
 
 
@@ -67,7 +68,7 @@ class TokenAuthentication(authentication.BaseAuthentication):
             payload = jwt.decode(auth[1], settings.SECRET_KEY,
                                  algorithms=['HS256'])
         except jwt.ExpiredSignatureError:
-            # On front-end should redirect to refresh token
+            # On 5front-end should redirect to refresh token
             # And get a new access token
             # See refresh_token func in authen views
             raise exceptions.NotAcceptable()

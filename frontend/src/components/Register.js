@@ -107,6 +107,9 @@ const Register = () => {
         <div>
           <Link to="/reset-password">Reset Password</Link>
         </div>
+        <div>
+          <button><Link to="/login">Login</Link></button>
+        </div>
       </form>
     </div>
   );

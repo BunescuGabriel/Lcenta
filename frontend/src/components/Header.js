@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import '../styles/Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/Header.css';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,6 +11,7 @@ function Header() {
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const navigate = useNavigate();
 
 
   const [userProfile, setUserProfile] = useState({
@@ -19,10 +20,6 @@ function Header() {
     avatar: '',
   });
 
-   const toggleMenu = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  }
-
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('accessToken');
 
@@ -30,7 +27,6 @@ function Header() {
       setAccessToken(storedAccessToken);
     }
   }, []);
-
 
   useEffect(() => {
     const loadData = async () => {
@@ -91,12 +87,37 @@ function Header() {
     };
   }, []);
 
-  // const toggleMenu = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
+  const toggleMenu = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
+    // Make a request to your logout endpoint on the server to invalidate the user's session
+    fetch('http://localhost:8000/api/authen/logout', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          // Logout was successful
+          localStorage.removeItem('accessToken'); // Remove the access token from local storage
+          // Redirect to the login page or any other desired page
+          navigate('/');
+        } else {
+          // Handle logout error
+          console.error('Logout error:', response.statusText);
+          // Redirect to an error page or perform other actions as needed
+          navigate('/error');
+        }
+      })
+      .catch((error) => {
+        console.error('Logout error:', error);
+        // Redirect to an error page or perform other actions as needed
+        navigate('/error');
+      });
   };
 
   return (
@@ -140,17 +161,15 @@ function Header() {
             <div className="avatar-circle" onClick={toggleMenu} ref={menuRef}>
               <FontAwesomeIcon icon={faUser} className="icon" />
             </div>
-
-
-            <div className="menu-container">
-    {isDropdownOpen && (
-      <ul className="menu">
-        <li>{userProfile.first_name} {userProfile.last_name}</li>
-        <li><Link to="/profile">Profile</Link></li>
-        <li onClick={handleLogout}><Link to="/">Logout</Link></li>
-      </ul>
-    )}
-  </div>
+            {isDropdownOpen && (
+              <div className="menu-container">
+                <ul className="menu">
+                  <li>{userProfile.first_name} {userProfile.last_name}</li>
+                  <li><Link to="/profile">Profile</Link></li>
+                  <li onClick={handleLogout}><Link to="/">Logout</Link></li>
+                </ul>
+              </div>
+            )}
           </>
         )}
       </div>
