@@ -1,11 +1,8 @@
-from rest_framework import generics, permissions
-from users import models, serializers
-from helpers import permissions as helper_permissions
-from rest_framework.response import Response
-
+from django.views import View
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.http import JsonResponse
 
 from . import serializers, models
 
@@ -18,6 +15,24 @@ class UserList(generics.ListCreateAPIView):
 class UserDetaliedView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Users.objects.all()
     serializer_class = serializers.UserSerializer
+
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.views import View
+from .models import Users
+class GetUserIDByEmailView(View):
+    def get(self, request, email):
+        try:
+            user = get_object_or_404(Users, email=email)
+            return JsonResponse({'user_id': user.id})
+        except Users.DoesNotExist:
+            return JsonResponse({'error': 'User not found'}, status=404)
+
+
+class CreateAddress(generics.ListCreateAPIView):
+    queryset = models.Address.objects.all()
+    serializer_class = serializers.AddressSerializer
 
 
 class AddressList(generics.ListCreateAPIView):
