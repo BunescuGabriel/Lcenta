@@ -61,10 +61,6 @@ class AddressList(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
-
-
-
 class ProfilesList(generics.ListCreateAPIView):
     serializer_class = serializers.ProfilesSerializer
     permission_classes = [IsAuthenticated]
@@ -103,10 +99,4 @@ class ProfilesList(generics.ListCreateAPIView):
         serializer.save()
 
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-
-
-
-
 

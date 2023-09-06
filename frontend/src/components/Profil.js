@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Header from "../components/Header";
 import '../styles/Profiles.css';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import Dropzone from "react-dropzone";
 
 const Profile = () => {
   const [userProfile, setUserProfile] = useState({
@@ -19,8 +19,6 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState("");
   const navigate = useNavigate();
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -30,7 +28,12 @@ const Profile = () => {
     avatar: '', // Aceasta este valoarea bazei64 a imaginii
   });
   const [showEditForm, setShowEditForm] = useState(false);
+  const [avatarFile, setAvatarFile] = useState(null);
 
+
+   const handleCloseEditForm = () => {
+    setShowEditForm(false);
+  };
 
 // Modificați funcția handleImageUpload
 
@@ -54,45 +57,43 @@ const Profile = () => {
     });
   };
 
-  const handleUpdateProfile = async () => {
-    try {
-      // Obiect pentru actualizarea profilului
-      const updatedData = {};
-      for (const key in formData) {
-        if (formData[key] !== '') {
-          updatedData[key] = formData[key];
-        }
+  const handleImageUpload = (acceptedFiles) => {
+  const file = acceptedFiles[0];
+  setAvatarFile(file);
+};
+
+ const handleUpdateProfile = async () => {
+  try {
+    const updatedData = {};
+    const formData = new FormData();
+    for (const key in updatedData) {
+      if (updatedData[key] !== '') {
+        formData.append(key, updatedData[key]);
       }
-
-
-      if (Object.keys(updatedData).length === 0) {
-        // Nu sunt câmpuri de actualizat
-        return;
-      }
-
-      // Adăugați obiectul adresei la obiectul de actualizare a profilului
-
-      const response = await axios.patch(
-        'http://localhost:8000/api/users/users-profile',
-        updatedData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        // După actualizare, reîncărcați datele utilizatorului
-        loadData();
-      } else {
-        // Tratați cazurile de eroare aici
-      }
-    } catch (error) {
-      // Tratați erorile aici
     }
-  };
+    formData.append('avatar', avatarFile); // avatarFile este fișierul ales
+
+    const response = await axios.patch(
+      'http://localhost:8000/api/users/users-profile',
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      // După actualizare, reîncărcați datele utilizatorului
+      loadData();
+    } else {
+      // Tratați cazurile de eroare aici
+    }
+  } catch (error) {
+    // Tratați erorile aici
+  }
+};
+
 
   const loadData = async () => {
     try {
@@ -163,9 +164,11 @@ const Profile = () => {
               <p>Date of Birth: {userProfile.birthday}</p>
               <p>Gender: {userProfile.gender === 0 ? 'Male' : userProfile.gender === 1 ? 'Female' : 'Unspecified'}</p>
               <button onClick={() => setShowEditForm(true)}>Edit</button>
+              <button type="button" onClick={handleCloseEditForm}>
+                  Close
+                </button>
             </div>
           )}
-
           <div>
             <h2>Edit Profile:</h2>
             {showEditForm && (
@@ -198,13 +201,16 @@ const Profile = () => {
                   onChange={handleChange}
                   placeholder="Gender"
                 />
-               <input
-  type="file"
-  accept="image/*"
-  name="avatar"
-  value={formData.avatar}
-  onChange={handleChange}
-/>
+              <Dropzone onDrop={handleImageUpload}>
+  {({ getRootProps, getInputProps }) => (
+    <div className="avatar-container" {...getRootProps()}>
+      <input {...getInputProps()} />
+      <img src={userProfile.avatar} alt="Avatar" className="avatar" />
+      <p>Click here to upload a new avatar</p>
+    </div>
+  )}
+</Dropzone>
+
                 <input
                   type="date"
                   name="birthday"
@@ -216,21 +222,11 @@ const Profile = () => {
                 <button type="button" onClick={handleUpdateProfile}>
                   Update Profile
                 </button>
+
               </form>
             )}
           </div>
 
-          <div>
-            <h2>Address:</h2>
-            <div>
-              <p>Country: {userProfile.country}</p>
-              <p>City: {userProfile.city}</p>
-              <p>Street: {userProfile.street}</p>
-              <p>House Number: {userProfile.house_number}</p>
-              <p>Apartment: {userProfile.apartment}</p>
-              {/*<button onClick={() => setShowEditForm(true)}>Edit</button>*/}
-            </div>
-          </div>
         </div>
       </div>
     </div>

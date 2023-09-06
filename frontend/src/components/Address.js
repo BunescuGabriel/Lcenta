@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/Profiles.css';
-import { faCog } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 
 const Address = () => {
@@ -16,8 +14,6 @@ const Address = () => {
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState("");
   const navigate = useNavigate();
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     country: '',
     city: '',
@@ -26,13 +22,12 @@ const Address = () => {
     Apartment: '',// Aceasta este valoarea bazei64 a imaginii
   });
   const [showEditForm, setShowEditForm] = useState(false);
-
+const handleCloseEditForm = () => {
+    setShowEditForm(false);
+  };
 
 // Modificați funcția handleImageUpload
 
-  const handleChangePassword = () => {
-    navigate('/change-password');
-  };
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem("accessToken");
@@ -145,6 +140,9 @@ const Address = () => {
               <p>House Number: {userAddress.house_number}</p>
               <p>Apartment: {userAddress.Apartment}</p>
               <button onClick={() => setShowEditForm(true)}>Edit</button>
+              <button type="button" onClick={handleCloseEditForm}>
+                  Close
+                </button>
             </div>
           )}
 

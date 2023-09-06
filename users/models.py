@@ -39,7 +39,6 @@ class Profiles(models.Model):
     avatar = models.ImageField(upload_to="avatar/", null=True)
     birthday = models.DateField(null=True)
     user = models.OneToOneField(Users, unique=True, on_delete=models.CASCADE)
-    # address = models.ForeignKey(Address, on_delete=models.CASCADE)
     gender = models.IntegerField(choices=GENDER_CHOICES, default=NOT_SPECIFIED)
 
 
