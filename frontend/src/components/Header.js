@@ -118,17 +118,16 @@ function Header() {
 
   return (
     <header className={`header`}>
-      <nav>
+      <nav className="navigation-bar">
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/despre">About</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
       </nav>
-      <div>
-      <FontAwesomeIcon icon={faShoppingCart} className="shopping-cart-icon" />
-    </div>
       <div className="user-menu">
+              <FontAwesomeIcon icon={faShoppingCart} className="shopping-cart-icon" />
+
         {isAuthenticated ? (
           <div className="avatar-circle" onClick={toggleMenu} ref={menuRef}>
             {userProfile.avatar ? (

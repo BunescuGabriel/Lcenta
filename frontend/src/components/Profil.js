@@ -13,7 +13,7 @@ const Profile = () => {
     email: '',
     phoneNumber: '',
     birthday: '',
-    gender: 2,
+    gender: '',
     avatar: '',
   });
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ const Profile = () => {
     last_name: '',
     phoneNumber: '',
     birthday: '',
-    gender: 2,
+    gender: '',
     avatar: '', // Aceasta este valoarea bazei64 a imaginii
   });
   const [showEditForm, setShowEditForm] = useState(false);
