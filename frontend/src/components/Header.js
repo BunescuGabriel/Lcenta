@@ -128,6 +128,7 @@ function Header() {
       <div className="user-menu">
               <FontAwesomeIcon icon={faShoppingCart} className="shopping-cart-icon" />
 
+
         {isAuthenticated ? (
           <div className="avatar-circle" onClick={toggleMenu} ref={menuRef}>
             {userProfile.avatar ? (
