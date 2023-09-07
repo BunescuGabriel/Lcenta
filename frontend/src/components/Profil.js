@@ -164,9 +164,6 @@ const Profile = () => {
               <p>Date of Birth: {userProfile.birthday}</p>
               <p>Gender: {userProfile.gender === 0 ? 'Male' : userProfile.gender === 1 ? 'Female' : 'Unspecified'}</p>
               <button onClick={() => setShowEditForm(true)}>Edit</button>
-              <button type="button" onClick={handleCloseEditForm}>
-                  Close
-                </button>
             </div>
           )}
           <div>
@@ -221,6 +218,9 @@ const Profile = () => {
                 {/* Alte câmpuri pentru actualizare */}
                 <button type="button" onClick={handleUpdateProfile}>
                   Update Profile
+                </button>
+                <button type="button" onClick={handleCloseEditForm}>
+                  Close
                 </button>
 
               </form>

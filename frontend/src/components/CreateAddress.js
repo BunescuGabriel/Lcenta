@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+
 
 const CreateAddress = ({ userData }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     country: '',
     city: '',
@@ -37,9 +40,11 @@ const CreateAddress = ({ userData }) => {
   try {
     const response = await axios.post(
       'http://localhost:8000/api/users/create-address',
-      requestData
+      requestData,
     );
+
     console.log('Address created:', response.data);
+    navigate('/login');
     // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce adresa a fost creată
   } catch (error) {
     console.error('Error creating address:', error.message);

@@ -1,17 +1,13 @@
-from django.views import View
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.http import JsonResponse
-
 from . import serializers, models
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views import View
-from .models import Users
-from rest_framework import generics
-from .models import Address
-from .serializers import AddressSerializer
+from .models import Users, Profiles, Address
+from .serializers import AddressSerializer, ProfilesSerializer
+from PIL import Image
 
 
 
@@ -61,7 +57,6 @@ class CreateAddress(generics.CreateAPIView):
             )
 
 
-
 class AddressList(generics.ListCreateAPIView):
     serializer_class = serializers.AddressSerializer
     permission_classes = [IsAuthenticated]
@@ -93,6 +88,52 @@ class AddressList(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+
+
+class CreateProfile(generics.CreateAPIView):
+    queryset = Profiles.objects.all()
+    serializer_class = ProfilesSerializer
+
+    def perform_create(self, serializer):
+        data = serializer.validated_data
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        phoneNumber = data.get('phoneNumber')
+        birthday = data.get('birthday')
+        gender = data.get('gender')
+        avatar = data.get('avatar')
+
+        # Verificăm dacă 'gender' este o valoare validă
+        if gender not in [Profiles.MALE, Profiles.FEMALE, Profiles.NOT_SPECIFIED]:
+            return Response({'gender': 'Invalid gender value'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Verificăm dacă 'avatar' este o imagine validă
+        if avatar is not None:
+            try:
+                # Deschide imaginea folosind PIL pentru a verifica validitatea
+                img = Image.open(avatar)
+                # Verifică dacă imaginea este într-un format acceptat, de exemplu, JPEG sau PNG
+                if img.format not in ('JPEG', 'PNG'):
+                    return Response({'avatar': 'Invalid image format'}, status=status.HTTP_400_BAD_REQUEST)
+                # Verifică dacă dimensiunile imaginii sunt acceptabile (poți seta limitele aici)
+                if img.width > 1000 or img.height > 1000:
+                    return Response({'avatar': 'Image dimensions are too large'}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                # Dacă apar erori la deschiderea sau verificarea imaginii, returnează o eroare
+                return Response({'avatar': 'Invalid image'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Setăm valorile furnizate și celelalte ca "None"
+        serializer.save(
+            first_name=first_name,
+            last_name=last_name,
+            phoneNumber=phoneNumber,
+            birthday=birthday,
+            gender=gender,
+            avatar=avatar
+        )
+
+
+
 class ProfilesList(generics.ListCreateAPIView):
     serializer_class = serializers.ProfilesSerializer
     permission_classes = [IsAuthenticated]
@@ -101,15 +142,6 @@ class ProfilesList(generics.ListCreateAPIView):
         if self.request.user.is_authenticated:
             return models.Profiles.objects.filter(user=self.request.user)
         return models.Profiles.objects.none()
-
-    def create(self, request, *args, **kwargs):
-        if self.get_queryset().exists():
-            return Response({'detail': 'Utilizatorul are deja un profil.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(user=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def patch(self, request, *args, **kwargs):
         # Obțineți profilul utilizatorului autentificat (dacă există)

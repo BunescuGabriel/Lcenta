@@ -8,7 +8,7 @@ urlpatterns = [
     path('address', views.AddressList.as_view()),
     path('create-address', views.CreateAddress.as_view()),
     path('users-profile', views.ProfilesList.as_view()),
-    path('users-profile', views.ProfilesList.as_view()),
+    path('create-profile', views.CreateProfile.as_view()),
     path('get-user-id-by-email/<str:email>/', GetUserIDByEmailView.as_view()),
 
 ]
