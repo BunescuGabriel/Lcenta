@@ -140,9 +140,6 @@ const handleCloseEditForm = () => {
               <p>House Number: {userAddress.house_number}</p>
               <p>Apartment: {userAddress.Apartment}</p>
               <button onClick={() => setShowEditForm(true)}>Edit</button>
-              <button type="button" onClick={handleCloseEditForm}>
-                  Close
-                </button>
             </div>
           )}
 
@@ -188,6 +185,9 @@ const handleCloseEditForm = () => {
                 {/* Alte câmpuri pentru actualizare */}
                 <button type="button" onClick={handleUpdateAddress}>
                   Update Profile
+                </button>
+                <button type="button" onClick={handleCloseEditForm}>
+                  Close
                 </button>
               </form>
             )}

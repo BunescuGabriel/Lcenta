@@ -5,6 +5,14 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 
 from . import serializers, models
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.views import View
+from .models import Users
+from rest_framework import generics
+from .models import Address
+from .serializers import AddressSerializer
+
 
 
 class UserList(generics.ListCreateAPIView):
@@ -17,10 +25,6 @@ class UserDetaliedView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.UserSerializer
 
 
-from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
-from django.views import View
-from .models import Users
 class GetUserIDByEmailView(View):
     def get(self, request, email):
         try:
@@ -30,13 +34,35 @@ class GetUserIDByEmailView(View):
             return JsonResponse({'error': 'User not found'}, status=404)
 
 
-class CreateAddress(generics.ListCreateAPIView):
-    queryset = models.Address.objects.all()
-    serializer_class = serializers.AddressSerializer
+class CreateAddress(generics.CreateAPIView):
+    queryset = Address.objects.all()
+    serializer_class = AddressSerializer
+
+    def perform_create(self, serializer):
+        # Verificați care dintre câmpuri are valori și setați celelalte ca "None" (null)
+        data = serializer.validated_data
+        country = data.get('country')
+        city = data.get('city')
+        street = data.get('street')
+        house_number = data.get('house_number')
+        apartment = data.get('apartment')
+
+        if not any([country, city, street, house_number, apartment]):
+            # Dacă niciun câmp nu are valoare, setați-le pe toate ca "None"
+            serializer.save(country=None, city=None, street=None, house_number=None, apartment=None)
+        else:
+            # Setați valorile furnizate și celelalte ca "None"
+            serializer.save(
+                country=country,
+                city=city,
+                street=street,
+                house_number=house_number,
+                apartment=apartment
+            )
+
 
 
 class AddressList(generics.ListCreateAPIView):
-    # queryset = models.Address.objects.all()
     serializer_class = serializers.AddressSerializer
     permission_classes = [IsAuthenticated]
 
@@ -44,15 +70,6 @@ class AddressList(generics.ListCreateAPIView):
         if self.request.user.is_authenticated:
             return models.Address.objects.filter(user=self.request.user)
         return models.Address.objects.none()
-
-    def create(self, request, *args, **kwargs):
-        if self.get_queryset().exists():
-            return Response({'detail': 'Utilizatorul are deja un Address.'}, status=status.HTTP_400_BAD_REQUEST)
-
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save(user=request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def patch(self, request, *args, **kwargs):
         # Obțineți profilul utilizatorului autentificat (dacă există)

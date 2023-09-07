@@ -15,11 +15,11 @@ class Users(AbstractUser):
 
 
 class Address(models.Model):
-    country = models.CharField(max_length=255)
-    city = models.CharField(max_length=255)
-    street = models.CharField(max_length=255)
-    house_number = models.CharField(max_length=255)
-    Apartment = models.CharField(max_length=50, null=True)
+    country = models.CharField(max_length=255, null=True)
+    city = models.CharField(max_length=255, null=True)
+    street = models.CharField(max_length=255, null=True)
+    house_number = models.CharField(max_length=255, null=True)
+    apartment = models.CharField(max_length=50, null=True)
     user = models.OneToOneField(Users, unique=True, on_delete=models.CASCADE)
 
 

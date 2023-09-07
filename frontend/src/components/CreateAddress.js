@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-
-
 const CreateAddress = ({ userData }) => {
   const [formData, setFormData] = useState({
     country: '',
@@ -16,7 +14,7 @@ const CreateAddress = ({ userData }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleCreateAddress = () => {
+  const handleCreateAddress = async () => {
   const { country, city, street, house_number, apartment } = formData;
 
   if (!userData || !userData.id) {
@@ -26,25 +24,27 @@ const CreateAddress = ({ userData }) => {
 
   const userId = userData.id;
 
-  // Actualizați obiectul pentru cerere cu user_id
+  // Verificați dacă fiecare câmp este gol și setați-l ca "null" dacă este cazul
   const requestData = {
     user_id: userId,
-    country,
-    city,
-    street,
-    house_number,
-    apartment,
+    country: country || null,
+    city: city || null,
+    street: street || null,
+    house_number: house_number || null,
+    apartment: apartment || null,
   };
 
-  axios
-    .post(`http://localhost:8000/api/users/create-address`, requestData)
-    .then((response) => {
-      console.log('Address created:', response.data);
-      // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce adresa a fost creată
-    })
-    .catch((error) => {
-      console.error('Error creating address:', error);
-    });
+  try {
+    const response = await axios.post(
+      'http://localhost:8000/api/users/create-address',
+      requestData
+    );
+    console.log('Address created:', response.data);
+    // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce adresa a fost creată
+  } catch (error) {
+    console.error('Error creating address:', error.message);
+    // Afișați un mesaj de eroare pentru utilizator
+  }
 };
 
 
