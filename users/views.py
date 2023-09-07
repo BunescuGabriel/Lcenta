@@ -88,8 +88,6 @@ class AddressList(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
-
 class CreateProfile(generics.CreateAPIView):
     queryset = Profiles.objects.all()
     serializer_class = ProfilesSerializer

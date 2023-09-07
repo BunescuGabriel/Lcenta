@@ -77,6 +77,7 @@ const handleCloseEditForm = () => {
       if (response.status === 200) {
         // După actualizare, reîncărcați datele utilizatorului
         loadData();
+        setShowEditForm(false);
       } else {
         // Tratați cazurile de eroare aici
       }

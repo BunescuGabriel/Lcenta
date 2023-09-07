@@ -1,139 +1,106 @@
-/* Header.css */
-
+/* Header Container */
+body, header {
+  margin: 10px;
+  padding: 0;
+  border-radius: 80px;
+}
 .header {
+  background-color: #09277a; /* Background color for the header */
+  color: #fff; /* Text color for the header */
+  padding: 40px 30px; /* Adjust padding as needed */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Navigation Menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin-right: 20px; /* Adjust spacing between menu items */
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff; /* Text color for menu items */
+  font-weight: bold;
+  font-size: 16px; /* Adjust font size as needed */
+}
+
+/* User Menu */
+.user-menu {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: #063cd3;
-  color: #fff;
-  padding: 20px;
-  text-align: left;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease-in-out;
-  margin-bottom: 40px; /* Adauga o margine inferioara pentru a face loc pentru meniu */
-  position: relative; /* Adauga pozitie relativ pentru a controla z-index */
-}
-
-.header:hover {
-  background-color: #152f5d;
-}
-
-.header h1 {
-  margin: 0;
-  font-size: 2.5rem;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  animation: bounce 1s ease-in-out infinite;
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 20px;
-  text-align: left;
-}
-
-nav li {
-  margin: 0 10px;
-  display: inline-block;
-  transform: translateY(0);
-  transition: transform 0.2s ease-in-out;
-}
-
-nav li:hover {
-  transform: translateY(-5px);
-}
-
-nav a {
-  text-decoration: none;
-  color: #fff;
-  font-weight: bold;
-  transition: color 0.3s ease-in-out;
-}
-
-nav a:hover {
-  text-decoration: underline;
-  color: #ff6f00;
 }
 
 .avatar-circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
-  overflow: hidden;
-  margin-right: 10px;
+  cursor: pointer;
+  margin-left: 20px; /* Adjust spacing between menu and user avatar */
 }
 
 .avatar {
-  width: 100%;
-  height: 100%;
+  width: 50px; /* Adjust the avatar size */
+  height: 50px;
+  border-radius: 50%; /* Make it circular */
   object-fit: cover;
 }
-/* Add styles for the dropdown container */
-.avatar-circle .dropdown-container {
-  position: absolute;
-  top: calc(100% + 10px); /* Adjust the desired distance between avatar and menu */
-  right: 10px;
-  display: none;
-  background-color: #333;
-  border-radius: 4px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-  opacity: 0;
-  transform: translateY(10px);
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  z-index: 2; /* Ensure the menu is above other content */
+
+.icon {
+  font-size: 24px; /* Adjust the icon size */
 }
 
-/* Display the dropdown container when hovering the avatar */
-.avatar-circle:hover .dropdown-container {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.2s;
-}
-
-/* Style the dropdown items */
-.avatar-circle .dropdown-container li {
-  padding: 10px;
-  text-align: center;
-  transition: background-color 0.3s ease-in-out;
-}
-
-/* Highlight the dropdown item on hover */
-.avatar-circle .dropdown-container li:hover {
-  background-color: #555;
-}
-
-/* Style the dropdown links */
-.avatar-circle .dropdown-container a {
-  text-decoration: none;
-  color: #fff;
-  display: block;
+.menu li {
+  font-size: 16px;
   font-weight: bold;
-  font-size: 14px;
-  padding: 10px 20px;
-  transition: color 0.3s ease-in-out;
+  color: #333;
+  margin-bottom: 10px;
 }
 
-/* Highlight the dropdown link on hover */
-.avatar-circle .dropdown-container a:hover {
-  color: #ff6f00;
+/* Stil pentru al doilea <li> cu clasă "user-name" */
+.menu.user-name {
+  font-size: 18px;
+  font-weight: normal;
+  color: #007bff;
   text-decoration: underline;
+}
+
+.menu {
+  position: absolute;
+  list-style-type: none;
+  margin: 5px 0;
+  border: 1px solid grey;
+  width: 70px;
+  background-color: #09606b; /* Background color for the dropdown */
+  box-shadow: 0px 4px 6px rgba(1, 1, 5, 6); /* Add shadow for the dropdown */
+  list-style-type: none;
+  padding: 20px;  /*marimea la meniul*/
+  text-align: left;
+  right: -10px;
+  border-radius: 8px;
+}
+
+
+
+.menu li:hover {
+  color: #007bff; /* Text color on hover */
+   background-color: #e0e0e0;
+
+}
+
+/* Style for user name */
+.menu li:first-child {
+  font-weight: bold;
+
+}
+
+.shopping-cart-icon {
+  color: #FF5733; /* Schimbați culoarea la cea dorită */
+  font-size: 24px; /* Schimbați dimensiunea la cea dorită */
+  margin-left: 850px;
 }

@@ -13,7 +13,7 @@ const Profile = () => {
     email: '',
     phoneNumber: '',
     birthday: '',
-    gender: 0,
+    gender: 2,
     avatar: '',
   });
   const [loading, setLoading] = useState(true);
@@ -24,18 +24,15 @@ const Profile = () => {
     last_name: '',
     phoneNumber: '',
     birthday: '',
-    gender: 0,
+    gender: 2,
     avatar: '', // Aceasta este valoarea bazei64 a imaginii
   });
   const [showEditForm, setShowEditForm] = useState(false);
   const [avatarFile, setAvatarFile] = useState(null);
 
-
-   const handleCloseEditForm = () => {
+  const handleCloseEditForm = () => {
     setShowEditForm(false);
   };
-
-// Modificați funcția handleImageUpload
 
   const handleChangePassword = () => {
     navigate('/change-password');
@@ -58,42 +55,46 @@ const Profile = () => {
   };
 
   const handleImageUpload = (acceptedFiles) => {
-  const file = acceptedFiles[0];
-  setAvatarFile(file);
-};
+    const file = acceptedFiles[0];
+    setAvatarFile(file);
+  };
 
- const handleUpdateProfile = async () => {
-  try {
-    const updatedData = {};
-    const formData = new FormData();
-    for (const key in updatedData) {
-      if (updatedData[key] !== '') {
-        formData.append(key, updatedData[key]);
+  const handleUpdateProfile = async () => {
+    try {
+      const updatedData = { ...formData }; // Folosiți formData pentru a actualiza toate datele
+      const updatedFormData = new FormData();
+
+      for (const key in updatedData) {
+        if (updatedData[key] !== '') {
+          updatedFormData.append(key, updatedData[key]);
+        }
       }
-    }
-    formData.append('avatar', avatarFile); // avatarFile este fișierul ales
 
-    const response = await axios.patch(
-      'http://localhost:8000/api/users/users-profile',
-      formData,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+      if (avatarFile) {
+        updatedFormData.append('avatar', avatarFile); // Dacă există un avatarFile, adăugați-l
       }
-    );
 
-    if (response.status === 200) {
-      // După actualizare, reîncărcați datele utilizatorului
-      loadData();
-    } else {
-      // Tratați cazurile de eroare aici
+      const response = await axios.patch(
+        'http://localhost:8000/api/users/users-profile',
+        updatedFormData,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        // După actualizare, reîncărcați datele utilizatorului
+        loadData();
+        setShowEditForm(false); // Închideți formularul de editare
+      } else {
+        // Tratați cazurile de eroare aici
+      }
+    } catch (error) {
+      // Tratați erorile aici
     }
-  } catch (error) {
-    // Tratați erorile aici
-  }
-};
-
+  };
 
   const loadData = async () => {
     try {
@@ -137,7 +138,6 @@ const Profile = () => {
 
   return (
     <div>
-
       <div className="profile-container">
         <div className="settings-panel">
           <h1>
@@ -198,16 +198,15 @@ const Profile = () => {
                   onChange={handleChange}
                   placeholder="Gender"
                 />
-              <Dropzone onDrop={handleImageUpload}>
-  {({ getRootProps, getInputProps }) => (
-    <div className="avatar-container" {...getRootProps()}>
-      <input {...getInputProps()} />
-      <img src={userProfile.avatar} alt="Avatar" className="avatar" />
-      <p>Click here to upload a new avatar</p>
-    </div>
-  )}
-</Dropzone>
-
+                <Dropzone onDrop={handleImageUpload}>
+                  {({ getRootProps, getInputProps }) => (
+                    <div className="avatar-container" {...getRootProps()}>
+                      <input {...getInputProps()} />
+                      <img src={userProfile.avatar} alt="Avatar" className="avatar" />
+                      <p>Click here to upload a new avatar</p>
+                    </div>
+                  )}
+                </Dropzone>
                 <input
                   type="date"
                   name="birthday"
@@ -222,11 +221,9 @@ const Profile = () => {
                 <button type="button" onClick={handleCloseEditForm}>
                   Close
                 </button>
-
               </form>
             )}
           </div>
-
         </div>
       </div>
     </div>

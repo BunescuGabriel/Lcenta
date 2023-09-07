@@ -33,8 +33,8 @@ class Profiles(models.Model):
         (NOT_SPECIFIED, 'Not specified'),
     ]
 
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50, null=True)
+    last_name = models.CharField(max_length=50, null=True)
     phoneNumber = PhoneNumberField(unique=True, null=True)
     avatar = models.ImageField(upload_to="avatar/", null=True)
     birthday = models.DateField(null=True)
