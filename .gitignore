@@ -1,9 +1,8 @@
-### Django ###
-*.log
-*.pot
-*.pyc
-__pycache__/
-local_settings.py
+# Ignoră baza de date SQLite
 db.sqlite3
-media/
-.idea/
+
+# Ignoră directorul media/avatar
+media/avatar
+
+# Ignoră directorul .idea
+.idea
