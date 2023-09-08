@@ -7,7 +7,6 @@ function ResetPasswordPage () {
     <div>
         <Header />
 
-      <h1>Reset Password Page</h1>
       <ResetPassword />
     </div>
   );

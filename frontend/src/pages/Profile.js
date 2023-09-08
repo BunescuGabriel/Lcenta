@@ -7,7 +7,6 @@ const Home = () => {
     return (
         <div>
              <Header />
-          <h1>User Profile</h1>
       <Profil />
       <Address />
         </div>

@@ -137,97 +137,112 @@ const Profile = () => {
   }, [navigate, accessToken]);
 
   return (
-    <div>
-      <div className="profile-container">
-        <div className="settings-panel">
-          <h1>
-            Settings
-            <FontAwesomeIcon icon={faCog} className="settings-icon" />
-          </h1>
-          <button className="settings-button" onClick={handleChangePassword}>
-            Change Password
-          </button>
-        </div>
-        <div className="profile-info">
-          <h1>User Profile</h1>
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            <div>
-              <h2>Personal Information:</h2>
-              <div className="avatar-container">
-                <img src={userProfile.avatar} alt="Avatar" className="avatar" />
-              </div>
-              <p>Name: {userProfile.first_name} {userProfile.last_name}</p>
-              <p>Email: {userProfile.email}</p>
-              <p>Phone Number: {userProfile.phoneNumber}</p>
-              <p>Date of Birth: {userProfile.birthday}</p>
-              <p>Gender: {userProfile.gender === 0 ? 'Male' : userProfile.gender === 1 ? 'Female' : 'Unspecified'}</p>
-              <button onClick={() => setShowEditForm(true)}>Edit</button>
-            </div>
-          )}
+  <div>
+    <div className="profile-container">
+      <div className="settings-panel">
+        <h1>
+          Settings
+          <FontAwesomeIcon icon={faCog} className="settings-icon" />
+        </h1>
+        <button className="settings-button" onClick={handleChangePassword}>
+          Change Password
+        </button>
+      </div>
+      <div className="profile-info">
+        {loading ? (
+          <p className="loading-text">Loading...</p>
+        ) : (
           <div>
-            <h2>Edit Profile:</h2>
-            {showEditForm && (
-              <form>
-                <input
-                  type="text"
-                  name="first_name"
-                  value={formData.first_name}
-                  onChange={handleChange}
-                  placeholder="First Name"
-                />
-                <input
-                  type="text"
-                  name="last_name"
-                  value={formData.last_name}
-                  onChange={handleChange}
-                  placeholder="Last Name"
-                />
-                <input
-                  type="tel"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  placeholder="Phone Number"
-                />
-                <input
-                  type="text"
-                  name="gender"
-                  value={formData.gender}
-                  onChange={handleChange}
-                  placeholder="Gender"
-                />
-                <Dropzone onDrop={handleImageUpload}>
-                  {({ getRootProps, getInputProps }) => (
-                    <div className="avatar-container" {...getRootProps()}>
-                      <input {...getInputProps()} />
-                      <img src={userProfile.avatar} alt="Avatar" className="avatar" />
-                      <p>Click here to upload a new avatar</p>
-                    </div>
-                  )}
-                </Dropzone>
-                <input
-                  type="date"
-                  name="birthday"
-                  value={formData.birthday}
-                  onChange={handleChange}
-                  placeholder="Birthday"
-                />
-                {/* Alte câmpuri pentru actualizare */}
-                <button type="button" onClick={handleUpdateProfile}>
-                  Update Profile
-                </button>
-                <button type="button" onClick={handleCloseEditForm}>
-                  Close
-                </button>
-              </form>
-            )}
+            <h2 className="section-title">Personal Information:</h2>
+            <div className="avatar-container">
+              <img src={userProfile.avatar} alt="Avatar" className="avatar" />
+            </div>
+            <p className="info-label">Name: {userProfile.first_name} {userProfile.last_name}</p>
+            <p className="info-label">Email: {userProfile.email}</p>
+            <p className="info-label">Phone Number: {userProfile.phoneNumber}</p>
+            <p className="info-label">Date of Birth: {userProfile.birthday}</p>
+            <p className="info-label">Gender: {userProfile.gender === 0 ? 'Male' : userProfile.gender === 1 ? 'Female' : 'Unspecified'}</p>
+            <h2 className="section-title">Edit Profile:</h2>
+            <button className="edit-button" onClick={() => setShowEditForm(true)}>Edit</button>
           </div>
+        )}
+        <div>
+          {showEditForm && (
+            <form>
+              <label htmlFor="first_name" className="form-label">First Name:</label>
+              <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                placeholder="First Name"
+                className="form-input"
+              />
+              <label htmlFor="last_name" className="form-label">Last Name:</label>
+              <input
+                type="text"
+                id="last_name"
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                placeholder="Last Name"
+                className="form-input"
+              />
+              <label htmlFor="phoneNumber" className="form-label">Phone Number:</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                placeholder="Phone Number"
+                className="form-input"
+              />
+              <label htmlFor="birthday" className="form-label">Birthday:</label>
+              <input
+                type="date"
+                id="birthday"
+                name="birthday"
+                value={formData.birthday}
+                onChange={handleChange}
+                placeholder="Birthday"
+                className="form-input"
+              />
+              <label htmlFor="gender" className="form-label">Gender:</label>
+              <select
+                id="gender"
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className="form-select"
+              >
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+              <Dropzone onDrop={handleImageUpload}>
+                {({ getRootProps, getInputProps }) => (
+                  <div className="avatar-upload-container" {...getRootProps()}>
+                    <input {...getInputProps()} />
+                    <img src={userProfile.avatar} alt="Avatar" className="avatar" />
+                    <p className="avatar-upload-text">Click here to upload a new avatar</p>
+                  </div>
+                )}
+              </Dropzone>
+              <button type="button" className="update-button" onClick={handleUpdateProfile}>
+                Update Profile
+              </button>
+              <button type="button" className="close-button" onClick={handleCloseEditForm}>
+                Close
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Profile;

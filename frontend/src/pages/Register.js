@@ -35,13 +35,12 @@ function RegisterPage() {
     <div>
       <Header />
 
-      <h1>Register Page</h1>
       {/* Verificați pasul și afișați înregistrarea sau următorul pas (Address sau Profile) */}
       {step === 1 && <Register onRegistrationSuccess={handleRegistrationSuccess} />}
 
       {step === 2 && (
         <>
-          <h1>Profile</h1>
+
           {/* Pasați datele de utilizator către componenta CreateProfile și gestionați trecerea automată */}
           {userData && (
             <CreateProfile userData={userData} onProfileCreationSuccess={handleProfileCreationSuccess} />
@@ -51,7 +50,7 @@ function RegisterPage() {
 
       {step === 3 && (
         <>
-          <h1>Address</h1>
+
           {/* Pasați datele de utilizator către componenta CreateAddress */}
           {userData && <CreateAddress userData={userData} />}
         </>

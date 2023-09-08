@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../styles/Profiles.css';
 import { useNavigate } from "react-router-dom";
 
 const Address = () => {
@@ -19,15 +18,15 @@ const Address = () => {
     city: '',
     street: '',
     house_number: '',
-    Apartment: '',// Aceasta este valoarea bazei64 a imaginii
+    Apartment: '', // Aceasta este valoarea bazei64 a imaginii
   });
   const [showEditForm, setShowEditForm] = useState(false);
-const handleCloseEditForm = () => {
+
+  const handleCloseEditForm = () => {
     setShowEditForm(false);
   };
 
-// Modificați funcția handleImageUpload
-
+  // Modificați funcția handleImageUpload
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem("accessToken");
@@ -54,7 +53,6 @@ const handleCloseEditForm = () => {
           updatedData[key] = formData[key];
         }
       }
-
 
       if (Object.keys(updatedData).length === 0) {
         // Nu sunt câmpuri de actualizat
@@ -126,26 +124,24 @@ const handleCloseEditForm = () => {
 
   return (
     <div>
-
       <div className="address-container">
         <div className="address-info">
-          <h1>User Address</h1>
+          <h1 className="address-title">User Address</h1>
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <div>
-              {/*<h2>Personal Information:</h2>*/}
+            <div className="address-item">
               <p>Country: {userAddress.country}</p>
               <p>City: {userAddress.city}</p>
               <p>Street: {userAddress.street}</p>
               <p>House Number: {userAddress.house_number}</p>
               <p>Apartment: {userAddress.Apartment}</p>
-              <button onClick={() => setShowEditForm(true)}>Edit</button>
+              <button onClick={() => setShowEditForm(true)} className="edit-button">Edit</button>
             </div>
           )}
 
-          <div>
-            <h2>Edit Address:</h2>
+          <div className={`edit-form ${showEditForm ? 'open' : ''}`}>
+            <h2 className="edit-title">Edit Address:</h2>
             {showEditForm && (
               <form>
                 <input
@@ -154,6 +150,7 @@ const handleCloseEditForm = () => {
                   value={formData.country}
                   onChange={handleChange}
                   placeholder="Country"
+                  className="edit-input"
                 />
                 <input
                   type="text"
@@ -161,6 +158,7 @@ const handleCloseEditForm = () => {
                   value={formData.city}
                   onChange={handleChange}
                   placeholder="City"
+                  className="edit-input"
                 />
                 <input
                   type="text"
@@ -168,32 +166,33 @@ const handleCloseEditForm = () => {
                   value={formData.street}
                   onChange={handleChange}
                   placeholder="Street"
+                  className="edit-input"
                 />
-                  <input
+                <input
                   type="text"
                   name="house_number"
                   value={formData.house_number}
                   onChange={handleChange}
                   placeholder="House Number"
+                  className="edit-input"
                 />
-               <input
+                <input
                   type="text"
                   name="Apartment"
                   value={formData.Apartment}
                   onChange={handleChange}
                   placeholder="Apartment"
+                  className="edit-input"
                 />
-                {/* Alte câmpuri pentru actualizare */}
-                <button type="button" onClick={handleUpdateAddress}>
+                <button type="button" onClick={handleUpdateAddress} className="update-button">
                   Update Profile
                 </button>
-                <button type="button" onClick={handleCloseEditForm}>
+                <button type="button" onClick={handleCloseEditForm} className="close-button">
                   Close
                 </button>
               </form>
             )}
           </div>
-
         </div>
       </div>
     </div>

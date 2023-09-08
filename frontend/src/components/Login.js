@@ -1,7 +1,7 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/Login.css';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.baseURL = `${baseURL}/authen`;
@@ -13,6 +13,8 @@ function Login() {
     password: '',
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordToggleActive, setPasswordToggleActive] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +23,7 @@ function Login() {
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  setPasswordToggleActive(!passwordToggleActive);
   };
 
   const handleSubmit = async (e) => {
@@ -44,41 +47,51 @@ function Login() {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Username:</label>
+    <div className="login">
+      <h2 className="login-title">Login</h2>
+      <h3 className="login-subtitle">to get access to your files.</h3>
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="input-group">
+          <label htmlFor="username" className="input-label">Username and Email</label>
           <input
             type="text"
+            id="username"
             name="username"
+            placeholder="Enter your username or Email"
             value={formData.username}
             onChange={handleChange}
+            className="input-field"
           />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <button type="button" onClick={toggleShowPassword}>
-            {showPassword ? 'Hide' : 'Show'} Password
-          </button>
-        </div>
-        <div>
-          <button type="submit">Login</button>
         </div>
 
-        <div>
-          <Link to="/reset-password">Reset Password</Link>
+        <div className="input-group">
+          <label htmlFor="password" className="input-label">
+            Password <Link to="/reset-password" className="forgot-password-link">Forgot your password?</Link>
+          </label>
+          <div className="password-input">
+            <input
+              type={showPassword ? 'text' : 'password'}
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              className="input-field"
+            />
+            <span
+  className={`password-toggle ${passwordToggleActive ? 'active' : ''}`}
+  onClick={toggleShowPassword}
+>
+  {showPassword ? '👁' : '👁'}
+</span>
+          </div>
         </div>
-        <div>
-          <button><Link to="/register">Register</Link></button>
-        </div>
+
+        <button type="submit" className="login-button">Login</button>
       </form>
+      <div className="register-link">
+        <h3>Don't have an account? <Link to="/register" className="register-link">Sing Up</Link></h3>
+      </div>
     </div>
   );
 }

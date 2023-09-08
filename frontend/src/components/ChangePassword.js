@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import '../styles/Change.css';
 const baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.baseURL = `${baseURL}/authen`;
 
@@ -11,7 +12,10 @@ const ChangePassword = () => {
     confirm_new_password: "",
   });
 
-  const [showPasswords, setShowPasswords] = useState(false);
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [accessToken, setAccessToken] = useState("");
@@ -32,6 +36,23 @@ const ChangePassword = () => {
       [name]: value,
     });
   };
+
+  const toggleShowPassword = (passwordType) => {
+  switch (passwordType) {
+    case "old_password":
+      setShowOldPassword(!showOldPassword);
+      break;
+    case "new_password":
+      setShowNewPassword(!showNewPassword);
+      break;
+    case "confirm_new_password":
+      setShowConfirmPassword(!showConfirmPassword);
+      break;
+    default:
+      break;
+  }
+};
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -59,44 +80,67 @@ const ChangePassword = () => {
     }
   };
 
-  const toggleShowPasswords = () => {
-    setShowPasswords(!showPasswords);
-  };
-
   return (
-    <div>
-      <form style={{ maxWidth: "300px", margin: "0 auto" }} onSubmit={handleSubmit}>
-        <input
-          type={showPasswords ? "text" : "password"}
-          name="old_password"
-          placeholder="Old password"
-          value={formData.old_password}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type={showPasswords ? "text" : "password"}
-          name="new_password"
-          placeholder="New password"
-          value={formData.new_password}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type={showPasswords ? "text" : "password"}
-          name="confirm_new_password"
-          placeholder="Confirm password"
-          value={formData.confirm_new_password}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Confirm</button>
+    <div className="custom-div">
+      <form onSubmit={handleSubmit} className="custom-form">
+        <div className="input-wrapper">
+          <input
+            type={showOldPassword ? "text" : "password"}
+            name="old_password"
+            placeholder="Old password"
+            value={formData.old_password}
+            onChange={handleChange}
+            required
+            className="input-element"
+          />
+         <span
+  className={`password-toggle ${showOldPassword ? "active" : ""}`}
+  onClick={() => toggleShowPassword("old_password")}
+>
+  {showOldPassword ? "👁" : "👁"}
+</span>
+
+        </div>
+        <div className="input-wrapper">
+          <input
+            type={showNewPassword ? "text" : "password"}
+            name="new_password"
+            placeholder="New password"
+            value={formData.new_password}
+            onChange={handleChange}
+            required
+            className="input-element"
+          />
+          <span
+  className={`password-toggle ${showNewPassword ? "active" : ""}`}
+  onClick={() => toggleShowPassword("new_password")}
+>
+  {showNewPassword ? "👁" : "👁"}
+</span>
+
+        </div>
+        <div className="input-wrapper">
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            name="confirm_new_password"
+            placeholder="Confirm password"
+            value={formData.confirm_new_password}
+            onChange={handleChange}
+            required
+            className="input-element"
+          />
+          <span
+  className={`password-toggle ${showConfirmPassword ? "active" : ""}`}
+  onClick={() => toggleShowPassword("confirm_new_password")}
+>
+  {showConfirmPassword ? "👁" : "👁"}
+</span>
+
+        </div>
+        <button type="submit" className="submit-button">Confirm</button>
         {message && <p style={{ color: "green" }}>{message}</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
-      <button onClick={toggleShowPasswords}>
-        {showPasswords ? "Hide Passwords" : "Show Passwords"}
-      </button>
     </div>
   );
 };

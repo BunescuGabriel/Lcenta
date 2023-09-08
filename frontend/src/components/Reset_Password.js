@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import axios from "axios";
-//
-// const baseURL = process.env.REACT_APP_BASE_URL;
-// axios.defaults.baseURL = `${baseURL}/authen`;
+import '../styles/Forgot.css'; // Make sure to adjust the import path for your CSS file
 
 function ResetPassword() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [message, setMessage] = useState('');
-
 
   const handleInputChange = (e) => {
     setUsername(e.target.value);
@@ -34,26 +30,32 @@ function ResetPassword() {
         console.error('Error:', error);
         setMessage('A apărut o eroare la resetarea parolei.');
       });
-     navigate('/Login'); // Change this to the appropriate route
+    navigate('/Login'); // Change this to the appropriate route
   };
 
   return (
-    <div>
-      <h2>Resetare Parolă</h2>
-      <div>
-        <label htmlFor="username">Introduceți email sau nume de utilizator:</label>
+    <div className="reset-password-container">
+      <h2 className="reset-password-heading">Password Reset</h2>
+      <div className="form-group">
+        <label htmlFor="username" className="form-labell">
+          Enter email or username
+        </label>
         <input
           type="text"
           id="username"
           name="username"
+          placeholder="Enter your Username or Email"
           value={username}
           onChange={handleInputChange}
+          className="form-inputt"
         />
       </div>
       <div>
-        <button onClick={handleResetPassword}>Resetare Parolă</button>
+        <button onClick={handleResetPassword} className="reset-button">
+          Reset
+        </button>
       </div>
-      {message && <div>{message}</div>}
+      {message && <div className="message">{message}</div>}
     </div>
   );
 }

@@ -6,7 +6,7 @@ function ChangePasswordPage() {
   return (
     <div>
         <Header />
-      <h1> ChangePassword Page</h1>
+
       <ChangePassword />
     </div>
   );

@@ -1,68 +1,55 @@
-/* Stilurile pentru containerul principal */
+/* Styles for the address container */
 .address-container {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: flex-start; /* Align items to the top */
+  margin-top: 20px;
+}
+
+/* Styles for the address info (left column) */
+.address-info {
+  flex: 1; /* Take up all available space in the container */
   border: 1px solid #ccc;
   padding: 20px;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: left;
 }
 
-/* Stilurile pentru panoul de setări */
-.settings-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: #333;
-  color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  margin-right: 20px;
-  width: 300px;
-  height: 100%;
+.address-title {
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
-/* Stilurile pentru butonul de setări */
-.settings-button {
+.address-item {
+  font-size: 16px;
+  margin: 8px 0;
+}
+
+.edit-button {
   background-color: #007bff;
   color: #fff;
   border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  outline: none;
+  padding: 8px 16px;
   border-radius: 5px;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
+  cursor: pointer;
+  margin-top: 10px;
 }
 
-/* Stil pentru butonul de setări la hover */
-.settings-button:hover {
-  background-color: #0056b3;
-}
-
-/* Stilurile pentru informațiile de profil */
-.address-info {
-  flex-grow: 1;
-  padding-left: 20px;
+/* Styles for the edit form (right column) */
+.edit-form {
+  flex: 1; /* Take up all available space in the container */
   background-color: #fff;
+  padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  padding: 10px;
-  margin-left: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: right 0.3s ease;
+  z-index: 1;
 }
 
-/* Stilizarea pentru titlurile secțiunilor */
-h1, h2 {
-  margin: 0;
-}
-
-/* Stil pentru textul de gen */
-.address-info p:last-child {
-  margin-bottom: 0;
-}
-
-.settings-icon {
-  margin-right: 10px; /* Spațiu între icon și text */
+/* Show the edit form when it's open */
+.edit-form.open {
+  right: 0;
 }

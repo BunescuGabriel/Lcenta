@@ -1,68 +1,113 @@
-/* Stilurile pentru containerul principal */
+/* Profiles.css */
+
 .profile-container {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Plasăm meniul în partea dreaptă a informațiilor */
   align-items: flex-start;
-  border: 1px solid #ccc;
-  padding: 20px;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: #f9f9f9;
 }
 
-/* Stilurile pentru panoul de setări */
+.profile-info {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  display: flex; /* Plasează elementele într-un container flex */
+  flex-direction: column; /* Aranjează elementele vertical */
+}
+
 .settings-panel {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: #333;
-  color: #fff;
+  width: 20%; /* Lățimea meniului */
   padding: 20px;
-  border-radius: 10px;
-  margin-right: 20px;
-  width: 300px;
-  height: 100%;
+  background-color: #f2f2f2;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-/* Stilurile pentru butonul de setări */
 .settings-button {
+  display: block;
+  margin-top: 10px;
+  padding: 10px 20px;
   background-color: #007bff;
   color: #fff;
   border: none;
-  padding: 10px 20px;
   cursor: pointer;
-  outline: none;
-  border-radius: 5px;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
 }
 
-/* Stil pentru butonul de setări la hover */
 .settings-button:hover {
   background-color: #0056b3;
 }
 
-/* Stilurile pentru informațiile de profil */
 .profile-info {
-  flex-grow: 1;
-  padding-left: 20px;
+  flex-grow: 1; /* Faceți ca zona de informații să ocupe spațiul disponibil */
+  padding: 20px;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Restul stilurilor pentru avatar, etichete, formularul de editare, etc. */
+
+/* Stiluri pentru formularul de editare */
+.form-label {
+  margin-top: 10px;
+  display: block;
+}
+
+.form-input {
+  width: 30%;
   padding: 10px;
-  margin-left: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
 }
 
-/* Stilizarea pentru titlurile secțiunilor */
-h1, h2 {
-  margin: 0;
+.form-select {
+  width: 32%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 50px;
 }
 
-/* Stil pentru textul de gen */
-.profile-info p:last-child {
-  margin-bottom: 0;
+.avatar-upload-container {
+  text-align: center;
+  border: 2px dashed #ccc;
+  padding: 20px;
+  margin-top: 25px;
+  cursor: pointer;
+    width: 28%;
+
 }
 
-.settings-icon {
-  margin-right: 10px; /* Spațiu între icon și text */
+.avatar-upload-text {
+  margin-top: 10px;
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.update-button {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.update-button:hover {
+  background-color: #0056b3;
+}
+
+.close-button {
+  background-color: #ccc;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #999;
 }
