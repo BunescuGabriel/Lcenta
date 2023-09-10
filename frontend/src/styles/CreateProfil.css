@@ -1,0 +1,76 @@
+/* Add your global CSS styles here */
+
+.profile--container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profile--info {
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 25px;
+}
+
+.create-profile {
+  font-size: 24px;
+  margin-bottom: 20px;
+    text-align: center;
+}
+
+.form--input {
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+    margin-left: 20px;
+}
+
+.form-selectt {
+  width: 94%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  margin-bottom: 15px;
+    margin-left: 20px;
+}
+
+.form--button {
+  background-color: #007bff;
+  color: #fff;
+    width: 94%;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 16px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.form--button:hover {
+  background-color: #0056b3;
+}
+
+.avatarr-containerr {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.avatar {
+  max-width: 100px;
+  max-height: 100px;
+  margin-top: 10px;
+}
+
+/* Style Dropzone active state */
+.avatarr-containerr.active {
+  border: 2px dashed #007bff;
+}

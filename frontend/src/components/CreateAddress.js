@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import '../styles/CreateAddress.css';
 
 
 const CreateAddress = ({ userData }) => {
@@ -18,46 +19,45 @@ const CreateAddress = ({ userData }) => {
   };
 
   const handleCreateAddress = async () => {
-  const { country, city, street, house_number, apartment } = formData;
+    const { country, city, street, house_number, apartment } = formData;
 
-  if (!userData || !userData.id) {
-    console.error('User data is missing or does not contain an ID.');
-    return;
-  }
+    if (!userData || !userData.id) {
+      console.error('User data is missing or does not contain an ID.');
+      return;
+    }
 
-  const userId = userData.id;
+    const userId = userData.id;
 
-  // Verificați dacă fiecare câmp este gol și setați-l ca "null" dacă este cazul
-  const requestData = {
-    user_id: userId,
-    country: country || null,
-    city: city || null,
-    street: street || null,
-    house_number: house_number || null,
-    apartment: apartment || null,
+    // Verificați dacă fiecare câmp este gol și setați-l ca "null" dacă este cazul
+    const requestData = {
+      user_id: userId,
+      country: country || null,
+      city: city || null,
+      street: street || null,
+      house_number: house_number || null,
+      apartment: apartment || null,
+    };
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/api/users/create-address',
+        requestData,
+      );
+
+      console.log('Address created:', response.data);
+      navigate('/login');
+      // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce adresa a fost creată
+    } catch (error) {
+      console.error('Error creating address:', error.message);
+      // Afișați un mesaj de eroare pentru utilizator
+    }
   };
-
-  try {
-    const response = await axios.post(
-      'http://localhost:8000/api/users/create-address',
-      requestData,
-    );
-
-    console.log('Address created:', response.data);
-    navigate('/login');
-    // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce adresa a fost creată
-  } catch (error) {
-    console.error('Error creating address:', error.message);
-    // Afișați un mesaj de eroare pentru utilizator
-  }
-};
-
 
   return (
     <div>
-      <div className="address-container">
-        <div className="address-info">
-          <h1>Create Address</h1>
+      <div className="Address-container">
+        <div className="Address-info">
+          <h1 className="create-profile">Create Address</h1>
           <div>
             <form>
               <input
@@ -66,6 +66,7 @@ const CreateAddress = ({ userData }) => {
                 value={formData.country}
                 onChange={handleChange}
                 placeholder="Country"
+                className="input-country" // Adaugă o clasă pentru stilizarea acestui element
               />
               <input
                 type="text"
@@ -73,6 +74,7 @@ const CreateAddress = ({ userData }) => {
                 value={formData.city}
                 onChange={handleChange}
                 placeholder="City"
+                className="input-city" // Adaugă o clasă pentru stilizarea acestui element
               />
               <input
                 type="text"
@@ -80,6 +82,7 @@ const CreateAddress = ({ userData }) => {
                 value={formData.street}
                 onChange={handleChange}
                 placeholder="Street"
+                className="input-street" // Adaugă o clasă pentru stilizarea acestui element
               />
               <input
                 type="text"
@@ -87,6 +90,7 @@ const CreateAddress = ({ userData }) => {
                 value={formData.house_number}
                 onChange={handleChange}
                 placeholder="House Number"
+                className="input-house-number" // Adaugă o clasă pentru stilizarea acestui element
               />
               <input
                 type="text"
@@ -94,8 +98,9 @@ const CreateAddress = ({ userData }) => {
                 value={formData.apartment}
                 onChange={handleChange}
                 placeholder="Apartment"
+                className="input-apartment" // Adaugă o clasă pentru stilizarea acestui element
               />
-              <button type="button" onClick={handleCreateAddress}>
+              <button type="button" onClick={handleCreateAddress} className="create-button-address">
                 Create Address
               </button>
             </form>

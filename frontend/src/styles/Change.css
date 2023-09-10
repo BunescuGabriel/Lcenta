@@ -1,13 +1,13 @@
 /* Change.css */
 
-.custom-div {
+.custom-div-c {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 70vh;
+  height: 80vh;
 }
 
-.custom-form {
+.custom-form-c {
 
   background-color: #f0f0f0;
   padding: 30px;

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import '../styles/Address.css';
+import '../styles/Profiles.css'
+;
 
 const Address = () => {
   const [userAddress, setuserAddress] = useState({
@@ -8,7 +11,7 @@ const Address = () => {
     city: '',
     street: '',
     house_number: '',
-    Apartment: '',
+    apartment: '',
   });
   const [loading, setLoading] = useState(true);
   const [accessToken, setAccessToken] = useState("");
@@ -18,15 +21,11 @@ const Address = () => {
     city: '',
     street: '',
     house_number: '',
-    Apartment: '', // Aceasta este valoarea bazei64 a imaginii
+    apartment: '',
   });
   const [showEditForm, setShowEditForm] = useState(false);
 
-  const handleCloseEditForm = () => {
-    setShowEditForm(false);
-  };
 
-  // Modificați funcția handleImageUpload
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem("accessToken");
@@ -102,7 +101,7 @@ const Address = () => {
             city: user.city,
             street: user.street,
             house_number: user.house_number,
-            Apartment: user.Apartment,
+            apartment: user.apartment,
           });
           setLoading(false);
         } else {
@@ -122,10 +121,18 @@ const Address = () => {
     loadData();
   }, [navigate, accessToken]);
 
+  const handleEditClick = () => {
+    setShowEditForm(true);
+  };
+
+  const handleCloseEditForm = () => {
+    setShowEditForm(false);
+  };
+
   return (
-    <div>
-      <div className="address-container">
-        <div className="address-info">
+    <div className="address-container">
+      <div className="profile-container">
+        <div className="profile-info">
           <h1 className="address-title">User Address</h1>
           {loading ? (
             <p>Loading...</p>
@@ -135,64 +142,66 @@ const Address = () => {
               <p>City: {userAddress.city}</p>
               <p>Street: {userAddress.street}</p>
               <p>House Number: {userAddress.house_number}</p>
-              <p>Apartment: {userAddress.Apartment}</p>
-              <button onClick={() => setShowEditForm(true)} className="edit-button">Edit</button>
+              <p>Apartment: {userAddress.apartment}</p>
+              <button onClick={handleEditClick} className="edit-button">Edit</button>
             </div>
           )}
 
-          <div className={`edit-form ${showEditForm ? 'open' : ''}`}>
-            <h2 className="edit-title">Edit Address:</h2>
-            {showEditForm && (
-              <form>
-                <input
-                  type="text"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleChange}
-                  placeholder="Country"
-                  className="edit-input"
-                />
-                <input
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  placeholder="City"
-                  className="edit-input"
-                />
-                <input
-                  type="text"
-                  name="street"
-                  value={formData.street}
-                  onChange={handleChange}
-                  placeholder="Street"
-                  className="edit-input"
-                />
-                <input
-                  type="text"
-                  name="house_number"
-                  value={formData.house_number}
-                  onChange={handleChange}
-                  placeholder="House Number"
-                  className="edit-input"
-                />
-                <input
-                  type="text"
-                  name="Apartment"
-                  value={formData.Apartment}
-                  onChange={handleChange}
-                  placeholder="Apartment"
-                  className="edit-input"
-                />
-                <button type="button" onClick={handleUpdateAddress} className="update-button">
-                  Update Profile
-                </button>
-                <button type="button" onClick={handleCloseEditForm} className="close-button">
-                  Close
-                </button>
-              </form>
-            )}
-          </div>
+          {showEditForm && (
+            <div className="popup">
+              <div className="popup-content">
+                <h2 className="edit-title">Edit Address:</h2>
+                <form>
+                  <input
+                    type="text"
+                    name="country"
+                    value={formData.country}
+                    onChange={handleChange}
+                    placeholder="Country"
+                    className="edit-input"
+                  />
+                  <input
+                    type="text"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    placeholder="City"
+                    className="edit-input"
+                  />
+                  <input
+                    type="text"
+                    name="street"
+                    value={formData.street}
+                    onChange={handleChange}
+                    placeholder="Street"
+                    className="edit-input"
+                  />
+                  <input
+                    type="text"
+                    name="house_number"
+                    value={formData.house_number}
+                    onChange={handleChange}
+                    placeholder="House Number"
+                    className="edit-input"
+                  />
+                  <input
+                    type="text"
+                    name="apartment"
+                    value={formData.apartment}
+                    onChange={handleChange}
+                    placeholder="Apartment"
+                    className="edit-input"
+                  />
+                  <button type="button" onClick={handleUpdateAddress} className="update-button-ad">
+                    Update Profile
+                  </button>
+                  <button type="button" onClick={handleCloseEditForm} className="close-button-ad">
+                    Close
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

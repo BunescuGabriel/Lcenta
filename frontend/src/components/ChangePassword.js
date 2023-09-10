@@ -81,8 +81,8 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="custom-div">
-      <form onSubmit={handleSubmit} className="custom-form">
+    <div className="custom-div-c">
+      <form onSubmit={handleSubmit} className="custom-form-c">
         <div className="input-wrapper">
           <input
             type={showOldPassword ? "text" : "password"}

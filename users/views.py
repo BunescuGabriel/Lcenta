@@ -88,6 +88,10 @@ class AddressList(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+from rest_framework import status
+from rest_framework.response import Response
+from .models import Profiles
+
 class CreateProfile(generics.CreateAPIView):
     queryset = Profiles.objects.all()
     serializer_class = ProfilesSerializer
@@ -102,7 +106,7 @@ class CreateProfile(generics.CreateAPIView):
         avatar = data.get('avatar')
 
         # Verificăm dacă 'gender' este o valoare validă
-        if gender not in [Profiles.MALE, Profiles.FEMALE, Profiles.NOT_SPECIFIED]:
+        if gender not in [choice[0] for choice in Profiles.GENDER_CHOICES]:
             return Response({'gender': 'Invalid gender value'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Verificăm dacă 'avatar' este o imagine validă
@@ -129,6 +133,7 @@ class CreateProfile(generics.CreateAPIView):
             gender=gender,
             avatar=avatar
         )
+
 
 
 

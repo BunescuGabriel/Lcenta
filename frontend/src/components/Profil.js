@@ -25,10 +25,14 @@ const Profile = () => {
     phoneNumber: '',
     birthday: '',
     gender: '',
-    avatar: '', // Aceasta este valoarea bazei64 a imaginii
+    avatar: '',
   });
   const [showEditForm, setShowEditForm] = useState(false);
   const [avatarFile, setAvatarFile] = useState(null);
+
+  const handleOpenEditForm = () => {
+    setShowEditForm(true);
+  };
 
   const handleCloseEditForm = () => {
     setShowEditForm(false);
@@ -61,7 +65,7 @@ const Profile = () => {
 
   const handleUpdateProfile = async () => {
     try {
-      const updatedData = { ...formData }; // Folosiți formData pentru a actualiza toate datele
+      const updatedData = { ...formData };
       const updatedFormData = new FormData();
 
       for (const key in updatedData) {
@@ -71,7 +75,7 @@ const Profile = () => {
       }
 
       if (avatarFile) {
-        updatedFormData.append('avatar', avatarFile); // Dacă există un avatarFile, adăugați-l
+        updatedFormData.append('avatar', avatarFile);
       }
 
       const response = await axios.patch(
@@ -85,9 +89,8 @@ const Profile = () => {
       );
 
       if (response.status === 200) {
-        // După actualizare, reîncărcați datele utilizatorului
         loadData();
-        setShowEditForm(false); // Închideți formularul de editare
+        setShowEditForm(false);
       } else {
         // Tratați cazurile de eroare aici
       }
@@ -137,37 +140,48 @@ const Profile = () => {
   }, [navigate, accessToken]);
 
   return (
-  <div>
-    <div className="profile-container">
-      <div className="settings-panel">
-        <h1>
-          Settings
-          <FontAwesomeIcon icon={faCog} className="settings-icon" />
-        </h1>
-        <button className="settings-button" onClick={handleChangePassword}>
-          Change Password
-        </button>
+    <div>
+      <div className="profile-container">
+        <div className="settings-panel">
+          <h1>
+            Settings
+            <FontAwesomeIcon icon={faCog} className="settings-icon" />
+          </h1>
+          <button className="settings-button" onClick={handleChangePassword}>
+            Change Password
+          </button>
+        </div>
+        <div className="profile-info">
+          {loading ? (
+            <p className="loading-text">Loading...</p>
+          ) : (
+
+              <div className="column-profile">
+  <div className="column-container">
+    <div className="column-left">
+      <h2 className="section-title">Personal Information</h2>
+      <p className="info-label">Name: {userProfile.first_name} {userProfile.last_name}</p>
+      <p className="info-label">Email: {userProfile.email}</p>
+      <p className="info-label">Phone Number: {userProfile.phoneNumber}</p>
+      <p className="info-label">Date of Birth: {userProfile.birthday}</p>
+      <p className="info-label">Gender: {userProfile.gender === 0 ? 'Male' : userProfile.gender === 1 ? 'Female' : 'Unspecified'}</p>
+      <button className="edit-button" onClick={handleOpenEditForm}>Edit</button>
+    </div>
+    <div className="column-right">
+      <div className="avatarr-container">
+        <img src={userProfile.avatar} alt="Avatar" className="avatarr" />
       </div>
-      <div className="profile-info">
-        {loading ? (
-          <p className="loading-text">Loading...</p>
-        ) : (
-          <div>
-            <h2 className="section-title">Personal Information:</h2>
-            <div className="avatar-container">
-              <img src={userProfile.avatar} alt="Avatar" className="avatar" />
-            </div>
-            <p className="info-label">Name: {userProfile.first_name} {userProfile.last_name}</p>
-            <p className="info-label">Email: {userProfile.email}</p>
-            <p className="info-label">Phone Number: {userProfile.phoneNumber}</p>
-            <p className="info-label">Date of Birth: {userProfile.birthday}</p>
-            <p className="info-label">Gender: {userProfile.gender === 0 ? 'Male' : userProfile.gender === 1 ? 'Female' : 'Unspecified'}</p>
-            <h2 className="section-title">Edit Profile:</h2>
-            <button className="edit-button" onClick={() => setShowEditForm(true)}>Edit</button>
-          </div>
-        )}
-        <div>
-          {showEditForm && (
+    </div>
+  </div>
+</div>
+          )}
+        </div>
+      </div>
+
+      {showEditForm && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2 className="editt-title">Edit Profile:</h2>
             <form>
               <label htmlFor="first_name" className="form-label">First Name:</label>
               <input
@@ -230,19 +244,18 @@ const Profile = () => {
                   </div>
                 )}
               </Dropzone>
-              <button type="button" className="update-button" onClick={handleUpdateProfile}>
+              <button type="button" className="update-button-profile" onClick={handleUpdateProfile}>
                 Update Profile
               </button>
-              <button type="button" className="close-button" onClick={handleCloseEditForm}>
+              <button type="button" className="close-button-profile" onClick={handleCloseEditForm}>
                 Close
               </button>
             </form>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
-  </div>
-);
+  );
 };
 
 export default Profile;

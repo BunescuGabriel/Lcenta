@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faShoppingCart, faUser} from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Header.css';
 
 function Header() {
-  const isAuthenticated = !!localStorage.getItem('accessToken');
   const [loading, setLoading] = useState(true);
-  const [accessToken, setAccessToken] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const [userProfile, setUserProfile] = useState({
@@ -17,26 +15,18 @@ function Header() {
     avatar: '',
   });
 
-  useEffect(() => {
-    const storedAccessToken = localStorage.getItem('accessToken');
-
-    if (storedAccessToken) {
-      setAccessToken(storedAccessToken);
-    }
-  }, []);
+  const accessToken = localStorage.getItem('accessToken');
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const storedAccessToken = localStorage.getItem('accessToken');
-
-        if (storedAccessToken) {
+    if (accessToken) {
+      const loadData = async () => {
+        try {
           const userProfileResponse = await axios.get(
             'http://localhost:8000/api/users/users-profile',
             {
               headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${storedAccessToken}`,
+                Authorization: `Bearer ${accessToken}`,
               },
             }
           );
@@ -56,16 +46,16 @@ function Header() {
             console.error('Error loading data:', userProfileResponse);
             setLoading(false);
           }
-        } else {
+        } catch (error) {
+          console.error('Error loading data:', error);
           setLoading(false);
         }
-      } catch (error) {
-        console.error('Error loading data:', error);
-        setLoading(false);
-      }
-    };
+      };
 
-    loadData();
+      loadData();
+    } else {
+      setLoading(false);
+    }
   }, [accessToken]);
 
   const menuRef = useRef(null);
@@ -73,6 +63,7 @@ function Header() {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
       }
     };
 
@@ -83,38 +74,70 @@ function Header() {
     };
   }, []);
 
+  // Efect pentru polling la datele utilizatorului
+  const [pollingInterval, setPollingInterval] = useState(null);
+
+  useEffect(() => {
+    const pollUserProfile = async () => {
+      try {
+        const userProfileResponse = await axios.get(
+          'http://localhost:8000/api/users/users-profile',
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        if (
+          userProfileResponse.status === 200 &&
+          userProfileResponse.data.length > 0
+        ) {
+          const user = userProfileResponse.data[0];
+          const updatedUserProfile = {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            avatar: user.avatar,
+          };
+
+          // Verificăm dacă datele utilizatorului s-au schimbat
+          if (
+            userProfile.first_name !== updatedUserProfile.first_name ||
+            userProfile.last_name !== updatedUserProfile.last_name ||
+            userProfile.avatar !== updatedUserProfile.avatar
+          ) {
+            // Dacă s-au schimbat, actualizăm starea
+            setUserProfile(updatedUserProfile);
+          }
+        }
+      } catch (error) {
+        console.error('Error polling data:', error);
+      }
+    };
+
+    // Pornim polling-ul la un interval de 5 secunde
+    const intervalId = setInterval(() => {
+      // Verificăm dacă utilizatorul a făcut logout între timp
+      if (!localStorage.getItem('accessToken')) {
+        clearInterval(intervalId); // Oprim polling-ul
+        setUserProfile({ first_name: '', last_name: '', avatar: '' }); // Resetăm datele utilizatorului
+      } else {
+        pollUserProfile(); // Efectuăm polling-ul normal
+      }
+    }, 5000);
+
+    // Oprim polling-ul când componenta se demontează
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, []); // Nu mai este nevoie să adăugați accessToken și userProfile aici
+
   const toggleMenu = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
-  // const handleLogout = () => {
-  //   // Make a request to your logout endpoint on the server to invalidate the user's session
-  //   fetch('http://localhost:8000/api/authen/logout', {
-  //     method: 'POST',
-  //     headers: {
-  //       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //   })
-  //     .then((response) => {
-  //       if (response.status === 200) {
-  //         // Logout was successful
-  //         localStorage.removeItem('accessToken'); // Remove the access token from local storage
-  //         // Redirect to the login page or any other desired page
-  //         navigate('/');
-  //       } else {
-  //         // Handle logout error
-  //         console.error('Logout error:', response.statusText);
-  //         // Redirect to an error page or perform other actions as needed
-  //         navigate('/error');
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error('Logout error:', error);
-  //       // Redirect to an error page or perform other actions as needed
-  //       navigate('/error');
-  //     });
-  // };
 
   return (
     <header className={`header`}>
@@ -126,16 +149,16 @@ function Header() {
         </ul>
       </nav>
       <div className="user-menu">
-              <FontAwesomeIcon icon={faShoppingCart} className="shopping-cart-icon" />
+        <FontAwesomeIcon icon={faShoppingCart} className="shopping-cart-icon" />
 
-
-        {isAuthenticated ? (
+        {accessToken ? (
           <div className="avatar-circle" onClick={toggleMenu} ref={menuRef}>
             {userProfile.avatar ? (
               <img
                 src={userProfile.avatar}
                 alt="Avatar"
                 className="avatar"
+                key={userProfile.avatar}
               />
             ) : (
               <FontAwesomeIcon
@@ -145,11 +168,9 @@ function Header() {
             )}
             {isDropdownOpen && (
               <ul className="menu">
-                {/*<li>{userProfile.first_name} {userProfile.last_name}</li>*/}
                 <li className="user-name">{userProfile.first_name} {userProfile.last_name}</li>
                 <li><Link to="/profile">Profile</Link></li>
                 <li><Link to="/logout">Logout</Link></li>
-                {/*<li onClick={handleLogout}>Logout</li>*/}
               </ul>
             )}
           </div>

@@ -1,55 +1,90 @@
-/* Styles for the address container */
-.address-container {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start; /* Align items to the top */
-  margin-top: 20px;
-}
+/* Address.css */
 
-/* Styles for the address info (left column) */
-.address-info {
-  flex: 1; /* Take up all available space in the container */
-  border: 1px solid #ccc;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  text-align: left;
+.address-container {
+  margin-left: 329px;
 }
 
 .address-title {
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
-.address-item {
-  font-size: 16px;
-  margin: 8px 0;
+.address-item p {
+  margin: 10px 0;
 }
 
 .edit-button {
   background-color: #007bff;
   color: #fff;
   border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
+  border-radius: 15px;
+  padding: 10px 20px;
   cursor: pointer;
-  margin-top: 10px;
 }
 
-/* Styles for the edit form (right column) */
-.edit-form {
-  flex: 1; /* Take up all available space in the container */
+.edit-button:hover {
+  background-color: #0056b3;
+}
+
+/* Stilurile pentru popup-ul de editare */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-content {
   background-color: #fff;
+  max-width: 400px;
   padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+.edit-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-left: 130px;
+}
+.edit-input {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 15px;
+    margin-left: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: right 0.3s ease;
-  z-index: 1;
 }
 
-/* Show the edit form when it's open */
-.edit-form.open {
-  right: 0;
+.update-button-ad {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-right: 10px;
+    margin-left: 80px;
+}
+
+.close-button-ad {
+  background-color: #ccc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* Media query pentru popup-ul de editare */
+@media (max-width: 600px) {
+  .popup-content {
+    max-width: 100%;
+  }
 }

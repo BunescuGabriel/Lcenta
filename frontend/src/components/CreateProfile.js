@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Dropzone from 'react-dropzone';
+import '../styles/CreateProfil.css';
 
 const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
   const [formData, setFormData] = useState({
@@ -58,9 +59,9 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
 
   return (
     <div>
-      <div className="profile-container">
-        <div className="profile-info">
-          <h1>Create Profile</h1>
+      <div className="profile--container">
+        <div className="profile--info">
+          <h1 className="create-profile">Create Profile</h1>
           <div>
             <form>
               <input
@@ -69,6 +70,7 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
                 value={formData.first_name}
                 onChange={handleChange}
                 placeholder="First Name"
+                className="form--input"
               />
               <input
                 type="text"
@@ -76,6 +78,7 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
                 value={formData.last_name}
                 onChange={handleChange}
                 placeholder="Last Name"
+                className="form--input"
               />
               <input
                 type="tel"
@@ -83,6 +86,7 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
                 value={formData.phoneNumber}
                 onChange={handleChange}
                 placeholder="Phone Number"
+                className="form--input"
               />
               <input
                 type="text"
@@ -90,10 +94,19 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
                 value={formData.gender}
                 onChange={handleChange}
                 placeholder="Gender"
+                className="form--input"
+              />
+              <input
+                type="date"
+                name="birthday"
+                value={formData.birthday}
+                onChange={handleChange}
+                placeholder="Birthday"
+                className="form--input"
               />
               <Dropzone onDrop={handleImageUpload}>
                 {({ getRootProps, getInputProps }) => (
-                  <div className="avatar-container" {...getRootProps()}>
+                  <div className="avatarr-containerr" {...getRootProps()}>
                     <input {...getInputProps()} />
                     {formData.avatar ? (
                       <img src={URL.createObjectURL(formData.avatar)} alt="Avatar" className="avatar" />
@@ -103,14 +116,7 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
                   </div>
                 )}
               </Dropzone>
-              <input
-                type="date"
-                name="birthday"
-                value={formData.birthday}
-                onChange={handleChange}
-                placeholder="Birthday"
-              />
-              <button type="button" onClick={handleCreateProfile}>
+              <button type="button" onClick={handleCreateProfile} className="form--button">
                 Create Profile
               </button>
             </form>
