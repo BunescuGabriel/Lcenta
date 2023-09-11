@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/Login.css';
+import '../../styles/login/Login.css';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.baseURL = `${baseURL}/authen`;

@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import ResetPasswordPage from "./pages/ResetPassword";
 import LoginPage from "./pages/Login";
 import ChangePasswordPage from "./pages/ChangePasswordPages";
-import Logout from "./components/Logout";
+import Logout from "./components/login/Logout";
 import Profile from "./pages/Profile";
 
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import '../styles/Change.css';
+import '../../styles/profile/Change.css';
 const baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.baseURL = `${baseURL}/authen`;
 
@@ -84,6 +84,7 @@ const ChangePassword = () => {
     <div className="custom-div-c">
       <form onSubmit={handleSubmit} className="custom-form-c">
         <div className="input-wrapper">
+          <label  className="inputlabel">Old Password</label>
           <input
             type={showOldPassword ? "text" : "password"}
             name="old_password"
@@ -102,6 +103,7 @@ const ChangePassword = () => {
 
         </div>
         <div className="input-wrapper">
+          <label  className="inputlabel">New Password</label>
           <input
             type={showNewPassword ? "text" : "password"}
             name="new_password"
@@ -120,6 +122,7 @@ const ChangePassword = () => {
 
         </div>
         <div className="input-wrapper">
+          <label className="inputlabel">Confirm New Password</label>
           <input
             type={showConfirmPassword ? "text" : "password"}
             name="confirm_new_password"

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../styles/Profiles.css';
+import '../../styles/profile/Profiles.css';
 import { faCog } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
@@ -231,9 +231,9 @@ const Profile = () => {
                 onChange={handleChange}
                 className="form-select"
               >
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+                <option value="2">Not specified</option>
               </select>
               <Dropzone onDrop={handleImageUpload}>
                 {({ getRootProps, getInputProps }) => (

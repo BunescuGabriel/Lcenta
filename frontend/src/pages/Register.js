@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
-import Register from '../components/Register';
-import CreateAddress from '../components/CreateAddress';
-import CreateProfile from "../components/CreateProfile";
+import Register from '../components/register/Register';
+import CreateAddress from '../components/register/CreateAddress';
+import CreateProfile from "../components/register/CreateProfile";
+import '../styles/RegisterPage.css';
+
 
 function RegisterPage() {
   const [userData, setUserData] = useState(null);
@@ -35,6 +37,13 @@ function RegisterPage() {
     <div>
       <Header />
 
+      {/* Bara de progres */}
+      <div className="progress-bar">
+        <div className={`step1 ${step >= 1 ? 'active' : ''}`}>Step 1</div>
+        <div className={`step2 ${step >= 2 ? 'active' : ''}`}>Step 2</div>
+        <div className={`step3 ${step >= 3 ? 'active' : ''}`}>Step 3</div>
+      </div>
+
       {/* Verificați pasul și afișați înregistrarea sau următorul pas (Address sau Profile) */}
       {step === 1 && <Register onRegistrationSuccess={handleRegistrationSuccess} />}
 
@@ -56,8 +65,6 @@ function RegisterPage() {
         </>
       )}
 
-      {/* Butonul "Next" pentru a trece la următorul pas (Profile) */}
-      {/*{step === 2 && <button onClick={goToNextStep}>Next</button>}*/}
     </div>
   );
 }

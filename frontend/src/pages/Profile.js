@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import React from "react";
-import Profil from "../components/Profil";
-import Address from "../components/Address";
+import Profil from "../components/profile/Profil";
+import Address from "../components/profile/Address";
 
 const Home = () => {
     return (

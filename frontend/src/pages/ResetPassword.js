@@ -1,5 +1,5 @@
 import React from 'react';
-import ResetPassword from '../components/Reset_Password';
+import ResetPassword from '../components/login/Reset_Password';
 import Header from "../components/Header";
 
 function ResetPasswordPage () {

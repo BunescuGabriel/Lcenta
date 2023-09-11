@@ -29,10 +29,16 @@
 
 }
 
+.inputlabel {
+  font-size: 16px;
+  margin-bottom: 5px;
+    font-weight: bold;
+}
+
 .password-toggle {
   position: absolute;
-  top: 50%;
-  right: 10px;
+  top: 68%;
+  right: 4px;
   transform: translateY(-50%);
   cursor: pointer;
 }

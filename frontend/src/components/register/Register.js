@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/Register.css';
+import { Link } from 'react-router-dom';
+import '../../styles/register/Register.css';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 axios.defaults.baseURL = `${baseURL}/authen`;
@@ -23,13 +23,6 @@ const Register = ({ onRegistrationSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  // const toggleShowPassword = (field) => {
-  //   if (field === 'password') {
-  //     setShowPassword(!showPassword);
-  //   } else if (field === 'confirm_password') {
-  //     setShowConfirmPassword(!showConfirmPassword);
-  //   }
-  // };
   const toggleShowPassword = (passwordType) => {
   switch (passwordType) {
     case "password":

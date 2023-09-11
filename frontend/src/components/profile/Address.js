@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import '../styles/Address.css';
-import '../styles/Profiles.css'
-;
+import '../../styles/profile/Address.css';
 
 const Address = () => {
   const [userAddress, setuserAddress] = useState({

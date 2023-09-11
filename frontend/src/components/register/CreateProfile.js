@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Dropzone from 'react-dropzone';
-import '../styles/CreateProfil.css';
+import '../../styles/register/CreateProfil.css';
 
 const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
   const [formData, setFormData] = useState({
@@ -9,8 +9,8 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
     last_name: '',
     phoneNumber: '',
     birthday: '',
-    gender: '2', // Am schimbat '2' cu 'Male' deoarece presupun că gender ar trebui să fie un șir
-    avatar: null, // Începeți cu 'null' pentru avatar
+    gender: '2',
+    avatar: null,
   });
 
   const handleChange = (e) => {
@@ -40,7 +40,7 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
       last_name: last_name || null,
       phoneNumber: phoneNumber || null,
       birthday: birthday || null,
-      gender: gender || null,
+      gender: gender,
       avatar: avatar || null,
     };
 
@@ -88,14 +88,16 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
                 placeholder="Phone Number"
                 className="form--input"
               />
-              <input
-                type="text"
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                placeholder="Gender"
-                className="form--input"
-              />
+             <select
+  name="gender"
+  value={formData.gender}
+  onChange={handleChange}
+  className="form---input"
+>
+  <option value="0">Male</option>
+  <option value="1">Female</option>
+  <option value="2">Not specified</option>
+</select>
               <input
                 type="date"
                 name="birthday"

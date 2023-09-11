@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import '../styles/CreateAddress.css';
+import { useNavigate } from 'react-router-dom';
+import '../../styles/register/CreateAddress.css';
 
 
 const CreateAddress = ({ userData }) => {
