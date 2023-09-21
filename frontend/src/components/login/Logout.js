@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/login/Logout.css';
 
 function Logout() {
   const navigate = useNavigate();
@@ -18,7 +19,10 @@ function Logout() {
           // Logout was successful
           localStorage.removeItem('accessToken'); // Remove the access token from local storage
           // Redirect to the login page or any other desired page
-          navigate('/');
+          alertSuccess('Logout success!');
+      setTimeout(() => {
+        navigate('/');
+      }, );
         } else {
           // Handle logout error
           console.error('Logout error:', response.statusText);
@@ -32,6 +36,18 @@ function Logout() {
         navigate('/error');
       });
   }, [navigate]);
+
+  const alertSuccess = (message) => {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = 'alert-success';
+  alertDiv.textContent = message;
+
+  document.body.appendChild(alertDiv);
+
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 3000);
+};
 
   return (
     <div>

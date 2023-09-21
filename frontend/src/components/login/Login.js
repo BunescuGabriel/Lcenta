@@ -16,6 +16,7 @@ function Login() {
   const [passwordToggleActive, setPasswordToggleActive] = useState(false);
 
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -27,24 +28,64 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const response = await axios.post('/login', formData);
+  if (!formData.username) {
+    alertError('Please enter your username.');
+    return;
+  }
 
-      if (response.status === 200) {
-        const data = response.data;
-        localStorage.setItem('accessToken', data.access_token);
-        console.log(localStorage);
+  if (!formData.password) {
+    alertError('Please enter your password.');
+    return;
+  }
 
+  try {
+    const response = await axios.post('/login', formData);
+
+    if (response.status === 200) {
+      const data = response.data;
+      localStorage.setItem('accessToken', data.access_token);
+      console.log(localStorage);
+
+      alertSuccess('Login success!');
+      setTimeout(() => {
         navigate('/');
-      } else {
-        console.error('Login error:', response.data);
-      }
-    } catch (error) {
-      console.error('Login error:', error);
+      }, 1000);
+    } else {
+      alertError('Invalid username or password.');
     }
-  };
+  } catch (error) {
+    // alertError('Login error: ' + error.message);
+    alertError('Incorect username or password.');
+  }
+};
+
+const alertSuccess = (message) => {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = 'alert-success';
+  alertDiv.textContent = message;
+
+  document.body.appendChild(alertDiv);
+
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 3000);
+};
+const alertError = (message) => {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = 'alert-error';
+  alertDiv.textContent = message;
+
+  // Adăugați alertDiv în corpul documentului sau în altă parte corespunzătoare.
+  document.body.appendChild(alertDiv);
+
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 3000);
+};
+
+
 
   return (
     <div className="login">

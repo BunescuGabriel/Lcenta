@@ -23,15 +23,29 @@ function ResetPassword() {
       .then((data) => {
         setMessage(data.message);
         if (data.status === 'success') {
-          // Redirect to the home page ("/") after a successful password reset
         }
       })
       .catch((error) => {
         console.error('Error:', error);
         setMessage('A apărut o eroare la resetarea parolei.');
       });
-    navigate('/Login'); // Change this to the appropriate route
+      alertSuccess('Password Reset! The message was sent by email.');
+      setTimeout(() => {
+        navigate('/Login');
+      }, );
   };
+
+  const alertSuccess = (message) => {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = 'alert-success';
+  alertDiv.textContent = message;
+
+  document.body.appendChild(alertDiv);
+
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 3000);
+};
 
   return (
     <div className="reset-password-container">

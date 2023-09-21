@@ -18,13 +18,24 @@
   text-align: center;
 }
 
+.sub-titt {
+  font-size: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ef0404;
+}
+
 .create-profile {
   font-size: 24px;
   margin-bottom: 20px;
 }
 
 /* Stilizare pentru input-uri */
-.input-country, .input-city, .input-street, .input-house-number,.input-apartment {
+.input-country,
+.input-city,
+.input-street,
+.input-house-number,
+.input-apartment {
   width: 90%;
   padding: 10px;
   margin-bottom: 15px;
@@ -50,4 +61,28 @@
 .create-button-address:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+/* Design responsiv pentru ecrane mai mici */
+@media (max-width: 368px) {
+  .Address-container {
+    height: auto;
+  }
+
+  .Address-info {
+    max-width: 100%;
+    margin: 20px 10px;
+  }
+
+  .input-country,
+  .input-city,
+  .input-street,
+  .input-house-number,
+  .input-apartment {
+    width: 100%;
+  }
+
+  .create-button-address {
+    width: 100%;
+  }
 }

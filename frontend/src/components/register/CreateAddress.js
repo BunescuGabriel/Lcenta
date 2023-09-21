@@ -45,7 +45,10 @@ const CreateAddress = ({ userData }) => {
       );
 
       console.log('Address created:', response.data);
-      navigate('/login');
+      alertSuccess('Register success!');
+      setTimeout(() => {
+        navigate('/login');
+      }, 1000);
       // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce adresa a fost creată
     } catch (error) {
       console.error('Error creating address:', error.message);
@@ -53,11 +56,24 @@ const CreateAddress = ({ userData }) => {
     }
   };
 
+  const alertSuccess = (message) => {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = 'alert-success';
+  alertDiv.textContent = message;
+
+  document.body.appendChild(alertDiv);
+
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 3000);
+};
+
   return (
     <div>
       <div className="Address-container">
         <div className="Address-info">
           <h1 className="create-profile">Create Address</h1>
+          <h2 className="sub-titt">*Do not necessarily fill, click continue Create Address registration!</h2>
           <div>
             <form>
               <input

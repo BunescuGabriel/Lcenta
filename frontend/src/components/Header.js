@@ -75,7 +75,6 @@ function Header() {
   }, []);
 
   // Efect pentru polling la datele utilizatorului
-  const [pollingInterval, setPollingInterval] = useState(null);
 
   useEffect(() => {
     const pollUserProfile = async () => {
@@ -127,13 +126,12 @@ function Header() {
       }
     }, 5000);
 
-    // Oprim polling-ul când componenta se demontează
     return () => {
       if (intervalId) {
         clearInterval(intervalId);
       }
     };
-  }, []); // Nu mai este nevoie să adăugați accessToken și userProfile aici
+  }, []);
 
   const toggleMenu = () => {
     setIsDropdownOpen(!isDropdownOpen);

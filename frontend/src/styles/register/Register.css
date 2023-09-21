@@ -1,6 +1,6 @@
 .register {
   max-width: 350px;
-  margin: 20px 403px 0 auto;
+  margin: 20px auto;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 20px;
@@ -11,8 +11,7 @@
 .register-title {
   font-size: 28px;
   margin-bottom: 10px;
-      text-align: center;
-
+  text-align: center;
 }
 
 .form-elementt {
@@ -23,9 +22,9 @@
 .label-register {
   display: block;
   font-size: 16px;
-    font-weight: bold;
+  font-weight: bold;
   margin-bottom: 4px;
-    margin-right: 22px;
+  margin-right: 22px;
   margin-left: 10px;
 }
 
@@ -39,8 +38,7 @@
   font-size: 16px;
 }
 
-/**/
-.password-togglee {
+.password-tog {
   cursor: pointer;
   position: relative;
   left: -15%;
@@ -51,11 +49,9 @@
   transition: color 0.3s ease-in-out; /* Adaugă o tranziție pentru schimbarea culorii */
 }
 
-.password-togglee.active {
+.password-tog.active {
   color: #ce0d0d;
 }
-
-
 
 .error {
   color: red;
@@ -70,7 +66,7 @@
   border: none;
   border-radius: 100px;
   cursor: pointer;
-    width: 86%;
+  width: 86%;
   margin-left: 10px;
 }
 
@@ -91,7 +87,7 @@
 
 .login-link a:hover {
   text-decoration: underline;
-    font-weight: normal;
+  font-weight: normal;
 }
 
 .login-link h1 {
@@ -99,7 +95,54 @@
   font-size: 16px;
 }
 
+/* Design responsiv pentru ecrane mai mici */
+@media (max-width: 368px) {
+  .register {
+    max-width: 100%;
+    margin: 20px 10px;
+  }
+
+  .input-register {
+    width: 100%;
+  }
+
+  .alert-success {
+    top: 5%;
+    max-width: 95%; /* Adjust the max-width for smaller screens */
+    width: 95%; /* Adjust the width for smaller screens */
+    margin-right: 100px;
+  }
+  .alert-error {
+    top: 5%;
+    max-width: 95%; /* Adjust the max-width for smaller screens */
+    width: 95%; /* Adjust the width for smaller screens */
+    /*margin-right: 100px;*/
+  }
+}
 
 
+.alert-error {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff3333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
 
-
+.alert-success {
+  position: fixed;
+  top: 110px;
+  left: 89%;
+  transform: translateX(-50%);
+  background-color: #33cc33;
+  color: white;
+  padding: 40px 100px;
+  border-radius: 25px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}

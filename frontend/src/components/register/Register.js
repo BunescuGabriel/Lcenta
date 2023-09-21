@@ -43,6 +43,23 @@ const Register = ({ onRegistrationSuccess }) => {
       setFormData({ ...formData, error: 'Passwords do not match' });
       return;
     }
+    if (!formData.email) {
+    alertError('Please enter your email.');
+    return;
+  }
+    if (!formData.username) {
+    alertError('Please enter your username.');
+    return;
+  }
+
+  if (!formData.password) {
+    alertError('Please enter your password.');
+    return;
+  }
+  if (!formData.confirm_password) {
+    alertError('Please enter your confirm password.');
+    return;
+  }
 
     axios
       .post('/register/', {
@@ -76,6 +93,19 @@ const Register = ({ onRegistrationSuccess }) => {
         }
       });
   };
+
+  const alertError = (message) => {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = 'alert-error';
+  alertDiv.textContent = message;
+
+  // Adăugați alertDiv în corpul documentului sau în altă parte corespunzătoare.
+  document.body.appendChild(alertDiv);
+
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 3000);
+};
 
   const { email, username, password, confirm_password, error } = formData;
   return (
@@ -116,7 +146,7 @@ const Register = ({ onRegistrationSuccess }) => {
             className="input-register"
           />
           <span
-            className={`password-togglee ${showPassword ? 'active' : ''}`}
+            className={`password-tog ${showPassword ? 'active' : ''}`}
             onClick={() => toggleShowPassword('password')}
           >
             {showPassword ? '👁' : '👁'}
@@ -133,7 +163,7 @@ const Register = ({ onRegistrationSuccess }) => {
             className="input-register"
           />
           <span
-            className={`password-togglee ${showConfirmPassword ? 'active' : ''}`}
+            className={`password-tog ${showConfirmPassword ? 'active' : ''}`}
             onClick={() => toggleShowPassword('confirm_password')}
           >
             {showConfirmPassword ? '👁' : '👁'}

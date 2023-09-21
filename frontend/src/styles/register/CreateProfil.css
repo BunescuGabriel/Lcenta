@@ -16,7 +16,13 @@
 .create-profile {
   font-size: 24px;
   margin-bottom: 20px;
-    text-align: center;
+  text-align: center;
+}
+.sub-tit {
+  font-size: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ef0404;
 }
 
 .form--input {
@@ -25,7 +31,7 @@
   margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 25px;
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .form---input {
@@ -35,20 +41,20 @@
   border: 1px solid #ccc;
   border-radius: 25px;
   margin-bottom: 15px;
-    margin-left: 20px;
+  margin-left: 20px;
 }
 
 .form--button {
   background-color: #007bff;
   color: #fff;
-    width: 94%;
+  width: 94%;
   padding: 10px 20px;
   border: none;
   border-radius: 25px;
   cursor: pointer;
   font-size: 16px;
-    margin-left: 20px;
-    margin-top: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
 }
 
 .form--button:hover {
@@ -60,8 +66,8 @@
   padding: 20px;
   text-align: center;
   cursor: pointer;
-    margin-left: 20px;
-    margin-right: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .avatar {
@@ -70,7 +76,35 @@
   margin-top: 10px;
 }
 
-/* Style Dropzone active state */
+/* Stil pentru starea activă a Dropzone */
 .avatarr-containerr.active {
   border: 2px dashed #007bff;
+}
+
+/* Design responsiv pentru ecrane mai mici */
+@media (max-width: 468px) {
+  .profile--container {
+    max-width: 100%;
+    margin: 20px 10px;
+  }
+
+  .form--input {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .form---input {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .form--button {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .avatarr-containerr {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }

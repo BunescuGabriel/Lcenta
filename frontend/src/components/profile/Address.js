@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import '../../styles/profile/Address.css';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCog} from "@fortawesome/free-solid-svg-icons";
 
 const Address = () => {
   const [userAddress, setuserAddress] = useState({
@@ -129,7 +131,8 @@ const Address = () => {
 
   return (
     <div className="address-container">
-      <div className="profile-container">
+      <div className="settings-panell">
+        </div>
         <div className="profile-info">
           <h1 className="address-title">User Address</h1>
           {loading ? (
@@ -201,7 +204,7 @@ const Address = () => {
             </div>
           )}
         </div>
-      </div>
+
     </div>
   );
 };

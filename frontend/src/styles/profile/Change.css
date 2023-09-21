@@ -8,7 +8,6 @@
 }
 
 .custom-form-c {
-
   background-color: #f0f0f0;
   padding: 30px;
   border-radius: 10px;
@@ -26,24 +25,25 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 100px;
-
 }
 
 .inputlabel {
   font-size: 16px;
   margin-bottom: 5px;
-    font-weight: bold;
+  font-weight: bold;
 }
 
-.password-toggle {
+.password-togglee {
   position: absolute;
   top: 68%;
   right: 4px;
+  left: 335px;
   transform: translateY(-50%);
+  color: #007bff;
   cursor: pointer;
 }
 
-.password-toggle.active {
+.password-togglee.active {
   color: #ce0d0d; /* Culoarea când este apăsat */
 }
 
@@ -61,8 +61,44 @@
   background-color: #0056b3;
 }
 
-/* Style for success and error messages */
+/* Stil pentru mesajele de succes și de eroare */
 p {
   margin-top: 10px;
   font-weight: bold;
+}
+
+/* Design responsiv pentru ecrane mai mici */
+@media (max-width: 368px) {
+  .custom-div-c {
+    height: auto;
+  }
+
+  .custom-form-c {
+    max-width: 100%;
+    margin: 20px 10px;
+  }
+
+  .input-wrapper {
+    margin-right: 0;
+  }
+
+   .alert-success {
+    top: 5%;
+    max-width: 95%; /* Adjust the max-width for smaller screens */
+    width: 95%; /* Adjust the width for smaller screens */
+    margin-right: 100px;
+  }
+}
+
+.alert-success {
+  position: fixed;
+  top: 110px;
+  left: 89%;
+  transform: translateX(-50%);
+  background-color: #33cc33;
+  color: white;
+  padding: 40px 100px;
+  border-radius: 25px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
 }

@@ -62,6 +62,7 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
       <div className="profile--container">
         <div className="profile--info">
           <h1 className="create-profile">Create Profile</h1>
+          <h2 className="sub-tit">*Do not necessarily fill, click continue Create Profile registration!</h2>
           <div>
             <form>
               <input

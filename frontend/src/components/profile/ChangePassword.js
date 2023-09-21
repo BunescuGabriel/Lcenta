@@ -69,16 +69,32 @@ const ChangePassword = () => {
       );
 
       console.log("Răspuns de la server:", response.data);
-      setMessage("Password changed successfully!");
+      // setMessage("Password changed successfully!");
       setError("");
 
-      navigate("/");
+      alertSuccess('Password changed successfully!');
+      setTimeout(() => {
+        navigate('/');
+      }, );
     } catch (error) {
       console.error("Eroare de la server:", error.response.data);
       setMessage("");
       setError(error.response.data[0] || "An error occurred.");
     }
   };
+
+
+  const alertSuccess = (message) => {
+  const alertDiv = document.createElement('div');
+  alertDiv.className = 'alert-success';
+  alertDiv.textContent = message;
+
+  document.body.appendChild(alertDiv);
+
+  setTimeout(() => {
+    alertDiv.remove();
+  }, 3000);
+};
 
   return (
     <div className="custom-div-c">
@@ -95,7 +111,7 @@ const ChangePassword = () => {
             className="input-element"
           />
          <span
-  className={`password-toggle ${showOldPassword ? "active" : ""}`}
+  className={`password-togglee ${showOldPassword ? "active" : ""}`}
   onClick={() => toggleShowPassword("old_password")}
 >
   {showOldPassword ? "👁" : "👁"}
@@ -114,7 +130,7 @@ const ChangePassword = () => {
             className="input-element"
           />
           <span
-  className={`password-toggle ${showNewPassword ? "active" : ""}`}
+  className={`password-togglee ${showNewPassword ? "active" : ""}`}
   onClick={() => toggleShowPassword("new_password")}
 >
   {showNewPassword ? "👁" : "👁"}
@@ -133,7 +149,7 @@ const ChangePassword = () => {
             className="input-element"
           />
           <span
-  className={`password-toggle ${showConfirmPassword ? "active" : ""}`}
+  className={`password-togglee ${showConfirmPassword ? "active" : ""}`}
   onClick={() => toggleShowPassword("confirm_new_password")}
 >
   {showConfirmPassword ? "👁" : "👁"}

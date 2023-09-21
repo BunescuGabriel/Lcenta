@@ -1,21 +1,20 @@
+/* Import fontul și definirea fontului de bază */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,200;0,300;0,700;1,500&display=swap');
 
+/* Stil de bază pentru corpul paginii */
 body {
-    font-family: 'Montserat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 16px;
 }
 
 /* Header Container */
-
-
 .header {
-  background-color: #09277a; /* Background color for the header */
-  color: #fff; /* Text color for the header */
-  padding: 40px 30px; /* Adjust padding as needed */
+  background-color: #09277a;
+  color: #fff;
+  padding: 30px 15px; /* Reducerea padding-ului pentru a se potrivi pe ecrane mai mici */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 22px;
   border-radius: 40px;
 }
 
@@ -27,19 +26,19 @@ nav ul {
 }
 
 .navigation-bar {
-  margin-left: 200px;
+  margin-left: 10px; /* Ajustați spațiul între antet și meniu */
 }
 
 nav ul li {
   display: inline;
-  margin-right: 20px; /* Adjust spacing between menu items */
+  margin-right: 10px; /* Reducerea spațiului între elementele de meniu */
 }
 
 nav ul li a {
   text-decoration: none;
-  color: #fff; /* Text color for menu items */
+  color: #fff;
   font-weight: bold;
-  font-size: 16px; /* Adjust font size as needed */
+  font-size: 14px; /* Reducerea dimensiunii fontului pentru ecrane mai mici */
 }
 
 /* User Menu */
@@ -51,30 +50,30 @@ nav ul li a {
 .avatar-circle {
   position: relative;
   cursor: pointer;
-  margin-left: 20px; /* Adjust spacing between menu and user avatar */
+  margin-left: 10px;
 }
 
 .avatar {
-  width: 50px; /* Adjust the avatar size */
-  height: 50px;
-  border-radius: 50%; /* Make it circular */
+  width: 40px; /* Reducerea dimensiunii avatarului pentru ecrane mai mici */
+  height: 40px;
+  border-radius: 50%;
   object-fit: cover;
 }
 
 .icon {
-  font-size: 24px; /* Adjust the icon size */
+  font-size: 20px; /* Reducerea dimensiunii iconului pentru ecrane mai mici */
 }
 
 .menu li {
-  font-size: 16px;
+  font-size: 14px; /* Reducerea dimensiunii fontului pentru ecrane mai mici */
   font-weight: bold;
   color: #333;
-  margin-bottom: 10px;
+  margin-bottom: 6px; /* Reducerea spațiului între elementele de meniu */
 }
 
 /* Stil pentru al doilea <li> cu clasă "user-name" */
 .menu.user-name {
-  font-size: 18px;
+  font-size: 16px; /* Reducerea dimensiunii fontului pentru ecrane mai mici */
   font-weight: normal;
   color: #007bff;
   text-decoration: underline;
@@ -85,33 +84,53 @@ nav ul li a {
   list-style-type: none;
   margin: 5px 0;
   border: 1px solid grey;
-  width: 160px;
+  width: 120px; /* Reducerea lățimii meniului pentru ecrane mai mici */
   background: linear-gradient(45deg, #007bff, #038109);
-  box-shadow: 0px 4px 6px rgba(1, 1, 5, 6); /* Add shadow for the dropdown */
-  padding: 20px;  /*marimea la meniul*/
+  box-shadow: 0px 4px 6px rgba(1, 1, 5, 6);
+  padding: 10px; /* Reducerea padding-ului pentru a se potrivi pe ecrane mai mici */
   text-align: left;
   right: -10px;
   border-radius: 8px;
 }
 
-
-
 .menu li:hover {
-  color: #007bff; /* Text color on hover */
-   background-color: #e0e0e0;
-
+  color: #007bff;
+  background-color: #e0e0e0;
 }
 
-/* Style for user name */
+/* Stil pentru numele utilizatorului */
 .menu li:first-child {
   font-weight: bold;
-
 }
 
+/* Stil pentru iconul coșului de cumpărături */
 .shopping-cart-icon {
-    align-items: center;
-    color: #FF5733;
-    font-size: 24px;
-    margin-right: 30px; /* Margin-left eliminat */
-    justify-content: space-around;
+  align-items: center;
+  color: #FF5733;
+  font-size: 20px; /* Reducerea dimensiunii iconului pentru ecrane mai mici */
+  margin-right: 30px; /* Ajustați marginile pentru a se potrivi pe ecrane mai mici */
+  justify-content: space-around;
+}
+
+/* Stil pentru meniul de navigare pe ecrane mici */
+@media (max-width: 300px) {
+  .header {
+    flex-direction: column; /* Afișați elementele de antet vertical pe ecrane mici */
+    align-items: flex-start; /* Afișați elementele de antet la începutul containerului pe ecrane mici */
+  }
+
+  .navigation-bar {
+    margin-top: 10px; /* Ajustați spațiul dintre meniu și antet pentru ecrane mici */
+    margin-left: 0; /* Eliminați margin-left pentru meniu pe ecrane mici */
+  }
+
+  nav ul li {
+    display: block; /* Afișați elementele de meniu vertical pe ecrane mici */
+    margin-right: 0; /* Eliminați margin-right pentru elementele de meniu pe ecrane mici */
+  }
+
+  nav ul li a {
+    font-size: 16px; /* Restabiliți dimensiunea fontului pentru ecrane mici */
+    margin-bottom: 10px; /* Ajustați spațiul dintre elementele de meniu pe ecrane mici */
+  }
 }
