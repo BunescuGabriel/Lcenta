@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from multiupload.fields import MultiFileField
+from users.models import Users
 
 
 class Banner(models.Model):
@@ -9,12 +9,18 @@ class Banner(models.Model):
     data = models.DateTimeField(auto_now_add=True, null=True)
     banner = models.ImageField(upload_to="banner/")
 
+    def __str__(self):
+        return f" {self.name_banner}"
+
 
 class Servicii(models.Model):
 
     name_servicii = models.CharField(max_length=150, null=True)
     data = models.DateTimeField(auto_now_add=True, null=True)
     servicii = models.ImageField(upload_to="servicii/", null=True)
+
+    def __str__(self):
+        return f" {self.name_servicii}"
 
 
 class Produs(models.Model):
@@ -120,9 +126,53 @@ class Produs(models.Model):
         choices=CAPACITATE_CHOICES,
         default=1.0  # Valoarea implicită
     )
+    total_rating = models.FloatField(default=0.0)
+    total_votes = models.PositiveIntegerField(default=0)
+
+    # Metoda pentru a actualiza rating-ul total al produsului
+    def update_total_rating(self):
+        ratings = Rating.objects.filter(produs=self)
+        total_rating = sum(rating.rating for rating in ratings)
+        total_votes = ratings.count()
+        if total_votes > 0:
+            self.total_rating = round(total_rating / total_votes, 2)
+        else:
+            self.total_rating = 0.0
+        self.total_votes = total_votes
+        self.save()
+
+    def __str__(self):
+        return f" {self.name}"
 
 
 class Images(models.Model):
     produs = models.ForeignKey(Produs, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(upload_to="car/", max_length=100, null=True, default='')
+
+
+class Rating(models.Model):
+    rating = models.PositiveIntegerField()
+    produs = models.ForeignKey(Produs, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Rating {self.rating} for {self.produs.name} by {self.user.username}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.produs.update_total_rating()  # Apelăm metoda update_total_rating pentru a actualiza rating-ul total
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        self.produs.update_total_rating()  # Actualizăm rating-ul total după ștergere
+
+
+class Comments(models.Model):
+    comment = models.TextField()
+    produs = models.ForeignKey(Produs, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Rating of {self.comment} for {self.produs.name} by {self.user.username}"
+
 

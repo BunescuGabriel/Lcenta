@@ -88,10 +88,6 @@ class AddressList(generics.ListCreateAPIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-from rest_framework import status
-from rest_framework.response import Response
-from .models import Profiles
-
 class CreateProfile(generics.CreateAPIView):
     queryset = Profiles.objects.all()
     serializer_class = ProfilesSerializer
@@ -133,8 +129,6 @@ class CreateProfile(generics.CreateAPIView):
             gender=gender,
             avatar=avatar
         )
-
-
 
 
 class ProfilesList(generics.ListCreateAPIView):

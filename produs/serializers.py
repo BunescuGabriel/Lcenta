@@ -14,12 +14,6 @@ class ServiciiSerializer(serializers.ModelSerializer):
         model = models.Servicii
         fields = '__all__'
 
-
-# class ProdusSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = models.Produs
-#         fields = '__all__'
-
 class ImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Images
@@ -53,5 +47,22 @@ class ProdusSerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 
+class CommentsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Comments
+        # fields = '__all__'
+        fields = ['comment', 'produs', 'user_id']
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Rating
+        fields = ['rating', 'produs', 'user_id']
+
+    def create(self, validated_data):
+        produs = validated_data.pop('produs')
+        user = validated_data.pop('user')
+        rating = models.Rating.objects.create(produs=produs, user=user, **validated_data)
+        produs.update_total_rating()  # Actualizăm rating-ul total al produsului
+        return rating
 
 

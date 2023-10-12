@@ -1,11 +1,13 @@
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.http import Http404
 from rest_framework import status, generics
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Banner, Servicii, Produs
-from .serializers import BannerSerializer, ServiciiSerializer, ProdusSerializer
+from .models import Banner, Servicii, Produs, Comments, Rating
+from .serializers import BannerSerializer, ServiciiSerializer, ProdusSerializer, CommentsSerializer, RatingSerializer
 from PIL import Image
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from users.models import  UserToken
 
 
 class CreateBanner(generics.ListCreateAPIView):
@@ -167,7 +169,6 @@ class DeleteProdus(generics.RetrieveDestroyAPIView):
         return self.retrieve(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
-            # Șterge toate imaginile asociate produsului
         instance.images.all().delete()
         instance.delete() # Șterge obiectul banner din baza de date
 
@@ -176,3 +177,74 @@ class DeleteProdus(generics.RetrieveDestroyAPIView):
             return self.queryset.get(pk=self.kwargs['pk'])
         except ObjectDoesNotExist:
             raise Http404
+
+
+class AddCommentView(generics.CreateAPIView):
+    queryset = Comments.objects.all()
+    serializer_class = CommentsSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                # Utilizatorul a făcut logout, refuză adăugarea comentariilor
+                raise PermissionDenied("Nu puteți adăuga comentarii după ce ați făcut logout.")
+            serializer.save(user=user)
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("Utilizatorul nu există sau a fost șters.")
+
+
+class DeleteGetCommentView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Comments.objects.all()
+    serializer_class = CommentsSerializer
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+
+class ProductCommentsView(generics.ListAPIView):
+    serializer_class = CommentsSerializer
+
+    def get_queryset(self):
+        # Obține id-ul produsului din cerere
+        product_id = self.kwargs['product_id']
+
+        # Returnează toate comentariile pentru produsul dat
+        return Comments.objects.filter(produs_id=product_id)
+
+
+class CreateRatingView(generics.CreateAPIView):
+    serializer_class = RatingSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        produs = serializer.validated_data.get('produs')
+        # Verificăm dacă utilizatorul a evaluat deja acest produs
+        existing_rating = Rating.objects.filter(user=user, produs=produs).first()
+        if existing_rating:
+            # Utilizatorul a evaluat deja acest produs, așa că actualizăm ratingul existent
+            existing_rating.rating = serializer.validated_data['rating']
+            existing_rating.save()
+        else:
+            serializer.save(user=user)
+
+
+class DeleteRatingView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+
+    def perform_destroy(self, instance):
+        instance.delete()
+
+
+class ProductRatingsView(generics.ListAPIView):
+    serializer_class = RatingSerializer
+
+    def get_queryset(self):
+        product_id = self.kwargs['product_id']
+
+        # Returnează toate comentariile pentru produsul dat
+        return Rating.objects.filter(produs_id=product_id)

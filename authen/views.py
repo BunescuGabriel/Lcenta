@@ -1,8 +1,6 @@
 from rest_framework import generics, response, status
-
 from authen import serializers
 from rest_framework import decorators
-
 from users import models
 import random
 import string
@@ -104,8 +102,6 @@ def resetpassword_view(request):
         msg = {'Password reset email sent successfully'}
         return response.Response(msg, status=status.HTTP_200_OK)
     return response.Response(status=status.HTTP_200_OK)
-
-
 
 
 @decorators.api_view(['PATCH'])
