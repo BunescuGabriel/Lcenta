@@ -221,6 +221,12 @@ class CreateRatingView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         user = self.request.user
+        # Verificați dacă utilizatorul a făcut logout
+        user_token = UserToken.objects.filter(user=user).first()
+        if user_token and user_token.logout_time is not None:
+                raise PermissionDenied("Nu puteți adăuga comentarii după ce ați făcut logout.")
+
+        #
         produs = serializer.validated_data.get('produs')
         # Verificăm dacă utilizatorul a evaluat deja acest produs
         existing_rating = Rating.objects.filter(user=user, produs=produs).first()

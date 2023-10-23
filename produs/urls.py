@@ -16,7 +16,6 @@ urlpatterns = [
 
 
     path('comments', AddCommentView.as_view()),
-    # path('comments/<int:pk>', views.DeleteGetCommentView.as_view()),
     path('car/<int:produs_id>/comments/<int:pk>', views.DeleteGetCommentView.as_view()),
     path('comments-list/<int:product_id>', views.ProductCommentsView.as_view()),
 
