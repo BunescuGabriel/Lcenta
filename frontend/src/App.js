@@ -7,6 +7,9 @@ import LoginPage from "./pages/Login";
 import ChangePasswordPage from "./pages/ChangePasswordPages";
 import Logout from "./components/login/Logout";
 import Profile from "./pages/Profile";
+import CarDetail from "./pages/CarPage";
+import ProductList from "./components/produs/Car";
+import CarPage from "./pages/CarPage";
 
 
 function App() {
@@ -24,6 +27,10 @@ function App() {
 
               <Route path="/reset-password" element={<ResetPasswordPage />} />
               <Route path="/change-password" element={<ChangePasswordPage />} />
+
+              <Route path="/product/:id" element={<CarDetail />} />
+              <Route path="/car-page" element={<CarPage />} />
+
 
           </Routes>
       </div>
