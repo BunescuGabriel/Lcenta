@@ -11,4 +11,6 @@ urlpatterns = [
     path('create-profile', views.CreateProfile.as_view()),
     path('get-user-id-by-email/<str:email>/', GetUserIDByEmailView.as_view()),
 
+    path('profile/<int:user_id>/', views.UserProfileView.as_view()),
+
 ]

@@ -20,6 +20,8 @@ urlpatterns = [
     path('comments-list/<int:product_id>', views.ProductCommentsView.as_view()),
 
     path('ratings/', views.CreateRatingView.as_view()),
+    path('ratings/<int:produs_id>/', views.GetUserRatingView.as_view(),),
+
     path('car/<int:produs_id>/rating/<int:pk>', DeleteRatingView.as_view()),
     path('ratings-list/<int:product_id>', views.ProductRatingsView.as_view()),
 

@@ -161,3 +161,14 @@ class ProfilesList(generics.ListCreateAPIView):
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+class UserProfileView(generics.RetrieveAPIView):
+    serializer_class = ProfilesSerializer
+
+    def retrieve(self, request, user_id):
+        try:
+            profile = Profiles.objects.get(user_id=user_id)
+            serializer = self.get_serializer(profile)
+            return Response(serializer.data)
+        except Profiles.DoesNotExist:
+            return Response({'message': 'Profile not found'}, status=status.HTTP_404_NOT_FOUND)

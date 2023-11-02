@@ -1,0 +1,87 @@
+/* CarDetail.css */
+
+/* Container for the two columns */
+.car-detail {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+
+/* Individual columns */
+.column1 {
+  width: 48%; /* Adjust the width as needed */
+  padding: 10px;
+  background-color: rgba(240, 240, 240, 0.4);
+  /*border: 1px solid #ccc;*/
+  border-radius: 5px;
+}
+
+.additional-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.thumbnail-image {
+  max-width: 100px; /* Adjust the maximum width as needed */
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+
+
+.column2 {
+  width: 48%; /* Adjust the width as needed */
+  padding: 10px;
+  /*background-color: #f0f0f0;*/
+  border-radius: 5px;
+}
+
+.column-atribute {
+  width: 48%; /* Adjust the width as needed */
+  padding: 5px;
+  /*background-color: #f0f0f0;*/
+  /*border: 1px solid #ccc;*/
+  border-radius: 5px;
+}
+
+/* Image gallery styles */
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.image-gallery img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Text styles */
+.car-info {
+  font-size: 16px;
+}
+
+.car-info p {
+  margin: 8px 0;
+}
+
+/* FontAwesome icons */
+.car-info .fa-icon {
+  margin-right: 5px;
+}
+
+/* Description paragraph */
+.car-description {
+  margin: 20px 0;
+  font-style: italic;
+}
+
+/* Caroserie styles */
+.caroserie {
+  font-weight: bold;
+}

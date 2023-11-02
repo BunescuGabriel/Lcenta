@@ -124,7 +124,7 @@ class Produs(models.Model):
 
     capacitate_cilindrica = models.FloatField(
         choices=CAPACITATE_CHOICES,
-        default=1.0  # Valoarea implicită
+        default=1.0
     )
     total_rating = models.FloatField(default=0.0)
     total_votes = models.PositiveIntegerField(default=0)
@@ -171,6 +171,7 @@ class Comments(models.Model):
     comment = models.TextField()
     produs = models.ForeignKey(Produs, on_delete=models.CASCADE)
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Rating of {self.comment} for {self.produs.name} by {self.user.username}"

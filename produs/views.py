@@ -237,6 +237,18 @@ class CreateRatingView(generics.CreateAPIView):
         else:
             serializer.save(user=user)
 
+class GetUserRatingView(generics.RetrieveAPIView):
+    serializer_class = RatingSerializer
+    permission_classes = [IsAuthenticated]
+    queryset = Rating.objects.all()
+
+    def get_object(self):
+        user = self.request.user
+        user_token = UserToken.objects.filter(user=user).first()
+        if user_token and user_token.logout_time is not None:
+            raise PermissionDenied("Nu puteți adăuga comentarii după ce ați făcut logout.")
+        produs_id = self.kwargs['produs_id']  # Poate fi numele câmpului corect în funcție de cum e definit în model
+        return Rating.objects.filter(user=user, produs_id=produs_id).first()
 
 class DeleteRatingView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Rating.objects.all()
@@ -252,5 +264,4 @@ class ProductRatingsView(generics.ListAPIView):
     def get_queryset(self):
         product_id = self.kwargs['product_id']
 
-        # Returnează toate comentariile pentru produsul dat
         return Rating.objects.filter(produs_id=product_id)
