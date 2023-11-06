@@ -15,8 +15,6 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordToggleActive, setPasswordToggleActive] = useState(false);
 
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -24,68 +22,70 @@ function Login() {
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
-  setPasswordToggleActive(!passwordToggleActive);
+    setPasswordToggleActive(!passwordToggleActive);
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!formData.username) {
-    alertError('Please enter your username.');
-    return;
-  }
-
-  if (!formData.password) {
-    alertError('Please enter your password.');
-    return;
-  }
-
-  try {
-    const response = await axios.post('/login', formData);
-
-    if (response.status === 200) {
-      const data = response.data;
-      localStorage.setItem('accessToken', data.access_token);
-      console.log(localStorage);
-
-      alertSuccess('Login success!');
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
-    } else {
-      alertError('Invalid username or password.');
+    if (!formData.username) {
+      alertError('Please enter your username.');
+      return;
     }
-  } catch (error) {
-    // alertError('Login error: ' + error.message);
-    alertError('Incorect username or password.');
-  }
-};
 
-const alertSuccess = (message) => {
-  const alertDiv = document.createElement('div');
-  alertDiv.className = 'alert-success';
-  alertDiv.textContent = message;
+    if (!formData.password) {
+      alertError('Please enter your password.');
+      return;
+    }
 
-  document.body.appendChild(alertDiv);
+    try {
+      const response = await axios.post('/login', formData);
 
-  setTimeout(() => {
-    alertDiv.remove();
-  }, 3000);
-};
-const alertError = (message) => {
-  const alertDiv = document.createElement('div');
-  alertDiv.className = 'alert-error';
-  alertDiv.textContent = message;
+      if (response.status === 200) {
+        const data = response.data;
+        localStorage.setItem('accessToken', data.access_token);
+        console.log('is_superuser:', data.is_superuser);
 
-  // Adăugați alertDiv în corpul documentului sau în altă parte corespunzătoare.
-  document.body.appendChild(alertDiv);
+        if (data.is_superuser > 0) {
+          // Redirecționează utilizatorii cu grad mai mare de 0 la ruta protejată /admin
+          navigate('/admin');
+        } else {
+          alertSuccess('Login success!');
+          setTimeout(() => {
+            navigate('/');
+          }, 1000);
+        }
+      } else {
+        alertError('Invalid username or password.');
+      }
+    } catch (error) {
+      alertError('Incorrect username or password.');
+    }
+  };
 
-  setTimeout(() => {
-    alertDiv.remove();
-  }, 3000);
-};
+  const alertSuccess = (message) => {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert-success';
+    alertDiv.textContent = message;
 
+    document.body.appendChild(alertDiv);
 
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 3000);
+  };
+
+  const alertError = (message) => {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = 'alert-error';
+    alertDiv.textContent = message;
+
+    document.body.appendChild(alertDiv);
+
+    setTimeout(() => {
+      alertDiv.remove();
+    }, 3000);
+  };
 
   return (
     <div className="login">
@@ -120,17 +120,17 @@ const alertError = (message) => {
               className="input-field"
             />
             <span
-  className={`password-toggle ${passwordToggleActive ? 'active' : ''}`}
-  onClick={toggleShowPassword}
->
-  {showPassword ? '👁' : '👁'}
-</span>
+              className={`password-toggle ${passwordToggleActive ? 'active' : ''}`}
+              onClick={toggleShowPassword}
+            >
+              {showPassword ? '👁' : '👁'}
+            </span>
           </div>
         </div>
         <button type="submit" className="login-button">Login</button>
       </form>
       <div className="register-link">
-        <h3>Don't have an account? <Link to="/register" className="register-link">Sing Up</Link></h3>
+        <h3>Don't have an account? <Link to="/register" className="register-link">Sign Up</Link></h3>
       </div>
     </div>
   );

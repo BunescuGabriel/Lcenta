@@ -13,22 +13,36 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = serializers.RegisterSerializer
 
 
-@decorators.api_view(['POST'])
+from django.utils import timezone
+from django.contrib.auth import authenticate
+from rest_framework.decorators import api_view
+
+@api_view(['POST'])
 def login_view(request):
-    # verificare email si parola
+    # Verificare email și parolă
     serializer = serializers.LoginSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
+    username_or_email = request.data['username']
+    password = request.data['password']
+
+    # Verificați dacă utilizatorul există
     try:
-        try:
-            user = models.Users.objects.get(username=request.data['username'])
-        except models.Users.DoesNotExist:
-            user = models.Users.objects.get(email=request.data['username'])
+        user = models.Users.objects.get(username=username_or_email)
     except models.Users.DoesNotExist:
-        msg = {'User does not exist'}
-        return response.Response(msg, status=status.HTTP_404_NOT_FOUND)
-    if user.check_password(request.data['password']) is False:
+        try:
+            user = models.Users.objects.get(email=username_or_email)
+        except models.Users.DoesNotExist:
+            msg = {'User does not exist'}
+            return response.Response(msg, status=status.HTTP_404_NOT_FOUND)
+
+    # Autentificare utilizator
+    user = authenticate(username=user.username, password=password)
+    if user is None:
         msg = {'Wrong password'}
         return response.Response(msg, status=status.HTTP_400_BAD_REQUEST)
+
+    # Obțineți gradul de is_superuser
+    is_superuser = user.is_superuser
 
     try:
         user_token = models.UserToken.objects.get(user_id=user.pk)
@@ -38,7 +52,7 @@ def login_view(request):
             user_id=user.pk,
             access_token=str(token.access_token),
             refresh_token=str(token),
-            created=datetime.now()
+            created=timezone.now()
         )
     else:
         if user_token.access_token is None or user_token.refresh_token is None:
@@ -46,20 +60,23 @@ def login_view(request):
             user_token.access_token = str(token.access_token)
             user_token.refresh_token = str(token)
             user_token.logout_time = None
-            user_token.created = datetime.now()
+            user_token.created = timezone.now()
 
             user_token.save(update_fields=['access_token', 'refresh_token', 'created', 'logout_time'])
 
-    user.last_login = datetime.now()
+    user.last_login = timezone.now()
     user.save(update_fields=['last_login'])
 
+    # Includeți is_superuser în răspuns
     data = {
         'user_id': user.pk,
         'username': user.username,
         'access_token': user_token.access_token,
+        'is_superuser': is_superuser  # Adăugați gradul de utilizator în răspuns
     }
     msg = {'Successfully login'}
     return response.Response(data=data, status=status.HTTP_200_OK)
+
 
 
 @decorators.api_view(['POST'])
