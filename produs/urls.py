@@ -16,13 +16,15 @@ urlpatterns = [
 
 
     path('comments', AddCommentView.as_view()),
+    path('car/<int:produs_id>/comments/', views.ListCreateCommentsView.as_view()),
     path('car/<int:produs_id>/comments/<int:pk>', views.DeleteGetCommentView.as_view()),
     path('comments-list/<int:product_id>', views.ProductCommentsView.as_view()),
 
     path('ratings/', views.CreateRatingView.as_view()),
     path('ratings/<int:produs_id>/', views.GetUserRatingView.as_view(),),
-
     path('car/<int:produs_id>/rating/<int:pk>', DeleteRatingView.as_view()),
     path('ratings-list/<int:product_id>', views.ProductRatingsView.as_view()),
+
+    path('car/<int:produs_id>/ratings/', views.ListCreateRatingView.as_view()),
 
 ]

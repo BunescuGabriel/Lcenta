@@ -194,8 +194,8 @@ const Profile = () => {
       </div>
 
       {showEditForm && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="modall">
+          <div className="modal-contentt">
             <h2 className="editt-title">Edit Profile:</h2>
             <form>
               <label htmlFor="first_name" className="form-label">First Name:</label>
@@ -246,9 +246,9 @@ const Profile = () => {
                 onChange={handleChange}
                 className="form-select"
               >
+                <option value="2">Not specified</option>
                 <option value="0">Male</option>
                 <option value="1">Female</option>
-                <option value="2">Not specified</option>
               </select>
               <Dropzone onDrop={handleImageUpload}>
                 {({ getRootProps, getInputProps }) => (

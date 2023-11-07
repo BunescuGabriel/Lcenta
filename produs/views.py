@@ -203,6 +203,19 @@ class DeleteGetCommentView(generics.RetrieveUpdateDestroyAPIView):
     def perform_destroy(self, instance):
         instance.delete()
 
+class ListCreateCommentsView(generics.ListCreateAPIView):
+    queryset = Comments.objects.all()
+    serializer_class = CommentsSerializer
+    # permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        produs_id = self.kwargs['produs_id']
+        return Comments.objects.filter(produs_id=produs_id)
+
+    def perform_create(self, serializer):
+        produs_id = self.kwargs['produs_id']
+        serializer.save(produs_id=produs_id)
+
 
 class ProductCommentsView(generics.ListAPIView):
     serializer_class = CommentsSerializer
@@ -265,3 +278,17 @@ class ProductRatingsView(generics.ListAPIView):
         product_id = self.kwargs['product_id']
 
         return Rating.objects.filter(produs_id=product_id)
+
+class ListCreateRatingView(generics.ListCreateAPIView):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+    # permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        produs_id = self.kwargs['produs_id']
+        return Rating.objects.filter(produs_id=produs_id)
+
+    def perform_create(self, serializer):
+        produs_id = self.kwargs['produs_id']
+        serializer.save(produs_id=produs_id)
+

@@ -51,12 +51,12 @@ class CommentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Comments
         # fields = '__all__'
-        fields = ['comment', 'produs', 'user_id', 'created_at']
+        fields = ['id', 'comment', 'produs', 'user_id', 'created_at']
 
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Rating
-        fields = ['rating', 'produs', 'user_id']
+        fields = ['id', 'rating', 'produs', 'user_id', 'create_da']
 
     def create(self, validated_data):
         produs = validated_data.pop('produs')

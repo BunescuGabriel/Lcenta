@@ -21,7 +21,7 @@ const ListRating = ({ productId }) => {
 
     const refreshInterval = setInterval(() => {
       fetchData(); // Reîmprospătăm datele la fiecare 5 secunde
-    }, 5000);
+    }, 1000);
 
     return () => {
       clearInterval(refreshInterval); // Oprim intervalul atunci când componenta se demontează

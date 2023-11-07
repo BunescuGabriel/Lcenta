@@ -154,6 +154,7 @@ class Rating(models.Model):
     rating = models.PositiveIntegerField()
     produs = models.ForeignKey(Produs, on_delete=models.CASCADE)
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    create_da = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Rating {self.rating} for {self.produs.name} by {self.user.username}"

@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // You need to install Axios
+import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 import '../../styles/produs/Comments.css';
 import { format } from 'date-fns';
 
-const ProductComments = ({ productId }) => {
+const DeleteComments = ({ productId }) => {
   const [comments, setComments] = useState([]);
+  const [userNames, setUserNames] = useState({});
 
   const fetchUserInfo = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/users/profile/${userId}/`); // Înlocuiți cu endpoint-ul corect pentru obținerea informațiilor despre utilizator
+      const response = await axios.get(`http://localhost:8000/api/users/profile/${userId}/`);
       return response.data;
     } catch (error) {
       console.error('Error fetching user info:', error);
@@ -20,24 +21,18 @@ const ProductComments = ({ productId }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/produs/comments-list/${productId}`);
+      const response = await axios.get(`http://localhost:8000/api/produs/car/${productId}/comments/`);
       setComments(response.data);
+      console.log(response)
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
   };
 
+
   useEffect(() => {
     fetchComments();
-
-    const refreshInterval = setInterval(fetchComments, 1000);
-
-    return () => {
-      clearInterval(refreshInterval);
-    };
   }, [productId]);
-
-  const [userNames, setUserNames] = useState({});
 
   useEffect(() => {
     const fetchUserNames = async () => {
@@ -60,10 +55,21 @@ const ProductComments = ({ productId }) => {
     }
   }, [comments]);
 
+  const handleDeleteComment = (commentId) => {
+    axios
+      .delete(`http://localhost:8000/api/produs/car/${productId}/comments/${commentId}`)
+      .then(() => {
+        fetchComments(); // Reîncărcați comentariile după ștergere
+      })
+      .catch((error) => {
+        console.error('Error deleting comment:', error);
+      });
+  };
+
   return (
     <div className="comments-container">
       <ul className="comments-list">
-        {comments.slice().reverse().map((comment) => (
+          {comments.slice().reverse().map((comment) => (
           <li key={comment.id} className="comment-item">
             <div className="user-info">
               {userNames[comment.user_id] ? (
@@ -87,6 +93,11 @@ const ProductComments = ({ productId }) => {
             <p className="comment-date">
               {format(new Date(comment.created_at), 'dd.MM.yyyy HH:mm')}
             </p>
+            <FontAwesomeIcon
+              icon={faTimes}
+              className="deletee-icon"
+              onClick={() => handleDeleteComment(comment.id)} // Folosiți comment.id pentru ștergere
+            />
           </li>
         ))}
       </ul>
@@ -94,4 +105,4 @@ const ProductComments = ({ productId }) => {
   );
 };
 
-export default ProductComments;
+export default DeleteComments;
