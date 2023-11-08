@@ -8,134 +8,99 @@ import '../styles/Header.css';
 function Header() {
   const [loading, setLoading] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const [userProfile, setUserProfile] = useState({
     first_name: '',
     last_name: '',
     avatar: '',
   });
-
+  const [userIsSuperUser, setUserIsSuperUser] = useState(false);
   const accessToken = localStorage.getItem('accessToken');
+  const menuRef = useRef(null);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.status === 200 && response.data.length > 0) {
+        const user = response.data[0];
+        const updatedUserProfile = {
+          first_name: user.first_name,
+          last_name: user.last_name,
+          avatar: user.avatar,
+        };
+
+        if (
+          userProfile.first_name !== updatedUserProfile.first_name ||
+          userProfile.last_name !== updatedUserProfile.last_name ||
+          userProfile.avatar !== updatedUserProfile.avatar
+        ) {
+          setUserProfile(updatedUserProfile);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
+  const fetchUserAccess = async () => {
+    try {
+      const storedAccessToken = localStorage.getItem('accessToken');
+      if (storedAccessToken) {
+        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${storedAccessToken}`,
+          },
+        });
+        if (response.status === 200 && response.data.length > 0) {
+          const user = response.data[0];
+          if (user.user && user.user.email) {
+            const userEmail = user.user.email;
+            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            setUserIsSuperUser(userResponse.data.is_superuser > 0);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user access:', error);
+    }
+  };
+
+  const toggleMenu = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserAccess();
+  }, []);
 
   useEffect(() => {
     if (accessToken) {
-      const loadData = async () => {
-        try {
-          const userProfileResponse = await axios.get(
-            'http://localhost:8000/api/users/users-profile',
-            {
-              headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
-
-          if (
-            userProfileResponse.status === 200 &&
-            userProfileResponse.data.length > 0
-          ) {
-            const user = userProfileResponse.data[0];
-            setUserProfile({
-              first_name: user.first_name,
-              last_name: user.last_name,
-              avatar: user.avatar,
-            });
-            setLoading(false);
-          } else {
-            console.error('Error loading data:', userProfileResponse);
-            setLoading(false);
-          }
-        } catch (error) {
-          console.error('Error loading data:', error);
-          setLoading(false);
-        }
-      };
-
-      loadData();
+      fetchUserData();
+      setLoading(false);
     } else {
       setLoading(false);
     }
   }, [accessToken]);
 
-  const menuRef = useRef(null);
-
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        setIsDropdownOpen(false);
-      }
-    };
-
     document.addEventListener('click', handleClickOutside);
 
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
-
-  // Efect pentru polling la datele utilizatorului
-
-  useEffect(() => {
-    const pollUserProfile = async () => {
-      try {
-        const userProfileResponse = await axios.get(
-          'http://localhost:8000/api/users/users-profile',
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
-
-        if (
-          userProfileResponse.status === 200 &&
-          userProfileResponse.data.length > 0
-        ) {
-          const user = userProfileResponse.data[0];
-          const updatedUserProfile = {
-            first_name: user.first_name,
-            last_name: user.last_name,
-            avatar: user.avatar,
-          };
-
-          // Verificăm dacă datele utilizatorului s-au schimbat
-          if (
-            userProfile.first_name !== updatedUserProfile.first_name ||
-            userProfile.last_name !== updatedUserProfile.last_name ||
-            userProfile.avatar !== updatedUserProfile.avatar
-          ) {
-            // Dacă s-au schimbat, actualizăm starea
-            setUserProfile(updatedUserProfile);
-          }
-        }
-      } catch (error) {
-        console.error('Error polling data:', error);
-      }
-    };
-
-    // Pornim polling-ul la un interval de 5 secunde
-    const intervalId = setInterval(() => {
-      // Verificăm dacă utilizatorul a făcut logout între timp
-      if (!localStorage.getItem('accessToken')) {
-        clearInterval(intervalId); // Oprim polling-ul
-        setUserProfile({ first_name: '', last_name: '', avatar: '' }); // Resetăm datele utilizatorului
-      } else {
-        pollUserProfile(); // Efectuăm polling-ul normal
-      }
-    }, 5000);
-
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, []);
-
-  const toggleMenu = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
 
   return (
     <header className={`header`}>
@@ -144,25 +109,16 @@ function Header() {
           <li><a href="/">Home</a></li>
           <li><a href="/despre">About</a></li>
           <li><a href="/contact">Contact</a></li>
+          {userIsSuperUser && <li><a href="/admin">Admin</a></li>}
         </ul>
       </nav>
       <div className="user-menu">
-        <FontAwesomeIcon icon={faShoppingCart} className="shopping-cart-icon" />
-
         {accessToken ? (
           <div className="avatar-circle" onClick={toggleMenu} ref={menuRef}>
             {userProfile.avatar ? (
-              <img
-                src={userProfile.avatar}
-                alt="Avatar"
-                className="avatar"
-                key={userProfile.avatar}
-              />
+              <img src={userProfile.avatar} alt="Avatar" className="avatar" key={userProfile.avatar} />
             ) : (
-              <FontAwesomeIcon
-                icon={faUser}
-                className="icon"
-              />
+              <FontAwesomeIcon icon={faUser} className="icon" />
             )}
             {isDropdownOpen && (
               <ul className="menu">
