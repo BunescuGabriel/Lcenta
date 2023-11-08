@@ -7,15 +7,14 @@ import string
 from django.core.mail import send_mail
 from rest_framework_simplejwt.tokens import RefreshToken
 from datetime import datetime
+from django.utils import timezone
+from django.contrib.auth import authenticate
+from rest_framework.decorators import api_view
 
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = serializers.RegisterSerializer
 
-
-from django.utils import timezone
-from django.contrib.auth import authenticate
-from rest_framework.decorators import api_view
 
 @api_view(['POST'])
 def login_view(request):
@@ -75,8 +74,7 @@ def login_view(request):
         'is_superuser': is_superuser  # Adăugați gradul de utilizator în răspuns
     }
     msg = {'Successfully login'}
-    return response.Response(data=data, status=status.HTTP_200_OK)
-
+    return response.Response( data=data, status=status.HTTP_200_OK)
 
 
 @decorators.api_view(['POST'])

@@ -5,10 +5,11 @@ from . import serializers, models
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views import View
-from .models import Users, Profiles, Address
+from .models import Users, Profiles, Address, UserToken
 from .serializers import AddressSerializer, ProfilesSerializer
 from PIL import Image
-
+from rest_framework.exceptions import PermissionDenied
+from django.http import Http404
 
 
 class UserList(generics.ListCreateAPIView):
@@ -16,16 +17,46 @@ class UserList(generics.ListCreateAPIView):
     serializer_class = serializers.UserSerializer
 
 
+# class UserDetaliedView(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = models.Users.objects.all()
+#     serializer_class = serializers.UserSerializer
+#
+
+
 class UserDetaliedView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Users.objects.all()
     serializer_class = serializers.UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_destroy(self, instance):
+        user = self.request.user
+
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                raise PermissionDenied("Nu puteți șterge bannere după ce ați făcut logout.")
+
+            # Verificați dacă utilizatorul are is_superuser mai mare ca 0
+            if user.is_superuser > 0:
+                instance.delete()  # Șterge banner-ul
+            else:
+                raise PermissionDenied("Nu aveți permisiunea de a șterge bannere.")
+
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("User token does not exist or has been deleted.")
+
+    def get_object(self):
+        try:
+            return self.queryset.get(pk=self.kwargs['pk'])
+        except Users.DoesNotExist:
+            raise Http404
 
 
 class GetUserIDByEmailView(View):
     def get(self, request, email):
         try:
             user = get_object_or_404(Users, email=email)
-            return JsonResponse({'user_id': user.id})
+            return JsonResponse({'user_id': user.id, 'is_superuser': user.is_superuser})
         except Users.DoesNotExist:
             return JsonResponse({'error': 'User not found'}, status=404)
 

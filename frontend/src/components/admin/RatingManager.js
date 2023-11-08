@@ -6,7 +6,7 @@ import '../../styles/produs/Car.css';
 import '../../styles/admin/CommentsMana.css';
 import DeleteRating from "./DeleteRating";
 
-const RatingManager = () => {
+const RatingsManager = () => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -88,4 +88,4 @@ const RatingManager = () => {
   );
 };
 
-export default RatingManager;
+export default RatingsManager;

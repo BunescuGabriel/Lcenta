@@ -1,6 +1,5 @@
 from produs import models
 from rest_framework import serializers
-from django import forms
 
 
 class BannerSerializer(serializers.ModelSerializer):
@@ -8,11 +7,6 @@ class BannerSerializer(serializers.ModelSerializer):
         model = models.Banner
         fields = '__all__'
 
-
-class ServiciiSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Servicii
-        fields = '__all__'
 
 class ImagesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,7 +20,7 @@ class ProdusSerializer(serializers.ModelSerializer):
     uploaded_images = serializers.ListField(
         child=serializers.ImageField(max_length=1000, allow_empty_file=False, use_url=False),
         write_only=True,
-        required=False  # Faceți câmpul opțional pentru cererile PATCH
+        required=False
     )
 
     class Meta:
@@ -53,6 +47,7 @@ class CommentsSerializer(serializers.ModelSerializer):
         # fields = '__all__'
         fields = ['id', 'comment', 'produs', 'user_id', 'created_at']
 
+
 class RatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Rating
@@ -62,7 +57,7 @@ class RatingSerializer(serializers.ModelSerializer):
         produs = validated_data.pop('produs')
         user = validated_data.pop('user')
         rating = models.Rating.objects.create(produs=produs, user=user, **validated_data)
-        produs.update_total_rating()  # Actualizăm rating-ul total al produsului
+        produs.update_total_rating()
         return rating
 
 

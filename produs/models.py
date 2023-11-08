@@ -13,23 +13,13 @@ class Banner(models.Model):
         return f" {self.name_banner}"
 
 
-class Servicii(models.Model):
-
-    name_servicii = models.CharField(max_length=150, null=True)
-    data = models.DateTimeField(auto_now_add=True, null=True)
-    servicii = models.ImageField(upload_to="servicii/", null=True)
-
-    def __str__(self):
-        return f" {self.name_servicii}"
-
-
 class Produs(models.Model):
     name = models.CharField(max_length=150)
     producator = models.CharField(max_length=150)
 
     MANUAL = 0
     AUTOMAT = 1
-    NOT_SPECIFIED_CUTIE = 2  # Redenumit pentru a evita redefinirea
+    NOT_SPECIFIED_CUTIE = 2
     CUTIE_CHOICES = [
         (MANUAL, 'Manual'),
         (AUTOMAT, 'Automat'),
@@ -44,7 +34,7 @@ class Produs(models.Model):
     ELECTRIC = 3
     PETROL_HYBRID = 4
     PETROL_GAZ = 5
-    NOT_SPECIFIED_MOTOR = 6  # Redenumit pentru a evita redefinirea
+    NOT_SPECIFIED_MOTOR = 6
     MOTOR_CHOICES = [
         (DIESEL, 'Diesel'),
         (HYBRID, 'Hybrid'),
@@ -63,7 +53,7 @@ class Produs(models.Model):
 
     TREI = 0
     CINCI = 1
-    NOT_SPECIFIED_USI = 2  # Redenumit pentru a evita redefinirea
+    NOT_SPECIFIED_USI = 2
     USI_CHOICES = [
         (TREI, '3'),
         (CINCI, '5'),
@@ -75,7 +65,7 @@ class Produs(models.Model):
     PATRU = 1
     CINCI = 2
     SAPTE = 3
-    NOT_SPECIFIED_PASAGERI = 4  # Redenumit pentru a evita redefinirea
+    NOT_SPECIFIED_PASAGERI = 4
     PASAGERI_CHOICES = [
         (DOI, '2'),
         (PATRU, '4'),
@@ -101,7 +91,7 @@ class Produs(models.Model):
     HATCHBACK = 10
     COMBI = 11
     COUPE = 12
-    NOT_SPECIFIED_CAROSERIE = 13  # Redenumit pentru a evita redefinirea
+    NOT_SPECIFIED_CAROSERIE = 13
     CAROSERIE_CHOICES = [
         (VAN, 'Van'),
         (UNIVERSAL, 'Universal'),
@@ -161,11 +151,11 @@ class Rating(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        self.produs.update_total_rating()  # Apelăm metoda update_total_rating pentru a actualiza rating-ul total
+        self.produs.update_total_rating()
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
-        self.produs.update_total_rating()  # Actualizăm rating-ul total după ștergere
+        self.produs.update_total_rating()
 
 
 class Comments(models.Model):

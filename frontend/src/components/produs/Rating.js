@@ -142,7 +142,6 @@ const Rating = ({ productId }) => {
 
   return (
     <div>
-      {/*{hasUserRated && <p>Ați evaluat produsul cu {rating} stele.</p>}*/}
       <div className="star-rating">
         {renderStars()}
       </div>

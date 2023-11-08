@@ -11,7 +11,6 @@ import CarPage from "./pages/CarPage";
 import AdminPage from "./pages/AdminPage";
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from "./components/admin/Admin";
-import Banners from "./pages/Banners";
 
 
 
@@ -37,8 +36,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
-          <Route path="/banners" element={<Banners />} />
       </Routes>
     </div>
   );

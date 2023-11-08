@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 const DeleteRating = ({ productId }) => {
   const [ratings, setRatings] = useState([]);
   const [userNames, setUserNames] = useState({});
+  const [userIsSuperUser, setUserIsSuperUser] = useState(false);
 
   const fetchUserInfo = async (userId) => {
     try {
@@ -19,11 +20,34 @@ const DeleteRating = ({ productId }) => {
     }
   };
 
+  const fetchUserAccess = async () => {
+    try {
+      const storedAccessToken = localStorage.getItem('accessToken');
+      if (storedAccessToken) {
+        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${storedAccessToken}`,
+          },
+        });
+        if (response.status === 200 && response.data.length > 0) {
+          const user = response.data[0];
+          if (user.user && user.user.email) {
+            const userEmail = user.user.email;
+            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            setUserIsSuperUser(userResponse.data.is_superuser > 0);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user access:', error);
+    }
+  };
+
   const fetchRatings = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/produs/car/${productId}/ratings/`);
+      const response = await axios.get(`http://localhost:8000/api/produs/ratings-list/${productId}`);
       setRatings(response.data);
-      // console.log(response);
     } catch (error) {
       console.error('Error fetching ratings:', error);
     }
@@ -31,6 +55,7 @@ const DeleteRating = ({ productId }) => {
 
   useEffect(() => {
     fetchRatings();
+    fetchUserAccess();
   }, [productId]);
 
   useEffect(() => {
@@ -55,14 +80,23 @@ const DeleteRating = ({ productId }) => {
   }, [ratings]);
 
   const handleDeleteRating = (ratingId) => {
-    axios
-      .delete(`http://localhost:8000/api/produs/car/${productId}/rating/${ratingId}`)
-      .then(() => {
-        fetchRatings();
-      })
-      .catch((error) => {
-        console.error('Error deleting rating:', error);
-      });
+    if (userIsSuperUser) {
+      axios
+        .delete(`http://localhost:8000/api/produs/car/${productId}/rating/${ratingId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then(() => {
+          fetchRatings();
+        })
+        .catch((error) => {
+          console.error('Error deleting rating:', error);
+        });
+    } else {
+      console.error('Permission denied: You are not a super user.');
+    }
   };
 
   return (

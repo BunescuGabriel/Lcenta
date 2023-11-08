@@ -4,8 +4,9 @@ import { faCog } from "@fortawesome/free-solid-svg-icons";
 import BannerManager from './BannerManager';
 import '../../styles/admin/SettingsA.css';
 import CommentsManager from "./CommentsManager";
-import RatingManager from "./RatingManager";
 import CarsManager from "./CarsManager";
+import RatingsManager from "./RatingManager";
+import UsersManager from "./UsersManager";
 
 const Meniul = () => {
   const [showBannerManager, setShowBannerManager] = useState(false);
@@ -62,7 +63,8 @@ const Meniul = () => {
         {showBannerManager && <BannerManager />}
         {showCarsManager && <CarsManager />}
         {showCommentsManager && <CommentsManager />}
-        {showRatingsManager && <RatingManager />}
+        {showRatingsManager && <RatingsManager />}
+        {showUsersManager && <UsersManager />}
       </div>
 
     </div>

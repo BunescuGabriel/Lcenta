@@ -1,0 +1,93 @@
+/* Stil pentru containerul principal */
+.users-manager-container {
+  width: 166%; /* Lățimea completă a containerului */
+  padding: 20px;
+  background-color: #f7f7f7;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-height: 600px; /* Ajustați înălțimea containerului la max-height pentru a face lista derulabilă */
+  overflow-y: auto; /* Face lista derulabilă dacă depășește înălțimea */
+  margin: 0 auto;
+}
+
+/* Stil pentru titlul listei de utilizatori */
+.users-manager-title {
+  font-size: 24px;
+  margin-bottom: 20px; /* Măriți spațiul dintre titlu și listă */
+}
+
+/* Stil pentru lista de utilizatori */
+.users-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Stil pentru fiecare element din lista de utilizatori */
+.user-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 20px; /* Măriți spațiul intern */
+  display: flex;
+  justify-content: space-between; /* Așezați elementele în interiorul fiecărui element din listă */
+  align-items: center; /* Așezați elementele pe verticală în centru */
+}
+
+/* Stil pentru numele de utilizator */
+.user-username {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Stil pentru numele, prenumele și avatarul utilizatorului */
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.user-name {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.avatara {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Stil pentru butonul de activare/dezactivare Superuser */
+.user-superuser-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+/* Stil pentru iconul de ștergere */
+.deleta-icon {
+  cursor: pointer;
+  font-size: 20px;
+  color: red;
+  margin-left: 10px;
+}
+
+/* Stil pentru utilizatorii cu statut Superuser */
+.user-superuser {
+  background-color: #28a745; /* Verde pentru Superuser */
+  color: #fff;
+}
+
+/* Stil pentru utilizatorii fără statut Superuser */
+.user-not-superuser {
+  background-color: #dc3545; /* Roșu pentru non-Superuser */
+  color: #fff;
+}

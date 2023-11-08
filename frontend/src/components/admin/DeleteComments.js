@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 const DeleteComments = ({ productId }) => {
   const [comments, setComments] = useState([]);
   const [userNames, setUserNames] = useState({});
+  const [userIsSuperUser, setUserIsSuperUser] = useState(false);
 
   const fetchUserInfo = async (userId) => {
     try {
@@ -19,19 +20,42 @@ const DeleteComments = ({ productId }) => {
     }
   };
 
+  const fetchUserAccess = async () => {
+    try {
+      const storedAccessToken = localStorage.getItem('accessToken');
+      if (storedAccessToken) {
+        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${storedAccessToken}`,
+          },
+        });
+        if (response.status === 200 && response.data.length > 0) {
+          const user = response.data[0];
+          if (user.user && user.user.email) {
+            const userEmail = user.user.email;
+            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            setUserIsSuperUser(userResponse.data.is_superuser > 0);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching user access:', error);
+    }
+  };
+
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/produs/car/${productId}/comments/`);
+      const response = await axios.get(`http://localhost:8000/api/produs/comments-list/${productId}`);
       setComments(response.data);
-      console.log(response)
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
   };
 
-
   useEffect(() => {
     fetchComments();
+    fetchUserAccess();
   }, [productId]);
 
   useEffect(() => {
@@ -56,15 +80,25 @@ const DeleteComments = ({ productId }) => {
   }, [comments]);
 
   const handleDeleteComment = (commentId) => {
+  if (userIsSuperUser) {
     axios
-      .delete(`http://localhost:8000/api/produs/car/${productId}/comments/${commentId}`)
+      .delete(`http://localhost:8000/api/produs/car/${productId}/comments/${commentId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      })
       .then(() => {
-        fetchComments(); // Reîncărcați comentariile după ștergere
+        fetchComments();
       })
       .catch((error) => {
         console.error('Error deleting comment:', error);
       });
-  };
+  } else {
+    console.error('Permission denied: You are not a super user.');
+  }
+};
+
 
   return (
     <div className="comments-container">
