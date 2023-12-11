@@ -139,13 +139,13 @@ class DeleteGetCommentView(generics.RetrieveUpdateDestroyAPIView):
         try:
             user_token = UserToken.objects.get(user=user)
             if user_token.logout_time is not None:
-                raise PermissionDenied("Nu puteți șterge bannere după ce ați făcut logout.")
+                raise PermissionDenied("Nu puteți șterge comentariul după ce ați făcut logout.")
 
             # Verificați dacă utilizatorul are is_superuser mai mare ca 0
             if user.is_superuser > 0:
                 instance.delete()  # Șterge banner-ul
             else:
-                raise PermissionDenied("Nu aveți permisiunea de a șterge bannere.")
+                raise PermissionDenied("Nu aveți permisiunea de a șterge comentariul.")
 
         except UserToken.DoesNotExist:
             raise PermissionDenied("User token does not exist or has been deleted.")
@@ -186,7 +186,7 @@ class CreateRatingView(generics.CreateAPIView):
         user = self.request.user
         user_token = UserToken.objects.filter(user=user).first()
         if user_token and user_token.logout_time is not None:
-            raise PermissionDenied("Nu puteți adăuga comentarii după ce ați făcut logout.")
+            raise PermissionDenied("Nu puteți adăuga rating după ce ați făcut logout.")
 
         #
         produs = serializer.validated_data.get('produs')
@@ -207,7 +207,7 @@ class GetUserRatingView(generics.RetrieveAPIView):
         user = self.request.user
         user_token = UserToken.objects.filter(user=user).first()
         if user_token and user_token.logout_time is not None:
-            raise PermissionDenied("Nu puteți adăuga comentarii după ce ați făcut logout.")
+            raise PermissionDenied("Nu puteți adăuga rating după ce ați făcut logout.")
         produs_id = self.kwargs['produs_id']
         return Rating.objects.filter(user=user, produs_id=produs_id).first()
 
@@ -223,13 +223,13 @@ class DeleteRatingView(generics.RetrieveUpdateDestroyAPIView):
         try:
             user_token = UserToken.objects.get(user=user)
             if user_token.logout_time is not None:
-                raise PermissionDenied("Nu puteți șterge bannere după ce ați făcut logout.")
+                raise PermissionDenied("Nu puteți șterge rating după ce ați făcut logout.")
 
             # Verificați dacă utilizatorul are is_superuser mai mare ca 0
             if user.is_superuser > 0:
                 instance.delete()  # Șterge banner-ul
             else:
-                raise PermissionDenied("Nu aveți permisiunea de a șterge bannere.")
+                raise PermissionDenied("Nu aveți permisiunea de a șterge rating.")
 
         except UserToken.DoesNotExist:
             raise PermissionDenied("User token does not exist or has been deleted.")

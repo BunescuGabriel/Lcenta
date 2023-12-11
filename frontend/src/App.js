@@ -11,6 +11,7 @@ import CarPage from "./pages/CarPage";
 import AdminPage from "./pages/AdminPage";
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from "./components/admin/Admin";
+import ConditiiPage from "./pages/TermeniConditiiPage";
 
 
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/product/:id" element={<CarDetail />} />
         <Route path="/car-page" element={<CarPage />} />
+        <Route path="/conditii" element={<ConditiiPage />} />
 
         <Route
           path="/admin"

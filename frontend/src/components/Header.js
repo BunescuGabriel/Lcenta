@@ -129,7 +129,7 @@ function Header() {
         <ul>
           {/*<li><a href="/">Home</a></li>*/}
           <li><a href="/despre">About</a></li>
-          <li><a href="/contact">Contact</a></li>
+          <li><a href="/conditii">TERMENI ȘI CONDIȚII</a></li>
           {userIsSuperUser && <li><a href="/admin">Admin</a></li>}
 
         </ul>
