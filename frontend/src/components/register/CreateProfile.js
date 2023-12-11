@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Dropzone from 'react-dropzone';
 import '../../styles/register/CreateProfil.css';
+import {useNavigate} from "react-router-dom";
 
 const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
     gender: '2',
     avatar: null,
   });
+    const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -49,6 +52,8 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
       console.log('Profile created:', response.data);
       // Pasați user_id către funcția de succes
       onProfileCreationSuccess(response.data.user_id);
+      navigate('/login');
+
 
       // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce profilul a fost creat
     } catch (error) {

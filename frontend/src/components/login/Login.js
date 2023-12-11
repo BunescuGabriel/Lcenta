@@ -50,10 +50,7 @@ function Login() {
           // Redirecționează utilizatorii cu grad mai mare de 0 la ruta protejată /admin
           navigate('/admin');
         } else {
-          alertSuccess('Login success!');
-          setTimeout(() => {
             navigate('/');
-          }, 1000);
         }
       } else {
         alertError('Invalid username or password.');
@@ -61,18 +58,6 @@ function Login() {
     } catch (error) {
       alertError('Incorrect username or password.');
     }
-  };
-
-  const alertSuccess = (message) => {
-    const alertDiv = document.createElement('div');
-    alertDiv.className = 'alert-success';
-    alertDiv.textContent = message;
-
-    document.body.appendChild(alertDiv);
-
-    setTimeout(() => {
-      alertDiv.remove();
-    }, 3000);
   };
 
   const alertError = (message) => {

@@ -5,16 +5,18 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  height: 400px;
+  height: 500px;
+  border-radius: 5px;
+
   /*background-color: #e50707;*/
-  margin: 10px;
+  /*margin: 10px;*/
 
 }
 
 /* Stiluri pentru containerul banner-container (container pentru imagine) */
 .banner-container {
   flex: 0 0 100%;
-  width: 90%;
+  width: 100%;
   text-align: center;
 }
 
@@ -24,8 +26,8 @@
 }
 
 .banner-slide img {
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
 
 }
 
@@ -68,13 +70,13 @@
 }
 
 .arrow.left {
-  left: 70px;
+  left: 5px;
   border-right: 15px solid transparent; /* Adăugați border-right pentru săgeată la stânga */
   border-left: 20px solid #e50707; /* Adăugați border-left pentru săgeată la stânga */
 }
 
 .arrow.right {
-  right: 70px;
+  right: 10px;
   border-left: 15px solid transparent; /* Adăugați border-left pentru săgeată la dreapta */
   border-right: 20px solid #e50707; /* Adăugați border-right pentru săgeată la dreapta */
 }

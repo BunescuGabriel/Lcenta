@@ -38,50 +38,53 @@ const ProductList = () => {
   }
 
   return (
-    <Container>
-      <h2>Lista de Produse</h2>
-      <div className="product-list">
-        {products.map((product) => (
-          <Link to={`/product/${product.id}`} key={product.id}>
-            <Card style={{ cursor: "pointer" }} onClick={() => handleProductClick(product)} className="product-card">
-              <Card.Body>
-                {product.images.length > 0 && (
-                  <Image src={product.images[0].image} fluid />
-                )}
-                <Card.Title>
-                  {product.producator} {product.name}
-                </Card.Title>
-                <Card.Title>De la pretul €/Zi</Card.Title>
-                <Card.Title>
-                  <FontAwesomeIcon icon={faCar} /> An: {product.an}{" "}
-                  <FontAwesomeIcon icon={faCog} />{" "}
-                  {product.cutia === 0
-                    ? "Manual"
-                    : product.cutia === 1
-                    ? "Automat"
-                    : "Unspecified"}{" "}
-                  <FontAwesomeIcon icon={faGasPump} />{" "}
-                  {product.motor === 0
-                    ? "Diesel"
-                    : product.motor === 1
-                    ? "Hybrid"
-                    : product.motor === 2
-                    ? "Petrol"
-                    : product.motor === 3
-                    ? "Electric"
-                    : product.motor === 4
-                    ? "Petrol-Hybrid"
-                    : product.motor === 5
-                    ? "Petrol-Gaz"
-                    : "Unspecified"}
-                </Card.Title>
-              </Card.Body>
-            </Card>
-          </Link>
-        ))}
-      </div>
-    </Container>
-  );
+  <Container>
+    {/*<h2>Lista de Produse</h2>*/}
+    <div className="product-list">
+      {products.map((product) => (
+        <Link to={`/product/${product.id}`} key={product.id}>
+          <div
+            className="product-card"
+            onClick={() => handleProductClick(product)}
+          >
+            {product.images.length > 0 && (
+              <Image src={product.images[0].image} fluid className="product-image" />
+            )}
+            <div className="product-details">
+              <p className="product-name" style={{ textDecoration: 'none' }}>
+                {product.producator} {product.name}
+              </p>
+              <p className="product-price" >De la pretul {product.price1}€/Zi</p>
+              <p className="product-info">
+                <FontAwesomeIcon icon={faCar} style={{ color: 'red', fontSize: '18px' }} /> An: {product.an}{" "}
+                <FontAwesomeIcon icon={faCog} style={{ color: 'red', fontSize: '18px' }} />{" "}
+                {product.cutia === 0
+                  ? "Manual"
+                  : product.cutia === 1
+                  ? "Automat"
+                  : "Unspecified"}{" "}
+                <FontAwesomeIcon icon={faGasPump} style={{ color: 'red', fontSize: '18px' }} />{" "}
+                {product.motor === 0
+                  ? "Diesel"
+                  : product.motor === 1
+                  ? "Hybrid"
+                  : product.motor === 2
+                  ? "Petrol"
+                  : product.motor === 3
+                  ? "Electric"
+                  : product.motor === 4
+                  ? "Petrol-Hybrid"
+                  : product.motor === 5
+                  ? "Petrol-Gaz"
+                  : "Unspecified"}
+              </p>
+            </div>
+          </div>
+        </Link>
+      ))}
+    </div>
+  </Container>
+);
 };
 
 export default ProductList;

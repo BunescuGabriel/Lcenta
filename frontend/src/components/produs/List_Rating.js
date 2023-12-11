@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/produs/ListRating.css';
 
-const ListRating = ({ productId }) => {
+const ListRating = ({ productId, onUpdateTotalVotes   }) => {
   const [ratings, setRatings] = useState([]);
   const [ratingCounts, setRatingCounts] = useState([0, 0, 0, 0, 0]);
 
@@ -10,6 +10,7 @@ const ListRating = ({ productId }) => {
     axios.get(`http://localhost:8000/api/produs/ratings-list/${productId}`)
       .then(response => {
         setRatings(response.data);
+        onUpdateTotalVotes(response.data.length);
       })
       .catch(error => {
         console.error('Eroare la preluarea datelor:', error);
@@ -48,8 +49,8 @@ const ListRating = ({ productId }) => {
 
   return (
     <div className="list-rating-container">
-      <h1 className="list-rating-title">Ratings and Comments</h1>
-      <p>Total Votes: {ratings.length}</p>
+      <h1 className="list-rating-title">Ratings and Comments </h1>
+      {/*<p>Total Votes: {ratings.length}</p>*/}
       <ul className="list-rating-list">
         {ratingCounts.map((percentage, index) => (
           <li key={index} className="list-rating-item">

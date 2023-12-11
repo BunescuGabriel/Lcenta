@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
+import {  faUser,faGlobe, faClock  } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Header.css';
+import logo from '../images/logo.jpg';
+
 
 function Header() {
   const [loading, setLoading] = useState(true);
@@ -14,6 +16,7 @@ function Header() {
     avatar: '',
   });
   const [userIsSuperUser, setUserIsSuperUser] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const accessToken = localStorage.getItem('accessToken');
   const menuRef = useRef(null);
 
@@ -102,16 +105,58 @@ function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <header className={`header`}>
+    <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
+      <a href="/"><img src={logo} alt="Home" className="logo-img" /></a>
       <nav className="navigation-bar">
         <ul>
-          <li><a href="/">Home</a></li>
+          {/*<li><a href="/">Home</a></li>*/}
           <li><a href="/despre">About</a></li>
           <li><a href="/contact">Contact</a></li>
           {userIsSuperUser && <li><a href="/admin">Admin</a></li>}
+
         </ul>
       </nav>
+
+      <div className={"LOCAL-TIMING"}>
+        <span className="icon-globe"> &#127758;</span>
+          {/*  /!*<FontAwesomeIcon icon={faGlobe} className="icon-globe" />*!/*/}
+          <li className="horizontal-list">
+          <ul>
+            <li className={"abcc"}>Bălți</li>
+            <li className={"abc"}>Moldova</li>
+          </ul>
+        </li>
+      </div>
+        <div className={"LOCAL-TIMING"}>
+          <FontAwesomeIcon icon={faClock } className="icon-globe" />
+          <li className="horizontal-list">
+          <ul>
+            <li className={"abcc"}>Luni - Duminică</li>
+            <li className={"abc"}>24/24</li>
+          </ul>
+        </li>
+        </div>
+
+
+
       <div className="user-menu">
         {accessToken ? (
           <div className="avatar-circle" onClick={toggleMenu} ref={menuRef}>

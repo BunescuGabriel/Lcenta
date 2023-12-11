@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'produs',
     'multiupload',
+    'about',
 ]
 
 MIDDLEWARE = [
@@ -198,8 +199,8 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(hours=240),
 }
 
-EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = '6257188763291d'
-EMAIL_HOST_PASSWORD = '6f753aa84d179c'
 
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_HOST_USER = 'a0b68cb239e6d6'
+EMAIL_HOST_PASSWORD = 'd6d22fe26012ef'
 EMAIL_PORT = '2525'

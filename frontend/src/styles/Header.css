@@ -9,29 +9,44 @@ body {
 
 /* Header Container */
 .header {
-  background-color: #09277a;
+  /*background-color: #09277a;*/
+  background: linear-gradient(45deg, #007bff, #038109);
   color: #fff;
-  padding: 30px 15px; /* Reducerea padding-ului pentru a se potrivi pe ecrane mai mici */
+  padding:  15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 40px;
+  border-radius: 10px;
+  position: relative;
+  transition: top 0.3s ease-in-out;
+  /*width: 100%;*/
+}
+
+.header.scrolled {
+  /*top: -80px;*/
+  position: fixed;
+  z-index: 1000;
+  width: 97%;
+  left: 0;
+  top: 0;
+  /*margin-left: 8px;*/
 }
 
 /* Navigation Menu */
 nav ul {
   list-style-type: none;
   padding: 0;
-  margin: 12px;
+  /*margin: 12px;*/
 }
 
 .navigation-bar {
-  margin-left: 10px; /* Ajustați spațiul între antet și meniu */
+  /*margin-left: 10px; !* Ajustați spațiul între antet și meniu *!*/
 }
 
 nav ul li {
   display: inline;
-  margin-right: 10px; /* Reducerea spațiului între elementele de meniu */
+  align-content: center;
+  margin-right: 20px; /* Reducerea spațiului între elementele de meniu */
 }
 
 nav ul li a {
@@ -91,6 +106,7 @@ nav ul li a {
   text-align: left;
   right: -10px;
   border-radius: 8px;
+  z-index: 10;
 }
 
 .menu li:hover {
@@ -103,14 +119,7 @@ nav ul li a {
   font-weight: bold;
 }
 
-/* Stil pentru iconul coșului de cumpărături */
-.shopping-cart-icon {
-  align-items: center;
-  color: #FF5733;
-  font-size: 20px; /* Reducerea dimensiunii iconului pentru ecrane mai mici */
-  margin-right: 30px; /* Ajustați marginile pentru a se potrivi pe ecrane mai mici */
-  justify-content: space-around;
-}
+
 
 /* Stil pentru meniul de navigare pe ecrane mici */
 @media (max-width: 300px) {
@@ -134,3 +143,54 @@ nav ul li a {
     margin-bottom: 10px; /* Ajustați spațiul dintre elementele de meniu pe ecrane mici */
   }
 }
+.icon-globe{
+  font-size: 40px;
+  margin-left: 100px;
+}
+
+.LOCAL-TIMING{
+  margin-right: 154px;
+}
+
+
+.horizontal-list {
+  display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+}
+
+.horizontal-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.horizontal-list ul li {
+  margin-top: 10px;
+}
+
+.abcc{
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.abc{
+  font-size: 14px;
+}
+
+.logo-img {
+  width: 100px;
+  height: auto;
+  align-content: center;
+  border-radius: 30px;
+  margin-right: 10px;
+}
+
+
+
+
+
+
+

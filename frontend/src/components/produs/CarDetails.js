@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import '../../styles/produs/CarDetails.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-
+import { faStar, faStarHalf  } from "@fortawesome/free-solid-svg-icons";
 
 import {
     faCar,
@@ -20,12 +20,32 @@ import Rating from "./Rating";
 import ListRating from "./List_Rating";
 
 
-const CarDetail = () => {
+const CarDetail = ( ) => {
   const { id } = useParams();
   const [car, setCar] = useState(null);
 
   // Add a new state for the total_rating
   const [totalRating, setTotalRating] = useState(0);
+   const [totalVotes, setTotalVotes] = useState(0);
+
+  const renderStars = (rating) => {
+    const stars = [];
+    const totalStars = 5; // Numărul total de stele
+    const filledStars = Math.floor(rating); // Partea întreagă a rating-ului
+    const hasHalfStar = rating - filledStars !== 0; // Verificăm dacă avem jumătate de stea
+
+    // Generăm iconițele de stele colorate sau goale în funcție de valoarea rating-ului
+    for (let i = 0; i < totalStars; i++) {
+      if (i < filledStars) {
+        stars.push(<FontAwesomeIcon icon={faStar} key={i} color="#FFD700" />);
+      } else if (hasHalfStar && i === filledStars) {
+        stars.push(<FontAwesomeIcon icon={faStarHalf} key={i} color="#FFD700" />);
+      } else {
+        stars.push(<FontAwesomeIcon icon={faStar} key={i} color="#C0C0C0" />);
+      }
+    }
+    return stars;
+  };
 
   // Create a function to fetch the car data
   const fetchCarData = () => {
@@ -44,7 +64,6 @@ const CarDetail = () => {
     // Initial fetch when the component mounts
     fetchCarData();
 
-    // Set up an interval to periodically fetch data (e.g., every 30 seconds)
     const interval = setInterval(fetchCarData, 5000); // 30 seconds in milliseconds
 
     // Clean up the interval when the component unmounts
@@ -67,18 +86,40 @@ const CarDetail = () => {
       {car.images.map((image, index) => (
         <div key={index}>
           <img src={image.image} alt={`Image ${index}`} />
-          <p className="legend">{image.title}</p> {/* Adăugați un titlu pentru fiecare imagine, dacă doriți */}
         </div>
       ))}
     </Carousel>
         <Rating productId={id} />
-        <p className="car-info">{totalRating}</p>
+          <div className="container-rating-coment">
+            <div className="column-totalR">
+                <div className={"container-stars"}>
+                    <div className="column-totalRating">
+                        <p className="car-totalRating">{totalRating}</p>
+                    </div>
+                    <div className="star-icons">
+                        <div className={"renderStars"}>
+                            {renderStars(totalRating)}
+                        </div>
+                        <div className={"Votes"}>
+                          <p className={"vot"}>{totalVotes}</p>
+                        </div>
+                    </div>
+                </div>
 
-        <ListRating productId={id} />
+            </div>
+            <div className="column-Rating">
+                {/*<ListRating productId={id} />*/}
+
+                <ListRating productId={id} onUpdateTotalVotes={(votes) => setTotalVotes(votes)} />
+            </div>
+          </div>
+
+
+
       </div>
 
       <div className="column2">
-        <p className="car-info">
+        <p className="car-infoo">
           {car.producator} {car.name}
         </p>
 
@@ -135,7 +176,7 @@ const CarDetail = () => {
         <p className="car-info">
           <FontAwesomeIcon icon={faTachometerAlt} /> Limita de KM: {car.Limita_de_KM}
         </p>
-        <p className="caroserie">
+        <p className="car-info">
           <FontAwesomeIcon icon={faCarSide} /> Tip Caroserie: {car.caroserie === 0
             ? "Van"
             : car.caroserie === 1
@@ -167,6 +208,34 @@ const CarDetail = () => {
       </div>
     </div>
           <p className="car-description">{car.descriere}</p>
+
+          <div className="table-container">
+              <p className="car-Preturi">
+          Prețuri chirie auto
+        </p>
+  <table className="car-table">
+    <thead>
+      <tr>
+        <th>1-2 Zile</th>
+        <th>3-7 Zile</th>
+        <th>8-20 Zile</th>
+        <th>21-45 Zile</th>
+        <th>46+ Zile</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{car.price1} €</td>
+        <td>{car.price2} €</td>
+        <td>{car.price3} €</td>
+        <td>{car.price4} €</td>
+        <td>{car.price5} €</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
       </div>
     </div>
         <div>

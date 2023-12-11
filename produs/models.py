@@ -116,6 +116,12 @@ class Produs(models.Model):
         choices=CAPACITATE_CHOICES,
         default=1.0
     )
+    price1 = models.IntegerField()
+    price2 = models.IntegerField()
+    price3 = models.IntegerField()
+    price4 = models.IntegerField()
+    price5 = models.IntegerField()
+
     total_rating = models.FloatField(default=0.0)
     total_votes = models.PositiveIntegerField(default=0)
 

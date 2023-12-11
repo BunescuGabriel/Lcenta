@@ -44,7 +44,6 @@ const RatingsManager = () => {
 
   return (
     <Container>
-      <h2>Lista de Produse</h2>
       <div className="product-list">
         {products.map((product) => (
           <Card

@@ -30,11 +30,9 @@
   border-radius: 5px;
 }
 
-
-
 .column2 {
   width: 48%; /* Adjust the width as needed */
-  padding: 10px;
+  /*padding: 10px;*/
   /*background-color: #f0f0f0;*/
   border-radius: 5px;
 }
@@ -45,6 +43,7 @@
   /*background-color: #f0f0f0;*/
   /*border: 1px solid #ccc;*/
   border-radius: 5px;
+
 }
 
 /* Image gallery styles */
@@ -59,11 +58,17 @@
   height: auto;
   border: 1px solid #ddd;
   border-radius: 5px;
+
 }
 
 /* Text styles */
 .car-info {
   font-size: 16px;
+  color: #4b4848;
+}
+.car-infoo {
+  font-size: 40px;
+  margin-bottom: 10px;
 }
 
 .car-info p {
@@ -79,9 +84,108 @@
 .car-description {
   margin: 20px 0;
   font-style: italic;
+  font-size: 20px;
 }
 
-/* Caroserie styles */
-.caroserie {
-  font-weight: bold;
+
+
+.car-Preturi{
+  font-size: 24px;
+  margin-top: 20px;
 }
+
+
+.table-container {
+  margin-top: 20px;
+  overflow-x: auto;
+  border-radius: 5px;
+}
+
+.car-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #cbc7c7;
+}
+
+.car-table th {
+  /*background-color: #f2f2f2;*/
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #cbc7c7;
+  height: 36px;
+  width: 36px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Efect de ridicare */
+  /*transition: transform 0.3s ease-in-out; !* Tranzitie pentru transform *!*/
+}
+
+/*.car-table th:hover {*/
+/*  transform: scale(1.1); !* Mărește dimensiunea la evidențiere *!*/
+/*}*/
+
+.car-table td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #cbc7c7;
+  height: 36px;
+  width: 36px;
+  font-weight: bold;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Efect de ridicare */
+  /*transition: transform 0.3s ease-in-out; !* Tranzitie pentru transform *!*/
+}
+
+
+.container-rating-coment {
+  display: flex;
+}
+
+.column-totalR {
+  flex: 1;
+  display: flex;
+  justify-content: center; /* Aliniază conținutul pe mijloc pe axa orizontală */
+  align-items: center;
+}
+
+.column-Rating {
+  flex: 5;
+}
+
+.car-totalRating{
+  font-size: 50px;
+  color: #33cc33;
+  margin-bottom: 0;
+}
+
+.column-totalRating{
+  margin: 0;
+  display: flex;
+  flex-direction: column; /* Alinierea elementelor într-o coloană */
+  align-items: center;
+}
+
+.star-icons {
+  display: flex;
+  flex-direction: column; /* Alinierea elementelor într-o coloană */
+  align-items: center; /* Alinierea pe axa orizontală */
+}
+
+.star-icons .renderStars, .Votes {
+  margin: 5px 0; /* Spațiere între elementele din coloană */
+}
+
+.vot {
+  margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

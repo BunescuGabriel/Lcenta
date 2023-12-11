@@ -25,8 +25,8 @@ class CreateBanner(generics.ListCreateAPIView):
                 img = Image.open(banner)
                 if img.format not in ('JPEG', 'PNG'):
                     return Response({'banner': 'Invalid image format'}, status=status.HTTP_400_BAD_REQUEST)
-                if img.width > 1000 or img.height > 1000:
-                    return Response({'banner': 'Image dimensions are too large'}, status=status.HTTP_400_BAD_REQUEST)
+                # if img.width > 10000 or img.height > 10000:
+                #     return Response({'banner': 'Image dimensions are too large'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
                 return Response({'banner': 'Invalid image'}, status=status.HTTP_400_BAD_REQUEST)
 

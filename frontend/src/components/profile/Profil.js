@@ -91,9 +91,6 @@ const Profile = () => {
       if (response.status === 200) {
         loadData();
         setShowEditForm(false);
-        alertSuccess('Profile Update!');
-      setTimeout(() => {
-      }, );
       } else {
         // Tratați cazurile de eroare aici
       }
@@ -137,18 +134,6 @@ const Profile = () => {
       setLoading(false);
     }
   };
-
-  const alertSuccess = (message) => {
-  const alertDiv = document.createElement('div');
-  alertDiv.className = 'alert-success';
-  alertDiv.textContent = message;
-
-  document.body.appendChild(alertDiv);
-
-  setTimeout(() => {
-    alertDiv.remove();
-  }, 3000);
-};
 
   useEffect(() => {
     loadData();

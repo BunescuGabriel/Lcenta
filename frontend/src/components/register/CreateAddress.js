@@ -45,28 +45,12 @@ const CreateAddress = ({ userData }) => {
       );
 
       console.log('Address created:', response.data);
-      alertSuccess('Register success!');
-      setTimeout(() => {
         navigate('/login');
-      }, 1000);
-      // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce adresa a fost creată
     } catch (error) {
       console.error('Error creating address:', error.message);
       // Afișați un mesaj de eroare pentru utilizator
     }
   };
-
-  const alertSuccess = (message) => {
-  const alertDiv = document.createElement('div');
-  alertDiv.className = 'alert-success';
-  alertDiv.textContent = message;
-
-  document.body.appendChild(alertDiv);
-
-  setTimeout(() => {
-    alertDiv.remove();
-  }, 3000);
-};
 
   return (
     <div>
