@@ -60,4 +60,3 @@ class RatingSerializer(serializers.ModelSerializer):
         produs.update_total_rating()
         return rating
 
-

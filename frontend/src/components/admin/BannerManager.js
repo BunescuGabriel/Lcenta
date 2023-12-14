@@ -163,7 +163,7 @@ function BannerManager() {
 
       {isModalVisible && (
         <div className="modal">
-          <div className="modal-content">
+          <div className="modal-contentt">
             <h2>Add Banner</h2>
             <input
               type="text"

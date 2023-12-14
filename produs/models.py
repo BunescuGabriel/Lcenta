@@ -25,7 +25,6 @@ class Produs(models.Model):
         (AUTOMAT, 'Automat'),
         (NOT_SPECIFIED_CUTIE, 'Not specified'),
     ]
-
     cutia = models.IntegerField(choices=CUTIE_CHOICES, default=NOT_SPECIFIED_CUTIE)
 
     DIESEL = 0
@@ -45,11 +44,6 @@ class Produs(models.Model):
         (NOT_SPECIFIED_MOTOR, 'Not specified'),
     ]
     motor = models.IntegerField(choices=MOTOR_CHOICES, default=NOT_SPECIFIED_MOTOR)
-
-    current_year = datetime.date.today().year
-    start_year = 2000
-    AN_CHOICES = [(year, str(year)) for year in range(start_year, current_year + 1)]
-    an = models.IntegerField(choices=AN_CHOICES, default=current_year)
 
     TREI = 0
     CINCI = 1
@@ -110,12 +104,18 @@ class Produs(models.Model):
     ]
     caroserie = models.IntegerField(choices=CAROSERIE_CHOICES, default=NOT_SPECIFIED_CAROSERIE)
 
+    current_year = datetime.date.today().year
+    start_year = 2000
+    AN_CHOICES = [(year, str(year)) for year in range(start_year, current_year + 1)]
+    an = models.IntegerField(choices=AN_CHOICES, default=current_year)
+
     CAPACITATE_CHOICES = [(i / 10, str(i / 10)) for i in range(10, 41)]
 
     capacitate_cilindrica = models.FloatField(
         choices=CAPACITATE_CHOICES,
         default=1.0
     )
+
     price1 = models.IntegerField()
     price2 = models.IntegerField()
     price3 = models.IntegerField()
@@ -125,7 +125,6 @@ class Produs(models.Model):
     total_rating = models.FloatField(default=0.0)
     total_votes = models.PositiveIntegerField(default=0)
 
-    # Metoda pentru a actualiza rating-ul total al produsului
     def update_total_rating(self):
         ratings = Rating.objects.filter(produs=self)
         total_rating = sum(rating.rating for rating in ratings)

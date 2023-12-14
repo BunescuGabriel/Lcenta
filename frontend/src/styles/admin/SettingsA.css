@@ -54,3 +54,25 @@
 .control-button:hover {
   background-color: #0056b3;
 }
+
+
+.control-button-tt {
+  display: flex; /* Utilizăm Flexbox pentru alinierea orizontală */
+  flex-direction: column; /* Afișează butoanele într-o coloană */
+  align-items: center; /* Aliniem vertical butoanele și componenta */
+  gap: 10px; /* Spațiere între butoane */
+  margin-top: 10px; /* Adăugăm o margin-top pentru a separa butoanele de titlu */
+}
+
+.control-button-tc {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.control-button-tc:hover {
+  background-color: #0056b3;
+}

@@ -49,7 +49,7 @@
   z-index: 1;
 }
 
-.modal-content {
+.modal-contentt {
   background-color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.74);
   border-radius: 8px;
@@ -57,11 +57,11 @@
   text-align: center;
 }
 
-.modal-content h2 {
+.modal-contentt h2 {
   margin-bottom: 20px;
 }
 
-.modal-content input {
+.modal-contentt input {
   width: 90%;
   padding: 10px;
   margin: 10px 0;
@@ -69,7 +69,7 @@
   border-radius: 4px;
 }
 
-.modal-content button {
+.modal-contentt button {
   padding: 10px 20px;
   margin: 10px;
   background-color: #007bff;
@@ -79,7 +79,7 @@
   cursor: pointer;
 }
 
-.modal-content button:hover {
+.modal-contentt button:hover {
   background-color: #0056b3;
 }
 

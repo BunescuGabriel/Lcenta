@@ -1,0 +1,25 @@
+/* Style for custom modal */
+.custom-modal {
+  background-color: #fff; /* Background color */
+  padding: 20px; /* Adjust padding as needed */
+  border-radius: 8px;
+  position: fixed;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80%; /* Adjust the maximum width if needed */
+  width: 400px; /* Set the width of the modal */
+  max-height: 80%; /* Adjust the maximum height if needed */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds the height */
+}
+
+/* Style for modal components */
+.custom-modal .modal-header {
+  background-color: #0c0c0c;
+  border-bottom: none;
+}
+
+.custom-modal .modal-footer {
+  background-color: #f0f0f0;
+  border-top: none;
+}

@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from about.serializers import TerminiSerializer, ConditiiSerializer, DateContactSerializer, DescriereSerializer
@@ -30,7 +30,17 @@ class CreateTermini(ListCreateAPIView):
 
             # Verificați dacă utilizatorul are is_superuser mai mare ca 0
             if user.is_superuser > 0:
-                return super().create(request, *args, **kwargs)
+                # Înlocuiți valoarea textului doar dacă există în datele de intrare
+                text_value = request.data.get('text', None)
+                data = request.data.copy()
+                if text_value is None:
+                    data['text'] = None
+
+                serializer = self.get_serializer(data=data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                headers = self.get_success_headers(serializer.data)
+                return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
             else:
                 raise PermissionDenied("Nu aveți permisiunea de a crea termini.")
 
@@ -83,13 +93,23 @@ class ConditiiCreate(ListCreateAPIView):
         try:
             user_token = UserToken.objects.get(user=user)
             if user_token.logout_time is not None:
-                raise PermissionDenied("Nu puteți crea conditiile după ce ați făcut logout.")
+                raise PermissionDenied("Nu puteți crea termini după ce ați făcut logout.")
 
             # Verificați dacă utilizatorul are is_superuser mai mare ca 0
             if user.is_superuser > 0:
-                return super().create(request, *args, **kwargs)
+                # Înlocuiți valoarea textului doar dacă există în datele de intrare
+                text_value = request.data.get('text', None)
+                data = request.data.copy()
+                if text_value is None:
+                    data['text'] = None
+
+                serializer = self.get_serializer(data=data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                headers = self.get_success_headers(serializer.data)
+                return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
             else:
-                raise PermissionDenied("Nu aveți permisiunea de a crea conditiile.")
+                raise PermissionDenied("Nu aveți permisiunea de a crea termini.")
 
         except UserToken.DoesNotExist:
             raise PermissionDenied("User token does not exist or has been deleted.")

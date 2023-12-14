@@ -17,12 +17,6 @@ class UserList(generics.ListCreateAPIView):
     serializer_class = serializers.UserSerializer
 
 
-# class UserDetaliedView(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = models.Users.objects.all()
-#     serializer_class = serializers.UserSerializer
-#
-
-
 class UserDetaliedView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Users.objects.all()
     serializer_class = serializers.UserSerializer

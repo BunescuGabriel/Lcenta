@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../../styles/about/ConditiiComponent.css';
 
 const ConditiiComponent = () => {
   const [conditions, setConditions] = useState([]);
+  const [descriptions, setDescriptions] = useState({});
 
   useEffect(() => {
     // Fetch all conditions
@@ -14,8 +16,6 @@ const ConditiiComponent = () => {
         console.error('Error fetching conditions:', error);
       });
   }, []);
-
-  const [descriptions, setDescriptions] = useState({});
 
   useEffect(() => {
     // Fetch descriptions for each condition
@@ -34,20 +34,22 @@ const ConditiiComponent = () => {
   }, [conditions]);
 
   return (
-    <div>
-      <h2>Conditions</h2>
-      {conditions.map(condition => (
-        <div key={condition.id}>
-          <h3>{condition.titlu}</h3>
-          <h2>{condition.text}</h2>
+    <div className="conditii-container">
+      {/*<h2 className="conditii-heading">Condiții</h2>*/}
+      {conditions.map((condition, index) => (
+        <div className="condition-item" key={condition.id}>
+          <h3 className="condition-title">{`${romanize(index + 1)}. ${condition.titlu}`}</h3>
+          <p className="condition-text">{condition.text}</p>
           {descriptions[condition.id] ? (
-            <ul>
-              {descriptions[condition.id].map(description => (
-                <li key={description.id}>{description.descrierea}</li>
+            <ol className="description-list">
+              {descriptions[condition.id].map((description, idx) => (
+                <li className="description-item" key={description.id}>
+                  <span className="custom-counter">{`${idx + 1})`}</span>{description.descrierea}
+                </li>
               ))}
-            </ul>
+            </ol>
           ) : (
-            <p>Loading description...</p>
+            <p className="loading-description">Loading description...</p>
           )}
         </div>
       ))}
@@ -56,3 +58,21 @@ const ConditiiComponent = () => {
 };
 
 export default ConditiiComponent;
+
+function romanize(number) {
+  const romanNumerals = {
+    1: 'I',
+    2: 'II',
+    3: 'III',
+    4: 'IV',
+    5: 'V',
+    6: 'VI',
+    7: 'VII',
+    8: 'VIII',
+    9: 'IX',
+    10: 'X',
+  };
+
+  return romanNumerals[number] || number.toString();
+}
+

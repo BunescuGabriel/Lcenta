@@ -7,12 +7,22 @@ import CommentsManager from "./CommentsManager";
 import CarsManager from "./CarsManager";
 import RatingsManager from "./RatingManager";
 import UsersManager from "./UsersManager";
+import TermeniManager from "./TermeniManager";
+import ConditiiManager from "./ConditiManager";
+import CarsManagerr from "./CarCreate";
+import CarsCreate from "./CarCreate";
 
 const Meniul = () => {
   const [activeComponent, setActiveComponent] = useState(null);
 
   const showComponent = (componentName) => {
     setActiveComponent(componentName);
+  };
+
+  const [showList, setShowList] = useState(false);
+
+  const toggleList = () => {
+    setShowList(!showList);
   };
 
   return (
@@ -36,9 +46,25 @@ const Meniul = () => {
             <button className="control-button" onClick={() => showComponent('RatingsManager')}>
               Ratings
             </button>
+            {/*<button className="control-button" onClick={() => showComponent('CarsCreate')}>*/}
+            {/*  CarsCreate*/}
+            {/*</button>*/}
             <button className="control-button" onClick={() => showComponent('UsersManager')}>
               Users
             </button>
+            <button className="control-button" onClick={toggleList}>
+              Termeni și Condiții
+            </button>
+            {showList && (
+              <ul className="control-button-tt">
+                <button className="control-button-tc" onClick={() => showComponent('TermeniManager')}>
+                  Termeni
+                </button>
+                <button className="control-button-tc" onClick={() => showComponent('ConditiiManager')}>
+                  Condiții
+                </button>
+        </ul>
+      )}
           </div>
         </div>
       </div>
@@ -68,6 +94,14 @@ const Meniul = () => {
             </div>
           )
         }
+        {/*{*/}
+        {/*  activeComponent === 'CarsCreate' && (*/}
+        {/*    <div>*/}
+        {/*      <h1>Editarea Ratingului pentru un produs anumit!!</h1>*/}
+        {/*      <CarsCreate />*/}
+        {/*    </div>*/}
+        {/*  )*/}
+        {/*}*/}
         {
           activeComponent === 'UsersManager' && (
             <div>
@@ -76,10 +110,22 @@ const Meniul = () => {
             </div>
           )
         }
-        {/*{activeComponent === 'CarsManager' && <CarsManager />}*/}
-        {/*{activeComponent === 'CommentsManager' && <CommentsManager />}*/}
-        {/*{activeComponent === 'RatingsManager' && <RatingsManager />}*/}
-        {/*{activeComponent === 'UsersManager' && <UsersManager />}*/}
+        {
+          activeComponent === 'TermeniManager' && (
+            <div>
+              <h1>Editarea Termeni !!</h1>
+              <TermeniManager />
+            </div>
+          )
+        }
+        {
+          activeComponent === 'ConditiiManager' && (
+            <div>
+              <h1>Editarea Termeni !!</h1>
+              <ConditiiManager />
+            </div>
+          )
+        }
       </div>
     </div>
   );

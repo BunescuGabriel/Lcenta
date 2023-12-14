@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from .models import Banner, Produs, Comments, Rating
 from .serializers import BannerSerializer, ProdusSerializer, CommentsSerializer, RatingSerializer
 from PIL import Image
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from users.models import UserToken
 from rest_framework.exceptions import PermissionDenied
 
@@ -65,45 +65,124 @@ class DeleteBanner(generics.RetrieveDestroyAPIView):
             raise Http404
 
 
+class ListProdus(ListAPIView):
+    queryset = Produs.objects.all()
+    serializer_class = ProdusSerializer
+
+
 class CreateProdus(ListCreateAPIView):
     queryset = Produs.objects.all()
     serializer_class = ProdusSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                raise PermissionDenied("Nu puteți crea car după ce ați făcut logout.")
+
+            # Verificați dacă utilizatorul are is_superuser mai mare ca 0
+            if user.is_superuser > 0:
+                return super().create(request, *args, **kwargs)
+            else:
+                raise PermissionDenied("Nu aveți permisiunea de a crea car.")
+
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("User token does not exist or has been deleted.")
+
+    def get_object(self):
+        try:
+            return self.queryset.get(pk=self.kwargs['pk'])
+        except Produs.DoesNotExist:
+            raise Http404
 
 
 class UpdatePartialProdus(RetrieveUpdateAPIView):
     queryset = Produs.objects.all()
     serializer_class = ProdusSerializer
 
+
+class UpdateProdus(RetrieveUpdateDestroyAPIView):
+    queryset = Produs.objects.all()
+    serializer_class = ProdusSerializer
+    permission_classes = [IsAuthenticated]
+
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        user = self.request.user
 
-        if serializer.is_valid():
-            existing_images = instance.images.all()
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                raise PermissionDenied("You cannot delete a rating after logging out.")
 
-            uploaded_images = request.data.get('uploaded_images', [])
+            if user.is_superuser:
+                # Verificăm dacă există imagini încărcate în request.data
+                uploaded_images = request.data.get('uploaded_images', [])
 
-            for image in existing_images:
-                if image not in uploaded_images:
-                    image.delete()
+                serializer = self.get_serializer(instance, data=request.data, partial=True)
 
-            serializer.save()
+                if serializer.is_valid():
+                    # Dacă nu sunt imagini încărcate noi, actualizăm doar alte câmpuri
+                    if not uploaded_images:
+                        serializer.save()
+                    else:
+                        # Ștergem imaginile existente doar dacă sunt imagini noi încărcate
+                        instance.images.all().delete()
+                        serializer.save()
 
-            return Response(serializer.data)
+                    # Dacă există imagini noi, procesăm relația imaginilor
+                    existing_images = instance.images.all()
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    for image in existing_images:
+                        if image not in uploaded_images:
+                            image.delete()
+
+                    return Response(serializer.data)
+
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                raise PermissionDenied("You do not have permission to delete a rating.")
+
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("User token does not exist or has been deleted.")
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def get_object(self):
+        try:
+            return self.queryset.get(pk=self.kwargs['pk'])
+        except ObjectDoesNotExist:
+            raise Http404
 
 
 class DeleteProdus(generics.RetrieveDestroyAPIView):
     queryset = Produs.objects.all()
     serializer_class = ProdusSerializer
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
     def perform_destroy(self, instance):
-        instance.images.all().delete()
-        instance.delete()
+        user = self.request.user
+
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                raise PermissionDenied("Nu puteți șterge rating după ce ați făcut logout.")
+
+            if user.is_superuser > 0:
+                instance.images.all().delete()
+                instance.delete()
+            else:
+                raise PermissionDenied("Nu aveți permisiunea de a șterge rating.")
+
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("User token does not exist or has been deleted.")
 
     def get_object(self):
         try:
@@ -155,18 +234,6 @@ class DeleteGetCommentView(generics.RetrieveUpdateDestroyAPIView):
             return self.queryset.get(pk=self.kwargs['pk'])
         except Comments.DoesNotExist:
             raise Http404
-
-# class ListCreateCommentsView(generics.ListCreateAPIView):
-#     queryset = Comments.objects.all()
-#     serializer_class = CommentsSerializer
-#
-#     def get_queryset(self):
-#         produs_id = self.kwargs['produs_id']
-#         return Comments.objects.filter(produs_id=produs_id)
-#
-#     def perform_create(self, serializer):
-#         produs_id = self.kwargs['produs_id']
-#         serializer.save(produs_id=produs_id)
 
 
 class ProductCommentsView(generics.ListAPIView):
@@ -248,18 +315,4 @@ class ProductRatingsView(generics.ListAPIView):
         product_id = self.kwargs['product_id']
 
         return Rating.objects.filter(produs_id=product_id)
-
-
-# class ListCreateRatingView(generics.ListCreateAPIView):
-#     queryset = Rating.objects.all()
-#     serializer_class = RatingSerializer
-#     # permission_classes = [IsAuthenticated]
-#
-#     def get_queryset(self):
-#         produs_id = self.kwargs['produs_id']
-#         return Rating.objects.filter(produs_id=produs_id)
-#
-#     def perform_create(self, serializer):
-#         produs_id = self.kwargs['produs_id']
-#         serializer.save(produs_id=produs_id)
 
