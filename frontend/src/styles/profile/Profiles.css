@@ -54,13 +54,54 @@
   background-color: #0056b3;
 }
 
+/*.settings-panel {*/
+/*  width: 20%;*/
+/*  padding: 20px;*/
+/*  background: linear-gradient(45deg, #007bff, #038109);*/
+/*  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);*/
+/*  border-radius: 20px;*/
+/*  margin: 20px;*/
+/*}*/
+
 .settings-panel {
   width: 20%;
   padding: 20px;
-  background: linear-gradient(45deg, #007bff, #038109);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   margin: 20px;
+
+  color: #fff;
+  background: linear-gradient(135deg, #2d4dff, #00ccff, #0c0c0c);
+  background-size: 400% 400%;
+  animation: gradientAnimation 10s ease infinite alternate,
+             gradientMovement 20s linear infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradientMovement {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 .settings-button {
@@ -86,7 +127,7 @@
   padding: 20px;
   background-color: #fff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(45deg, #5d6673, rgb(103, 213, 76));
+  background: linear-gradient(45deg, #ffffff, rgb(255, 255, 255));
   border-radius: 30px;
   margin: 10px;
 }

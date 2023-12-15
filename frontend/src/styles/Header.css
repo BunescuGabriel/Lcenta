@@ -8,9 +8,8 @@ body {
 }
 
 /* Header Container */
+
 .header {
-  /*background-color: #09277a;*/
-  background: linear-gradient(45deg, #007bff, #038109);
   color: #fff;
   padding:  15px;
   display: flex;
@@ -19,7 +18,37 @@ body {
   border-radius: 10px;
   position: relative;
   transition: top 0.3s ease-in-out;
-  /*width: 100%;*/
+  background: linear-gradient(135deg, #2d4dff, #00ccff, #0c0c0c);
+  background-size: 400% 400%;
+  animation: gradientAnimation 10s ease infinite alternate,
+             gradientMovement 20s linear infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradientMovement {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 .header.scrolled {
@@ -100,13 +129,45 @@ nav ul li a {
   margin: 5px 0;
   border: 1px solid grey;
   width: 120px; /* Reducerea lățimii meniului pentru ecrane mai mici */
-  background: linear-gradient(45deg, #007bff, #038109);
   box-shadow: 0px 4px 6px rgba(1, 1, 5, 6);
   padding: 10px; /* Reducerea padding-ului pentru a se potrivi pe ecrane mai mici */
   text-align: left;
   right: -10px;
   border-radius: 8px;
   z-index: 10;
+
+  color: #fff;
+  background: linear-gradient(135deg, #2d4dff, #00ccff, #0c0c0c);
+  background-size: 400% 400%;
+  animation: gradientAnimation 10s ease infinite alternate,
+             gradientMovement 20s linear infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradientMovement {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
 }
 
 .menu li:hover {
@@ -145,7 +206,12 @@ nav ul li a {
 }
 .icon-globe{
   font-size: 40px;
-  margin-left: 100px;
+  /*margin-left: 50px;*/
+}
+.icon-globee{
+  font-size: 36px;
+  /*margin-left: 50px;*/
+  margin-top: 10px;
 }
 
 .LOCAL-TIMING{

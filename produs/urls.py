@@ -12,6 +12,8 @@ urlpatterns = [
     path('car/<int:pk>', UpdatePartialProdus.as_view()),
     path('car-update/<int:pk>', views.UpdateProdus.as_view()),
 
+    path('filter/', views.ListProdus.as_view()),
+
     path('comments', AddCommentView.as_view()),
     path('car/<int:produs_id>/comments/<int:pk>', views.DeleteGetCommentView.as_view()),
     path('comments-list/<int:product_id>', views.ProductCommentsView.as_view()),

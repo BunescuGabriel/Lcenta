@@ -21,16 +21,9 @@ class Descrierii(models.Model):
     descrierea = models.TextField()
 
 
-class DateContact(models.Model):
-    addresa = models.TextField()
-    email = models.EmailField(unique=True)
-    phoneNumber = PhoneNumberField(unique=True, null=True)
-    orar_lucru = models.CharField(max_length=255)
+class Servici(models.Model):
+    serviciu = models.TextField()
 
 
-class LinguriRetele(models.Model):
-    url_instagram = models.URLField()
-    url_facebook = models.URLField()
-    url_viber = models.URLField()
 
 

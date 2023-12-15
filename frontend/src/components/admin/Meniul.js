@@ -11,6 +11,7 @@ import TermeniManager from "./TermeniManager";
 import ConditiiManager from "./ConditiManager";
 import CarsManagerr from "./CarCreate";
 import CarsCreate from "./CarCreate";
+import ServiciiManager from "./ServiciiManager";
 
 const Meniul = () => {
   const [activeComponent, setActiveComponent] = useState(null);
@@ -46,9 +47,9 @@ const Meniul = () => {
             <button className="control-button" onClick={() => showComponent('RatingsManager')}>
               Ratings
             </button>
-            {/*<button className="control-button" onClick={() => showComponent('CarsCreate')}>*/}
-            {/*  CarsCreate*/}
-            {/*</button>*/}
+            <button className="control-button" onClick={() => showComponent('ServiciiManager')}>
+              Servicii
+            </button>
             <button className="control-button" onClick={() => showComponent('UsersManager')}>
               Users
             </button>
@@ -94,14 +95,14 @@ const Meniul = () => {
             </div>
           )
         }
-        {/*{*/}
-        {/*  activeComponent === 'CarsCreate' && (*/}
-        {/*    <div>*/}
-        {/*      <h1>Editarea Ratingului pentru un produs anumit!!</h1>*/}
-        {/*      <CarsCreate />*/}
-        {/*    </div>*/}
-        {/*  )*/}
-        {/*}*/}
+        {
+          activeComponent === 'ServiciiManager' && (
+            <div>
+              <h1>Editarea Ratingului pentru un produs anumit!!</h1>
+              <ServiciiManager />
+            </div>
+          )
+        }
         {
           activeComponent === 'UsersManager' && (
             <div>

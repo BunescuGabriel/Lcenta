@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Register from '../components/register/Register';
 import CreateProfile from "../components/register/CreateProfile";
 import '../styles/RegisterPage.css';
+import Footer from "../components/Footer";
 
 
 function RegisterPage() {
@@ -43,7 +44,7 @@ function RegisterPage() {
           )}
         </>
       )}
-
+        <Footer/>
     </div>
   );
 }

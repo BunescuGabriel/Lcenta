@@ -1,0 +1,54 @@
+.Service-container {
+  position: relative;
+  width: 100%;
+
+}
+
+.text-overlay {
+  position: relative;
+  padding: 20px;
+}
+
+.title-service {
+  font-size: 24px;
+  margin-bottom: 60px;
+  text-align: center;
+  font-weight: bold;
+
+
+}
+
+.servicii-caruseli {
+  width: 90%;
+  margin: 0 auto;
+
+}
+
+.slide-container {
+  width: 300px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 20px;
+
+}
+
+.slide-container p {
+  max-width: 90%; /* Ajustează la nevoie */
+  margin: 0 auto;
+  color: #0c0c0c;
+  line-height: 1.4; /* Spațiul între liniile de text */
+  overflow: hidden; /* Evită ieșirea textului în afara pătratului */
+  display: -webkit-box;
+  -webkit-line-clamp: 30; /* Numărul maxim de linii */
+  -webkit-box-orient: vertical;
+}
+
+
+.slide-container p {
+  max-width: 80%;
+  margin: 0 auto;
+  color: #0c0c0c;
+}

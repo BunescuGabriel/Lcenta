@@ -146,7 +146,7 @@ function Header() {
         </li>
       </div>
         <div className={"LOCAL-TIMING"}>
-          <FontAwesomeIcon icon={faClock } className="icon-globe" />
+          <FontAwesomeIcon icon={faClock } className="icon-globee" />
           <li className="horizontal-list">
           <ul>
             <li className={"abcc"}>Luni - Duminică</li>

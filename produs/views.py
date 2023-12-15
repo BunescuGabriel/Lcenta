@@ -9,6 +9,8 @@ from PIL import Image
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from users.models import UserToken
 from rest_framework.exceptions import PermissionDenied
+import django_filters
+from django_filters import rest_framework as filters
 
 
 class CreateBanner(generics.ListCreateAPIView):
@@ -65,9 +67,52 @@ class DeleteBanner(generics.RetrieveDestroyAPIView):
             raise Http404
 
 
-class ListProdus(ListAPIView):
+
+class ProdusFilter(django_filters.FilterSet):
+    producator = django_filters.ChoiceFilter(
+        choices=Produs.objects.order_by('producator').values_list('producator', 'producator').distinct()
+    )
+    cutia = django_filters.ChoiceFilter(
+        choices=Produs.objects.order_by('cutia').values_list('cutia', 'cutia').distinct()
+    )
+    motor = django_filters.ChoiceFilter(
+        choices=Produs.objects.order_by('motor').values_list('motor', 'motor').distinct()
+    )
+    class Meta:
+        model = Produs
+        fields = [
+        'producator',
+        'cutia',
+        'motor',
+
+        ]
+        # 'numar_usi',
+        # 'numar_pasageri',
+        # 'caroserie',
+        # 'an',
+        # 'capacitate_cilindrica',
+        # 'price1',
+    # numar_usi = django_filters.ChoiceFilter(
+    #     choices=Produs.objects.order_by('numar_usi').values_list('numar_usi', 'numar_usi').distinct()
+    # )
+    # numar_pasageri = django_filters.ChoiceFilter(
+    #     choices=Produs.objects.order_by('numar_pasageri').values_list('numar_pasageri', 'numar_pasageri').distinct()
+    # )
+    # caroserie = django_filters.ChoiceFilter(
+    #     choices=Produs.objects.order_by('caroserie').values_list('caroserie', 'caroserie').distinct()
+    # )
+    # an = django_filters.RangeFilter(label='An între')
+    # capacitate_cilindrica = django_filters.RangeFilter(label='Capacitate Cilindrica între')
+    # price1 = django_filters.RangeFilter(label='Price între')
+
+
+
+
+class ListProdus(generics.ListAPIView):
     queryset = Produs.objects.all()
     serializer_class = ProdusSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = ProdusFilter
 
 
 class CreateProdus(ListCreateAPIView):

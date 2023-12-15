@@ -32,7 +32,7 @@
   text-align: center;
 }
 
-.product-name {
+.product-name-car {
   font-size: 28px;
   color: #0c0c0c;
   margin-bottom: 5px;
@@ -44,6 +44,10 @@
   margin-bottom: 10px;
 }
 
+.price-number {
+  color: #0c0c0c;
+}
+
 .product-info {
   font-size: 14px;
   color: #0a0a0a;
@@ -53,4 +57,46 @@
 .fuel-icon {
   margin-right: 5px;
   color: #777;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button,
+.page-numbers li {
+  margin: 0 5px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination button:hover,
+.page-numbers li:hover,
+.page-numbers li.active {
+  background-color: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.page-numbers {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.page-numbers li {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.page-numbers li.active {
+  background-color: #007bff;
+  color: #fff;
 }

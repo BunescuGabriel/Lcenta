@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import TermeniComponent from "../components/about/Termeni";
 import ConditiiComponent from "../components/about/Conditii";
 import '../styles/about/termenipage.css';
+import Footer from "../components/Footer";
 
 
 const ConditiiPage = () => {
@@ -21,6 +22,7 @@ const ConditiiPage = () => {
     </div>
       <TermeniComponent/>
       <ConditiiComponent/>
+        <Footer/>
     </div>
   );
 }

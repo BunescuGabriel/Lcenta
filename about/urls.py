@@ -19,6 +19,10 @@ urlpatterns = [
     path('descriere/<int:pk>', views.DeleteDescriere.as_view()),
 
 
-    path('date-contact', views.CreateDateContact.as_view()),
+    path('servicii', views.ServiciiView.as_view()),
+    path('servicii-create', views.ServiciiCreate.as_view()),
+    path('servicii/<int:pk>', views.DeleteServicii.as_view()),
+
+    path('send-email', views.send_email, name='send_email'),
 
 ]

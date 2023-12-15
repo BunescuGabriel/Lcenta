@@ -22,8 +22,9 @@ class ConditiiSerializer(serializers.ModelSerializer):
         fields = ['id', 'titlu', 'text', 'descrierii']
 
 
-
-class DateContactSerializer(serializers.ModelSerializer):
+class ServiciSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.DateContact
+        model = models.Servici
         fields = '__all__'
+
+

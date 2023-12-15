@@ -1,7 +1,8 @@
 from rest_framework import generics, status
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
-from about.serializers import TerminiSerializer, ConditiiSerializer, DateContactSerializer, DescriereSerializer
+from about.serializers import TerminiSerializer, ConditiiSerializer, DescriereSerializer, \
+    ServiciSerializer
 from about import models
 from users.models import UserToken
 from rest_framework.exceptions import PermissionDenied
@@ -120,9 +121,11 @@ class ConditiiCreate(ListCreateAPIView):
         except models.Conditii.DoesNotExist:
             raise Http404
 
+
 class ConditiiView(ListAPIView):
     queryset = models.Conditii.objects.all()
     serializer_class = ConditiiSerializer
+
 
 class DeleteConditii(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Conditii.objects.all()
@@ -228,11 +231,14 @@ class ConditiiList(generics.RetrieveAPIView):
         return Response(serialized_data)
 
 
+class ServiciiView(ListCreateAPIView):
+    queryset = models.Servici.objects.all()
+    serializer_class = ServiciSerializer
 
 
-class CreateDateContact(ListCreateAPIView):
-    queryset = models.DateContact.objects.all()
-    serializer_class = DateContactSerializer
+class ServiciiCreate(ListCreateAPIView):
+    queryset = models.Servici.objects.all()
+    serializer_class = ServiciSerializer
     permission_classes = [IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
@@ -241,13 +247,13 @@ class CreateDateContact(ListCreateAPIView):
         try:
             user_token = UserToken.objects.get(user=user)
             if user_token.logout_time is not None:
-                raise PermissionDenied("Nu puteți crea datele de contact după ce ați făcut logout.")
+                raise PermissionDenied("Nu puteți crea descrieri după ce ați făcut logout.")
 
             # Verificați dacă utilizatorul are is_superuser mai mare ca 0
             if user.is_superuser > 0:
                 return super().create(request, *args, **kwargs)
             else:
-                raise PermissionDenied("Nu aveți permisiunea de a crea conditiile.")
+                raise PermissionDenied("Nu aveți permisiunea de a crea descrieri.")
 
         except UserToken.DoesNotExist:
             raise PermissionDenied("User token does not exist or has been deleted.")
@@ -255,5 +261,66 @@ class CreateDateContact(ListCreateAPIView):
     def get_object(self):
         try:
             return self.queryset.get(pk=self.kwargs['pk'])
-        except models.DateContact.DoesNotExist:
+        except models.Servici.DoesNotExist:
             raise Http404
+
+
+class DeleteServicii(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Servici.objects.all()
+    serializer_class = ServiciSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_destroy(self, instance):
+        user = self.request.user
+
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                raise PermissionDenied("Nu puteți șterge descrierea după ce ați făcut logout.")
+
+            if user.is_superuser > 0:
+                instance.delete()
+            else:
+                raise PermissionDenied("Nu aveți permisiunea de a șterge descrierea.")
+
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("User token does not exist or has been deleted.")
+
+    def get_object(self):
+        try:
+            return self.queryset.get(pk=self.kwargs['pk'])
+        except models.Servici.DoesNotExist:
+            raise Http404
+
+
+
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+@csrf_exempt
+def send_email(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+
+        name = data.get('name', '')
+        email = data.get('email', '')
+        phone = data.get('phone', '')
+        message = data.get('message', '')
+
+        try:
+            send_mail(
+                f'Mesaj nou de la {name}',
+                f'Nume: {name}\nEmail: {email}\nTelefon: {phone}\nMesaj: {message}',
+                'a0b68cb239e6d6',  # Adresa ta de email Gmail
+                ['a0b68cb239e6d6'],  # Lista de destinatari
+                fail_silently=False,
+            )
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'error': 'Metoda incorectă. Se așteaptă o cerere POST.'})
+
+
