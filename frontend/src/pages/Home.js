@@ -1,8 +1,8 @@
 import Header from "../components/Header";
 import Banners from "../components/produs/Banners";
 import Car from "../components/produs/Car";
-import ServiceComponent from "../components/produs/Servicii";
-import ContactComponent from "../components/produs/Contact";
+import ServiceComponent from "../components/about/Servicii";
+import ContactComponent from "../components/about/Contact";
 import Footer from "../components/Footer";
 
 const Home = () => {

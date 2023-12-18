@@ -4,7 +4,7 @@
   padding: 20px; /* Adjust padding as needed */
   border-radius: 8px;
   position: fixed;
-  top: 55%;
+  top: 62%;
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 80%; /* Adjust the maximum width if needed */
@@ -22,4 +22,126 @@
 .custom-modal .modal-footer {
   background-color: #f0f0f0;
   border-top: none;
+}
+
+/* Add these styles to modify the modal appearance */
+.custom-modal {
+  background-color: #fff; /* Change the modal background color */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+
+/* Modify the styles for the modal header */
+.custom-modal .modal-header {
+  border-bottom: none; /* Remove the border bottom of the header */
+}
+
+/* Customize the modal title */
+.custom-modal .modal-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2d4dff;
+  margin-bottom: 15px;
+}
+
+/* Style the modal body */
+.custom-modal .modal-body {
+  padding: 20px 0; /* Add padding to the modal body */
+}
+
+/* Style the form elements inside the modal */
+.custom-modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-modal input,
+.custom-modal select,
+.custom-modal textarea {
+  margin-bottom: 15px; /* Add space between form elements */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.custom-modal input[type="submit"],
+.custom-modal button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.custom-modal input[type="submit"]:hover,
+.custom-modal button:hover {
+  background-color: #0056b3;
+}
+
+/* Add styles for the dropzone */
+.custom-modal .dropzone {
+  border: 2px dashed #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+ /*Style the close button*/
+.custom-modal button[type="button"] {
+  background-color: #dc3545;
+}
+
+.custom-modal button[type="button"]:hover {
+  background-color: #c82333;
+}
+.custom-modal button[type="button1"] {
+  background-color: #038109;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.custom-modal button[type="button1"]:hover {
+  background-color: #038109;
+}
+
+.modal-edit{
+margin: 100px;
+}
+
+.custom-modal button[type="submit1"] {
+  background-color: #038109;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.custom-modal button[type="submit1"]:hover {
+  background-color: #038109;
+}
+
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Alinează elementele pe axa orizontală în centru */
+}
+
+.image-wrapper {
+  text-align: center; /* Alinează conținutul la centru */
+  margin: 0 10px; /* Adaugă spațiu între fiecare imagine */
+}
+
+.img-update {
+  width: 30%; /* Asigură că imaginea ocupă întreaga lățime a containerului său */
+  height: auto; /* Păstrează proporțiile originale ale imaginii */
+  display: block;
+  margin-bottom: 10px;
+}
+
+.name-images {
+  font-size: 10px;
+  margin: 0; /* Elimină spațiul din jurul numelui imaginii */
 }

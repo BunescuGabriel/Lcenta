@@ -25,4 +25,13 @@ urlpatterns = [
 
     path('send-email', views.send_email, name='send_email'),
 
+    path('despre', views.DespreCreate.as_view()),
+    path('despre/', views.DespreView.as_view()),
+    path('despre/<int:pk>', views.DeleteDespre.as_view()),
+    path('despre/<int:despre_id>/', views.DespreList.as_view()),
+
+
+    path('detalii', views.DetaliiCreate.as_view()),
+    path('detalii/<int:pk>', views.DeleteDetalii.as_view()),
+
 ]

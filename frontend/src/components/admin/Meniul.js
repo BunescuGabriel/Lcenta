@@ -12,6 +12,7 @@ import ConditiiManager from "./ConditiManager";
 import CarsManagerr from "./CarCreate";
 import CarsCreate from "./CarCreate";
 import ServiciiManager from "./ServiciiManager";
+import DespreManager from "./DespreManager";
 
 const Meniul = () => {
   const [activeComponent, setActiveComponent] = useState(null);
@@ -52,6 +53,9 @@ const Meniul = () => {
             </button>
             <button className="control-button" onClick={() => showComponent('UsersManager')}>
               Users
+            </button>
+            <button className="control-button" onClick={() => showComponent('DespreManager')}>
+              Despre Noi
             </button>
             <button className="control-button" onClick={toggleList}>
               Termeni și Condiții
@@ -108,6 +112,14 @@ const Meniul = () => {
             <div>
               <h1>Editarea Userilor!!</h1>
               <UsersManager />
+            </div>
+          )
+        }
+        {
+          activeComponent === 'DespreManager' && (
+            <div>
+              <h1>Editarea Despre noi!!</h1>
+              <DespreManager />
             </div>
           )
         }

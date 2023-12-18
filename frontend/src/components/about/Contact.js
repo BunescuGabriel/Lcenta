@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import '../../styles/produs/Contact.css';
+import '../../styles/about/Contact.css';
 import { FaPhone, FaMapMarkerAlt, FaClock, FaInstagram, FaFacebook,FaEnvelope,FaViber  } from 'react-icons/fa';
 import {MapContainer} from "./MapContainer";
 
@@ -22,6 +22,8 @@ const ContactComponent = () => {
   };
 
  const sendMessage = async () => {
+  // Verificăm dacă toate câmpurile sunt completate
+  if (formData.name && formData.email && formData.phone && formData.message) {
     try {
       const response = await fetch('http://127.0.0.1:8000/api/about/send-email', {
         method: 'POST',
@@ -33,20 +35,27 @@ const ContactComponent = () => {
 
       if (response.ok) {
         setMessageSent(true);
+        setError('');
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+        setTimeout(() => {
+            setMessageSent(false);
+          }, 5000);
       } else {
         setError('Eroare la trimiterea mesajului');
       }
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-
-      });
     } catch (error) {
-      setError('Eroare la trimiterea mesajului:', error);
+      setError('Eroare la trimiterea mesajului: ' + error.message);
     }
-  };
+  } else {
+    setError('Te rog completează toate câmpurile.');
+  }
+};
+
 
   return (
       <div>
@@ -84,8 +93,12 @@ const ContactComponent = () => {
         value={formData.message}
         onChange={handleChange}
       ></textarea>
-      {error && <p>{error}</p>}
-      {messageSent && <p>Mesaj trimis cu succes!</p>}
+          {error && (
+        <p>{error}</p>
+      )}
+      {messageSent && (
+        <p>Mesaj trimis cu succes! În scurt timp vă vom telefona.</p>
+      )}
       <button className="btn-send" onClick={sendMessage}>
         Trimite
       </button>
@@ -99,14 +112,20 @@ const ContactComponent = () => {
         <p className="contact-info">
           <FaViber /> <a className={"contact-link"} href="tel:+37378733723" target="_blank" rel="noopener noreferrer">+373 787 33 723</a>
         </p>
-        <p className="contact-info"><FaMapMarkerAlt /> Balti str. Kiev 48A</p>
+        <p className="contact-info">
+                <a  className={"contact-link"}  href="https://www.google.com/maps/search/?api=1&query=Balti+str.+Kiev+48A">
+                    <FaMapMarkerAlt /> Balti str. Kiev 48A
+                        </a>
+                </p>
         <p className="contact-info">
           <FaInstagram /> <a className={"contact-link"} href="https://www.instagram.com/supreme__rentals/" target="_blank" rel="noopener noreferrer">Supreme Rentals</a>
         </p>
         <p className="contact-info">
           <FaFacebook /> <a className={"contact-link"} href="https://www.facebook.com/ChirieAutoBALTI" target="_blank" rel="noopener noreferrer">Supreme Rentals</a>
         </p>
-        <p className="contact-info"><FaEnvelope /> adresa@email.com</p>
+          <p className="contact-info">
+              <a className={"contact-link"} href="mailto:adresa@email.com" target="_blank" rel="noopener noreferrer"><FaEnvelope /> adresa@email.com</a>
+          </p>
         <p className="contact-info"><FaClock /> Orar de lucru: 24/24</p>
       </div>
     </div>

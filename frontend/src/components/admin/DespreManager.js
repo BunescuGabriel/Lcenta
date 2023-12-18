@@ -4,16 +4,16 @@ import '../../styles/admin/ConditiiManager.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 
-const ConditiiManager = (effect, deps) => {
+const DespreManager = (effect, deps) => {
   const [conditions, setConditions] = useState([]);
   const [descriptions, setDescriptions] = useState({});
   const [newCondition, setNewCondition] = useState({
     titlu: '',
-    text: '',
+
   });
   const [newDescription, setNewDescription] = useState({
-    conditi: null,
-    descrierea: '',
+    despre: null,
+    detali: '',
   });
   const [userIsSuperUser, setUserIsSuperUser] = useState(false);
   const [showAddConditionForm, setShowAddConditionForm] = useState(false);
@@ -26,15 +26,14 @@ const ConditiiManager = (effect, deps) => {
   setSelectedCondition(condition);
   setNewCondition({
     titlu: condition.titlu,
-    text: condition.text || '', // Asigură că textul nu este null
   });
   setShowAddConditionForm(true); // Arată formularul pentru actualizare
 };
-  const handleSelectDescrierea = (descrierea) => {
-  setSelectedDescrierea(descrierea);
+  const handleSelectDescrierea = (detali) => {
+  setSelectedDescrierea(detali);
   setNewDescription({
-    conditi: descrierea.conditi,
-    descrierea: descrierea.descrierea || '', // Asigură că textul nu este null
+    despre: detali.despre,
+    detali: detali.detali || '', // Asigură că textul nu este null
   });
   setShowAddDescriptionForm(true); // Arată formularul pentru actualizare
 };
@@ -42,12 +41,12 @@ const ConditiiManager = (effect, deps) => {
 
   const toggleAddConditionForm = () => {
     setShowAddConditionForm(!showAddConditionForm);
-    setNewCondition({ titlu: '', text: '' }); // Reset form fields when toggling
+    setNewCondition({ titlu: ''}); // Reset form fields when toggling
   };
 
   const toggleAddDescriptionForm = () => {
     setShowAddDescriptionForm(!showAddDescriptionForm);
-    setNewDescription({ conditi: null, descrierea: '' }); // Reset form fields when toggling
+    setNewDescription({ despre: null, detali: '' }); // Reset form fields when toggling
   };
 
   const fetchUserAccess = async () => {
@@ -76,7 +75,7 @@ const ConditiiManager = (effect, deps) => {
 
   useEffect(() => {
     fetchUserAccess();
-    axios.get('http://localhost:8000/api/about/conditi/')
+    axios.get('http://localhost:8000/api/about/despre/')
       .then(response => {
         setConditions(response.data);
       })
@@ -87,11 +86,11 @@ const ConditiiManager = (effect, deps) => {
 
   useEffect(() => {
     conditions.forEach(condition => {
-      axios.get(`http://localhost:8000/api/about/conditii/${condition.id}`)
+      axios.get(`http://localhost:8000/api/about/despre/${condition.id}/`)
         .then(response => {
           setDescriptions(prevDescriptions => ({
             ...prevDescriptions,
-            [condition.id]: response.data.descrierii,
+            [condition.id]: response.data.detalii,
           }));
         })
         .catch(error => {
@@ -102,7 +101,7 @@ const ConditiiManager = (effect, deps) => {
 
   const refreshData = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/about/conditi/');
+    const response = await axios.get('http://localhost:8000/api/about/despre/');
     setConditions(response.data);
   } catch (error) {
     console.error('Error refreshing conditions:', error);
@@ -115,12 +114,8 @@ const ConditiiManager = (effect, deps) => {
       if (userIsSuperUser && storedAccessToken) {
         const dataToSend = { ...newCondition };
 
-        if (dataToSend.text === '') {
-          dataToSend.text = null;
-        }
-
         const response = await axios.post(
-          'http://localhost:8000/api/about/conditii',
+          'http://localhost:8000/api/about/despre',
           dataToSend,
           {
             headers: {
@@ -131,7 +126,7 @@ const ConditiiManager = (effect, deps) => {
         );
 
         if (response.status === 201) {
-          setNewCondition({ titlu: '', text: '' });
+          setNewCondition({ titlu: '' });
           refreshData();
         } else {
           throw new Error('Failed to add condition: Network response was not ok');
@@ -149,7 +144,7 @@ const ConditiiManager = (effect, deps) => {
       const storedAccessToken = localStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         const response = await axios.post(
-          'http://localhost:8000/api/about/descriere',
+          'http://localhost:8000/api/about/detalii',
           newDescription,
           {
             headers: {
@@ -163,13 +158,13 @@ const ConditiiManager = (effect, deps) => {
           console.log('Description added successfully:', response.data);
           const updatedDescriptions = {
             ...descriptions,
-            [newDescription.conditi]: [
-              ...(descriptions[newDescription.conditi] || []),
+            [newDescription.despre]: [
+              ...(descriptions[newDescription.despre] || []),
               response.data,
             ],
           };
           setDescriptions(updatedDescriptions);
-          setNewDescription({ ...newDescription, descrierea: '' }); // Șterge doar textul descrierii pentru o nouă adăugare
+          setNewDescription({ ...newDescription, detali: '' }); // Șterge doar textul descrierii pentru o nouă adăugare
         } else {
           throw new Error('Failed to add description: Network response was not ok');
         }
@@ -185,7 +180,7 @@ const ConditiiManager = (effect, deps) => {
     try {
       const storedAccessToken = localStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
-        await axios.delete(`http://localhost:8000/api/about/conditi/${conditiId}`, {
+        await axios.delete(`http://localhost:8000/api/about/despre/${conditiId}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -204,7 +199,7 @@ const ConditiiManager = (effect, deps) => {
     try {
       const storedAccessToken = localStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
-        await axios.delete(`http://localhost:8000/api/about/descriere/${descriereId}`, {
+        await axios.delete(`http://localhost:8000/api/about/detalii/${descriereId}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -219,18 +214,15 @@ const ConditiiManager = (effect, deps) => {
     }
   };
 
-  const updateCondition = async () => {
+
+const updateCondition = async () => {
   try {
     const storedAccessToken = localStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken && selectedCondition) {
       const dataToUpdate = { ...newCondition };
 
-      if (dataToUpdate.text === '') {
-        dataToUpdate.text = null;
-      }
-
       const response = await axios.put(
-        `http://localhost:8000/api/about/conditi/${selectedCondition.id}`,
+        `http://localhost:8000/api/about/despre/${selectedCondition.id}`,
         dataToUpdate,
         {
           headers: {
@@ -252,9 +244,9 @@ const ConditiiManager = (effect, deps) => {
     }
   } catch (error) {
     console.error('There was a problem updating the condition:', error);
-    // Gestionează erorile sau afișează un mesaj pentru utilizator
   }
 };
+
 
 const updateDescrierea = async () => {
   try {
@@ -263,7 +255,7 @@ const updateDescrierea = async () => {
       const dataToUpdate = { ...newDescription };
 
       const response = await axios.put(
-        `http://localhost:8000/api/about/descriere/${SelectedDescrierea.id}`,
+        `http://localhost:8000/api/about/detalii/${SelectedDescrierea.id}`,
         dataToUpdate,
         {
           headers: {
@@ -285,11 +277,8 @@ const updateDescrierea = async () => {
     }
   } catch (error) {
     console.error('There was a problem updating the description:', error);
-    // Gestionează erorile sau afișează un mesaj pentru utilizator
   }
 };
-
-
 
 
   return (
@@ -303,15 +292,9 @@ const updateDescrierea = async () => {
               value={newCondition.titlu}
               onChange={(e) => setNewCondition({ ...newCondition, titlu: e.target.value })}
             />
-            <textarea
-              type="text"
-              placeholder="Text"
-              value={newCondition.text}
-              onChange={(e) => setNewCondition({ ...newCondition, text: e.target.value })}
-            />
             <div>
               <button onClick={addCondition}>Adaugă condiție</button>
-              <button onClick={selectedCondition ? updateCondition : addCondition}>
+            <button onClick={selectedCondition ? updateCondition : addCondition}>
                 {selectedCondition ? 'Actualizează' : 'Adaugă'}
               </button>
               <button onClick={toggleAddConditionForm}>Close</button>
@@ -326,8 +309,8 @@ const updateDescrierea = async () => {
         {showAddDescriptionForm ? (
           <form onSubmit={(e) => e.preventDefault()}>
           <select
-            value={newDescription.conditi}
-            onChange={(e) => setNewDescription({ ...newDescription, conditi: e.target.value })}
+            value={newDescription.despre}
+            onChange={(e) => setNewDescription({ ...newDescription, despre: e.target.value })}
             >
               <option value="">Selectează condiția</option>
                 {conditions.map((condition) => (
@@ -337,14 +320,14 @@ const updateDescrierea = async () => {
         <textarea
           type="text"
           placeholder="Descriere"
-          value={newDescription.descrierea}
-          onChange={(e) => setNewDescription({ ...newDescription, descrierea: e.target.value })}
+          value={newDescription.detali}
+          onChange={(e) => setNewDescription({ ...newDescription, detali: e.target.value })}
         />
               <div>
               <button onClick={addDescription}>Adaugă descriere</button>
-                <button onClick={SelectedDescrierea ? updateDescrierea : addDescription}>
+              <button onClick={SelectedDescrierea ? updateDescrierea : addDescription}>
                 {SelectedDescrierea ? 'Actualizează' : 'Adaugă'}
-                </button>
+              </button>
               <button onClick={toggleAddDescriptionForm}>Close</button>
             </div>
         </form>
@@ -357,12 +340,11 @@ const updateDescrierea = async () => {
       {conditions.map((condition, index) => (
         <div className="condition-item" key={condition.id}>
           <h3 className="condition-title">{`${romanize(index + 1)}. ${condition.titlu}`}</h3>
-          <p className="condition-text">{condition.text}</p>
           {descriptions[condition.id] ? (
             <ol className="description-list">
               {descriptions[condition.id].map((description, idx) => (
                 <li className="description-item" key={description.id}>
-                  <span className="custom-counter">{`${idx + 1})`}</span>{description.descrierea}
+                  <span className="custom-counter">{`${idx + 1})`}</span>{description.detali}
                   {userIsSuperUser && (
               <>
                 <button className={"edit-buttonn"} onClick={() => stergeDescriere(description.id)}>
@@ -397,7 +379,7 @@ const updateDescrierea = async () => {
   );
 };
 
-export default ConditiiManager;
+export default DespreManager;
 
 function romanize(number) {
   const romanNumerals = {

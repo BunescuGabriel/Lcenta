@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import '../../styles/admin/CarManager.css';
 import '../../styles/admin/CarAdd.css';
+
 import { useDropzone } from 'react-dropzone';
 import axios from "axios";
 
@@ -247,7 +248,8 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
     console.error('Eroare la crearea produsului:', error);
   }
 };
-  const handleDeleteProduct = async (productId) => {
+  const handleDeleteProduct = async (productId, event) => {
+    event.stopPropagation();
   try {
     const storedAccessToken = localStorage.getItem('accessToken');
     const response = await axios.delete(`http://localhost:8000/api/produs/d_car/${productId}`, {
@@ -413,41 +415,46 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
 
   return (
     <div>
-      <div className="product-list">
+      <div className="product-list-add">
          {products.map((product, index) => (
           <div
             style={{ cursor: "pointer" }}
             onClick={() => handleProductClick(product)}
-            className="product-card"
+            className="product-card-add"
             key={product.id}
           >
-            <div className={'product-card-image'}>
+            <div className={'product-card-image--add'}>
               {product.images.length > 0 && (
                 <Image src={product.images[0].image} fluid />
               )}
-              <div className={'product-name'}>
+              <div className={'product-name--add'}>
                 {product.producator} {product.name}
               </div>
                {userIsSuperUser && (
-              <div className="delete-icon-car" onClick={() => handleDeleteProduct(product.id)}>
-                <FontAwesomeIcon icon={faTimes} />
-              </div>
-      )}
+              <div
+                className="delete-icon-car--add"
+                  onClick={(event) => handleDeleteProduct(product.id, event)}
+                    >
+                    <FontAwesomeIcon icon={faTimes} />
+                    </div>
+
+                  )}
             </div>
           </div>
         ))}
 
-        <div className="banner-conta"  onClick={handleAddCarClick}>
-          <div className="banner-imagee">
+        <div className="banner-conta--add"  onClick={handleAddCarClick}>
+          <div className="banner-imagee--add">
             <FontAwesomeIcon icon={faPlus} size="4x" />
           </div>
-          <div className="banner-inf">
+          <div className="banner-inf--add">
             <p>Add Car</p>
           </div>
         </div>
 
 
       </div>
+
         <Modal show={showAddCarModal} onHide={setShowAddCarModal} centered>
         <div className="custom-modal">
           <Modal.Header closeButton>

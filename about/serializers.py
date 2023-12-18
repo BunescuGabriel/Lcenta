@@ -14,6 +14,7 @@ class DescriereSerializer(serializers.ModelSerializer):
         fields = '__all__'
         # fields = ['id', 'conditi', 'descrierea']
 
+
 class ConditiiSerializer(serializers.ModelSerializer):
     descrierii = DescriereSerializer(many=True, read_only=True)
 
@@ -28,3 +29,15 @@ class ServiciSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DetaliiSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Detalii
+        fields = '__all__'
+
+
+class DespreSerializer(serializers.ModelSerializer):
+    detalii = DetaliiSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = models.Despre
+        fields = ['id', 'titlu', 'detalii']

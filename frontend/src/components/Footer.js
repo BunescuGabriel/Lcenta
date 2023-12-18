@@ -1,7 +1,9 @@
 import React from 'react';
 import '../styles/Footer.css';
 import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarkerAlt} from "react-icons/fa";
-import logo from "../images/logo.jpg"; // Fișierul de stilizare pentru footer
+import logo from "../images/logo.jpg";
+import logo2 from "../images/logo2.png";
+
 
 const Footer = () => {
   return (
@@ -15,21 +17,27 @@ const Footer = () => {
           <h4>Linkuri Utile</h4>
           <ul>
             <li><a href="/">Home</a></li>
-          <li><a href="/despre">About</a></li>
+          <li><a href="/about">About</a></li>
           <li><a href="/conditii">TERMENI ȘI CONDIȚII</a></li>
           </ul>
         </div>
            <div className="footer-right">
           <h4>OFICIUL CENTRAL</h4>
           <ul>
-        <p className="contact-info"><FaMapMarkerAlt /> Balti str. Kiev 48A</p>
+        <p className="contact-info">
+                <a  className={"contact-linkk"}  href="https://www.google.com/maps/search/?api=1&query=Balti+str.+Kiev+48A">
+                    <FaMapMarkerAlt /> Balti str. Kiev 48A
+                        </a>
+                </p>
         <p className="contact-info">
           <FaInstagram /> <a className={"contact-linkk"} href="https://www.instagram.com/supreme__rentals/" target="_blank" rel="noopener noreferrer">Supreme Rentals</a>
         </p>
         <p className="contact-info">
           <FaFacebook /> <a className={"contact-linkk"} href="https://www.facebook.com/ChirieAutoBALTI" target="_blank" rel="noopener noreferrer">Supreme Rentals</a>
         </p>
-              <p className="contact-info"><FaEnvelope /> adresa@email.com</p>
+            <p className="contact-info">
+              <a className={"contact-linkk"} href="mailto:adresa@email.com" target="_blank" rel="noopener noreferrer"><FaEnvelope /> adresa@email.com</a>
+          </p>
           </ul>
         </div>
       </div>

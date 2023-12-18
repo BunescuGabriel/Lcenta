@@ -2,7 +2,7 @@ from rest_framework import generics, status
 from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from about.serializers import TerminiSerializer, ConditiiSerializer, DescriereSerializer, \
-    ServiciSerializer
+    ServiciSerializer, DespreSerializer, DetaliiSerializer, DespreSerializer
 from about import models
 from users.models import UserToken
 from rest_framework.exceptions import PermissionDenied
@@ -310,7 +310,7 @@ def send_email(request):
 
         try:
             send_mail(
-                f'Mesaj nou de la {name}',
+                f'Contactare: mesaj nou de la {name}',
                 f'Nume: {name}\nEmail: {email}\nTelefon: {phone}\nMesaj: {message}',
                 'a0b68cb239e6d6',  # Adresa ta de email Gmail
                 ['a0b68cb239e6d6'],  # Lista de destinatari
@@ -323,3 +323,149 @@ def send_email(request):
     return JsonResponse({'error': 'Metoda incorectă. Se așteaptă o cerere POST.'})
 
 
+class DespreCreate(ListCreateAPIView):
+    queryset = models.Despre.objects.all()
+    serializer_class = DespreSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                raise PermissionDenied("Nu puteți crea termini după ce ați făcut logout.")
+
+            # Verificați dacă utilizatorul are is_superuser mai mare ca 0
+            if user.is_superuser > 0:
+                # Înlocuiți valoarea textului doar dacă există în datele de intrare
+                text_value = request.data.get('text', None)
+                data = request.data.copy()
+                if text_value is None:
+                    data['text'] = None
+
+                serializer = self.get_serializer(data=data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                headers = self.get_success_headers(serializer.data)
+                return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+            else:
+                raise PermissionDenied("Nu aveți permisiunea de a crea termini.")
+
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("User token does not exist or has been deleted.")
+
+    def get_object(self):
+        try:
+            return self.queryset.get(pk=self.kwargs['pk'])
+        except models.Despre.DoesNotExist:
+            raise Http404
+
+
+class DespreView(ListAPIView):
+    queryset = models.Despre.objects.all()
+    serializer_class = DespreSerializer
+
+
+class DeleteDespre(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Despre.objects.all()
+    serializer_class = DespreSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_destroy(self, instance):
+        user = self.request.user
+
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                raise PermissionDenied("Nu puteți șterge conditiile după ce ați făcut logout.")
+
+            if user.is_superuser > 0:
+                instance.delete()
+            else:
+                raise PermissionDenied("Nu aveți permisiunea de a șterge conditiile.")
+
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("User token does not exist or has been deleted.")
+
+    def get_object(self):
+        try:
+            return self.queryset.get(pk=self.kwargs['pk'])
+        except models.Despre.DoesNotExist:
+            raise Http404
+
+class DespreList(generics.RetrieveAPIView):
+    serializer_class = DespreSerializer
+
+    def get_queryset(self):
+        return models.Despre.objects.all()
+
+    def get_object(self):
+        despre_id = self.kwargs.get('despre_id')
+        return get_object_or_404(self.get_queryset(), id=despre_id)
+
+    def get(self, request, *args, **kwargs):
+        instance = self.get_object()
+        detalii = models.Detalii.objects.filter(despre=instance)
+        serializer = self.serializer_class(instance)
+        serialized_data = serializer.data
+        detalii_serializer = DetaliiSerializer(detalii, many=True)
+        serialized_data['detalii'] = detalii_serializer.data
+        return Response(serialized_data)
+
+
+class DetaliiCreate(ListCreateAPIView):
+    queryset = models.Detalii.objects.all()
+    serializer_class = DetaliiSerializer
+    permission_classes = [IsAuthenticated]
+
+    def create(self, request, *args, **kwargs):
+        user = self.request.user
+
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                raise PermissionDenied("Nu puteți crea descrieri după ce ați făcut logout.")
+
+            # Verificați dacă utilizatorul are is_superuser mai mare ca 0
+            if user.is_superuser > 0:
+                return super().create(request, *args, **kwargs)
+            else:
+                raise PermissionDenied("Nu aveți permisiunea de a crea descrieri.")
+
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("User token does not exist or has been deleted.")
+
+    def get_object(self):
+        try:
+            return self.queryset.get(pk=self.kwargs['pk'])
+        except models.Detalii.DoesNotExist:
+            raise Http404
+
+
+class DeleteDetalii(generics.RetrieveUpdateDestroyAPIView):
+    queryset = models.Detalii.objects.all()
+    serializer_class = DetaliiSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_destroy(self, instance):
+        user = self.request.user
+
+        try:
+            user_token = UserToken.objects.get(user=user)
+            if user_token.logout_time is not None:
+                raise PermissionDenied("Nu puteți șterge descrierea după ce ați făcut logout.")
+
+            if user.is_superuser > 0:
+                instance.delete()
+            else:
+                raise PermissionDenied("Nu aveți permisiunea de a șterge descrierea.")
+
+        except UserToken.DoesNotExist:
+            raise PermissionDenied("User token does not exist or has been deleted.")
+
+    def get_object(self):
+        try:
+            return self.queryset.get(pk=self.kwargs['pk'])
+        except models.Detalii.DoesNotExist:
+            raise Http404

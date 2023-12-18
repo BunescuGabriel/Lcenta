@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
 import '../../styles/produs/CarDetails.css';
 import '../../styles/produs/Rezervation.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import {faStar, faStarHalf, faUser} from "@fortawesome/free-solid-svg-icons";
-
 import {
     faCar,
     faCarSide,
     faCog,
     faGasPump,
+    faStar,
+    faStarHalf,
     faTachometerAlt,
+    faUser,
     faUsers
 } from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { Carousel } from 'react-responsive-carousel';
+import {Carousel} from 'react-responsive-carousel';
 import ProductComments from "./Comments";
 import AddComment from "./AddComments";
 import Rating from "./Rating";
@@ -107,48 +108,51 @@ const CarDetail = (  ) => {
 
 
  const sendRezervation = async () => {
-  try {
-    const updatedFormData = {
-      ...formData,
-      carInfo: {
-        id: car.id,
-        name: car.name,
-        producator: car.producator,
-      },
-      totalDays: totalDays,
-      priceForTotalDays: calculatePrice(),
-        Pret_final: Pret_final,
+     if (formData.prenume && formData.virsta && formData.phone && formData.fromDate && formData.toDate) {
+         try {
+             const updatedFormData = {
+                 ...formData,
+                 carInfo: {
+                     id: car.id,
+                     name: car.name,
+                     producator: car.producator,
+                 },
+                 totalDays: totalDays,
+                 priceForTotalDays: calculatePrice(),
+                 Pret_final: calculatePrice() * totalDays,
+             };
 
-    };
-
-    const response = await fetch('http://localhost:8000/api/produs/reservation-email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedFormData),
-    });
-
-    if (response.ok) {
-      setMessageSent(true);
-      setError("");
-      setFormData({
-        prenume: '',
-        virsta: '',
-        phone: '',
-        fromDate: '',
-        toDate: '',
-      });
-    } else {
-      const errorData = await response.json();
-      setError(errorData.error || 'Eroare la trimiterea mesajului');
-      setMessageSent(false);
-    }
-  } catch (error) {
-    setError(`Eroare la trimiterea mesajului: ${error}`);
-    setMessageSent(false);
-  }
-};
+             const response = await fetch('http://localhost:8000/api/produs/reservation-email', {
+                 method: 'POST',
+                 headers: {
+                     'Content-Type': 'application/json',
+                 },
+                 body: JSON.stringify(updatedFormData),
+             });
+             if (response.ok) {
+                 setMessageSent(true);
+                 setError("");
+                 setFormData({
+                     prenume: '',
+                     virsta: '',
+                     phone: '',
+                     fromDate: '',
+                     toDate: '',
+                 });
+             } else {
+                 const errorData = await response.json();
+                 setError(errorData.error || 'Eroare la trimiterea mesajului');
+                 setMessageSent(false);
+             }
+         } catch (error) {
+             setError(`Eroare la trimiterea mesajului: ${error}`);
+             setMessageSent(false);
+         }
+     } else {
+         setError('Te rog completează toate câmpurile.');
+         setMessageSent(false);
+     }
+ };
 
 
  const calculatePrice = () => {
@@ -404,17 +408,18 @@ const Pret_final = calculatePrice() * totalDays;
       </div>
 
       <div className={"pret-zile-rezervare"}>
-    <p>Preț pentru o zi <span className="align-right">{calculatePrice()} €</span></p>
-    <p>Total zile  <span className="align-right">x{totalDays}</span></p>
-    <p>Preț final <span className="align-right red-text">{Pret_final} €</span></p>
-</div>
+          <p>Preț pentru o zi <span className="align-right">{calculatePrice()} €</span></p>
+          <p>Total zile <span className="align-right">x{totalDays}</span></p>
+          <p>Preț final <span className="align-right red-text">{Pret_final} €</span></p>
+      </div>
 
 
-    {error && <p className="error-message-rezervation">{error}</p>}
-    {messageSent && <p className="success-message-rezervation">Mesaj trimis cu succes!</p>}
-    <button className="btn-send-rezervation" onClick={sendRezervation}>
-      Trimite
-    </button>
+      {error && <p className="error-message-rezervation">{error}</p>}
+      {messageSent &&
+          <p className="success-message-rezervation">Mesaj trimis cu succes! În scurt timp vă vom telefona.</p>}
+      <button className="btn-send-rezervation" onClick={sendRezervation}>
+          Trimite
+      </button>
   </div>
 </div>
 

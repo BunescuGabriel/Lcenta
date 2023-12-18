@@ -393,7 +393,7 @@ def reservation_email(request):
             )
 
             send_mail(
-                f'Mesaj nou de la {prenume}',
+                f'Rezervarea Masinilor: mesaj nou de la {prenume}',
                 message,
                 'a0b68cb239e6d6',  # Your Gmail address
                 ['a0b68cb239e6d6'],  # Recipient's email address

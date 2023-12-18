@@ -1,6 +1,4 @@
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
-
 
 
 class Termini(models.Model):
@@ -24,6 +22,15 @@ class Descrierii(models.Model):
 class Servici(models.Model):
     serviciu = models.TextField()
 
+
+class Despre(models.Model):
+
+    titlu = models.TextField()
+
+
+class Detalii(models.Model):
+    despre = models.ForeignKey(Despre, on_delete=models.CASCADE)
+    detali = models.TextField()
 
 
 

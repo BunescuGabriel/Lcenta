@@ -12,6 +12,7 @@ import AdminPage from "./pages/AdminPage";
 import { Routes, Route } from 'react-router-dom';
 import ProtectedRoute from "./components/admin/Admin";
 import ConditiiPage from "./pages/TermeniConditiiPage";
+import AboutPage from "./pages/AboutPage";
 
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route path="/product/:id" element={<CarDetail />} />
         <Route path="/car-page" element={<CarPage />} />
         <Route path="/conditii" element={<ConditiiPage />} />
+        <Route path="/about" element={<AboutPage />} />
 
         <Route
           path="/admin"

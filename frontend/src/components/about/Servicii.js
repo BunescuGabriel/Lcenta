@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import '../../styles/produs/Servicii.css';
+import '../../styles/about/Servicii.css';
 
 const ServiceComponent = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
