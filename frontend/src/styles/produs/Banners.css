@@ -7,13 +7,13 @@
   overflow: hidden;
   height: 500px;
   border-radius: 5px;
+  width: 100%;
 
   /*background-color: #e50707;*/
   /*margin: 10px;*/
 
 }
 
-/* Stiluri pentru containerul banner-container (container pentru imagine) */
 .banner-container {
   flex: 0 0 100%;
   width: 100%;
@@ -27,7 +27,8 @@
 
 .banner-slide img {
   width: 100%;
-  height: 100%;
+height: 500px;
+  object-fit: cover;
 
 }
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import '../../styles/produs/CarDetails.css';
+import '../../styles/produs/Rezervation.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { faStar, faStarHalf  } from "@fortawesome/free-solid-svg-icons";
+import {faStar, faStarHalf, faUser} from "@fortawesome/free-solid-svg-icons";
 
 import {
     faCar,
@@ -18,15 +19,26 @@ import ProductComments from "./Comments";
 import AddComment from "./AddComments";
 import Rating from "./Rating";
 import ListRating from "./List_Rating";
+import {FaIdBadge, FaPhone} from "react-icons/fa";
 
 
-const CarDetail = ( ) => {
+const CarDetail = (  ) => {
   const { id } = useParams();
   const [car, setCar] = useState(null);
 
   // Add a new state for the total_rating
   const [totalRating, setTotalRating] = useState(0);
    const [totalVotes, setTotalVotes] = useState(0);
+   const [formData, setFormData] = useState({
+    prenume: "",
+    virsta: "",
+    phone: "",
+    fromDate: "",
+    toDate: "",
+  });
+   const [messageSent, setMessageSent] = useState(false);
+     const [error, setError] = useState('');
+     const [totalDays, setTotalDays] = useState(0);
 
   const renderStars = (rating) => {
     const stars = [];
@@ -47,7 +59,6 @@ const CarDetail = ( ) => {
     return stars;
   };
 
-  // Create a function to fetch the car data
   const fetchCarData = () => {
     fetch(`http://localhost:8000/api/produs/car/${id}`)
       .then((response) => response.json())
@@ -70,6 +81,109 @@ const CarDetail = ( ) => {
     return () => clearInterval(interval);
   }, [id]);
 
+ const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    };
+
+    useEffect(() => {
+  const calculateTotalDays = () => {
+    if (formData.fromDate && formData.toDate) {
+      const fromDateTime = new Date(formData.fromDate).getTime();
+      const toDateTime = new Date(formData.toDate).getTime();
+      const timeDifference = toDateTime - fromDateTime;
+      const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+      setTotalDays(daysDifference);
+    } else {
+      setTotalDays(0);
+    }
+  };
+
+  calculateTotalDays();
+}, [formData.fromDate, formData.toDate]);
+
+
+ const sendRezervation = async () => {
+  try {
+    const updatedFormData = {
+      ...formData,
+      carInfo: {
+        id: car.id,
+        name: car.name,
+        producator: car.producator,
+      },
+      totalDays: totalDays,
+      priceForTotalDays: calculatePrice(),
+        Pret_final: Pret_final,
+
+    };
+
+    const response = await fetch('http://localhost:8000/api/produs/reservation-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedFormData),
+    });
+
+    if (response.ok) {
+      setMessageSent(true);
+      setError("");
+      setFormData({
+        prenume: '',
+        virsta: '',
+        phone: '',
+        fromDate: '',
+        toDate: '',
+      });
+    } else {
+      const errorData = await response.json();
+      setError(errorData.error || 'Eroare la trimiterea mesajului');
+      setMessageSent(false);
+    }
+  } catch (error) {
+    setError(`Eroare la trimiterea mesajului: ${error}`);
+    setMessageSent(false);
+  }
+};
+
+
+ const calculatePrice = () => {
+  let price = 0;
+
+  if (totalDays >= 1 && totalDays <= 2) {
+    price = car.price1;
+  } else if (totalDays >= 3 && totalDays <= 7) {
+    price = car.price2;
+  } else if (totalDays >= 8 && totalDays <= 20) {
+    price = car.price3;
+  } else if (totalDays >= 21 && totalDays <= 45) {
+    price = car.price4;
+  } else if (totalDays >= 46) {
+    price = car.price5;
+  }
+
+  return price;
+};
+
+const Pret_final = calculatePrice() * totalDays;
+
+ useEffect(() => {
+    let timeoutId;
+
+    if (messageSent) {
+      timeoutId = setTimeout(() => {
+        setMessageSent(false);
+      }, 5000); // 5 secunde în milisecunde
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [messageSent]);
 
 
   if (!car) {
@@ -108,8 +222,6 @@ const CarDetail = ( ) => {
 
             </div>
             <div className="column-Rating">
-                {/*<ListRating productId={id} />*/}
-
                 <ListRating productId={id} onUpdateTotalVotes={(votes) => setTotalVotes(votes)} />
             </div>
           </div>
@@ -233,6 +345,77 @@ const CarDetail = ( ) => {
       </tr>
     </tbody>
   </table>
+</div>
+
+            <div className={"Rezervation"}>
+  <h2 className="rezervation-title">Make a Reservation</h2>
+  <div className="rezervation-container">
+    <input
+      type="date"
+      name="fromDate"
+      className="rezervation-input"
+      placeholder="From Date"
+      value={formData.fromDate}
+      onChange={handleChange}
+      min={new Date().toISOString().split("T")[0]}
+    />
+    <input
+      type="date"
+      name="toDate"
+      className="rezervation-input"
+      placeholder="To Date"
+      value={formData.toDate}
+      onChange={handleChange}
+      min={formData.fromDate || new Date().toISOString().split("T")[0]}
+    />
+      <div className={"icon-rezervation"}>
+          <FontAwesomeIcon icon={faUser} className="iconnn" />
+    <input
+      type="text"
+      name="prenume"
+      className="name-input-rezervation"
+      placeholder="Name/Prenume"
+      value={formData.prenume}
+      onChange={handleChange}
+    />
+      </div>
+      <div className={"icon-rezervation"}>
+          < FaIdBadge   className="iconnn" />
+
+    <input
+      type="text"
+      name="virsta"
+      className="email-input-rezervation"
+      placeholder="Vîrsta Șofer"
+      value={formData.virsta}
+      onChange={handleChange}
+    />
+      </div>
+      <div className={"icon-rezervation"}>
+           <FaPhone className="iconnn"/>
+    <input
+      type="tel"
+      name="phone"
+      className="phone-input-rezervation"
+      placeholder="Phone"
+      value={formData.phone}
+      onChange={handleChange}
+    />
+      </div>
+
+      <div className={"pret-zile-rezervare"}>
+    <p>Preț pentru o zi <span className="align-right">{calculatePrice()} €</span></p>
+    <p>Total zile  <span className="align-right">x{totalDays}</span></p>
+    <p>Preț final <span className="align-right red-text">{Pret_final} €</span></p>
+</div>
+
+
+    {error && <p className="error-message-rezervation">{error}</p>}
+    {messageSent && <p className="success-message-rezervation">Mesaj trimis cu succes!</p>}
+    <button className="btn-send-rezervation" onClick={sendRezervation}>
+      Trimite
+    </button>
+  </div>
 </div>
 
 

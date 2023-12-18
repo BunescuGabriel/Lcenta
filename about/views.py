@@ -9,6 +9,10 @@ from rest_framework.exceptions import PermissionDenied
 from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.generics import  get_object_or_404
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 
 class ViewTermini(ListCreateAPIView):
@@ -293,11 +297,6 @@ class DeleteServicii(generics.RetrieveUpdateDestroyAPIView):
             raise Http404
 
 
-
-from django.core.mail import send_mail
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
 
 @csrf_exempt
 def send_email(request):

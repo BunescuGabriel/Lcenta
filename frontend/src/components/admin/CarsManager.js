@@ -437,7 +437,6 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
           </div>
         ))}
 
-
         <div className="banner-conta"  onClick={handleAddCarClick}>
           <div className="banner-imagee">
             <FontAwesomeIcon icon={faPlus} size="4x" />
@@ -446,6 +445,8 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
             <p>Add Car</p>
           </div>
         </div>
+
+
       </div>
         <Modal show={showAddCarModal} onHide={setShowAddCarModal} centered>
         <div className="custom-modal">

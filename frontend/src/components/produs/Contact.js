@@ -89,10 +89,6 @@ const ContactComponent = () => {
       <button className="btn-send" onClick={sendMessage}>
         Trimite
       </button>
-        {/*<input type="text" placeholder="Nume/Prenume" className="contact-input contact-name" />*/}
-        {/*<input type="email" placeholder="Email" className="contact-input contact-email" />*/}
-        {/*<input type="tel" placeholder="Telefon" className="contact-input contact-phone" />*/}
-        {/*<textarea placeholder="Mesaj" className="contact-textarea contact-textarea-message"></textarea>*/}
 
       </div>
       <div className="column-cont2">

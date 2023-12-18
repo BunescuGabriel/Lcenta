@@ -3,13 +3,16 @@
 
 
 /* Modify the styles for the product list */
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px; /* Add margin at the top */
-}
+/*.product-list {*/
+/*  width: 320px;*/
+/*  background-color: #2d4dff;*/
+/*  display: flex;*/
+/*  flex-wrap: wrap;*/
+/*  justify-content: center;*/
+/*  gap: 20px;*/
+/*  margin-top: 20px; !* Add margin at the top *!*/
+/*}*/
+
 
 .product-card {
   width: 320px; /* Adjust the width of the product card */

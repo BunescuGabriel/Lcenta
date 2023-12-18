@@ -11,6 +11,11 @@ from users.models import UserToken
 from rest_framework.exceptions import PermissionDenied
 import django_filters
 from django_filters import rest_framework as filters
+import json
+from django.core.mail import send_mail
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 class CreateBanner(generics.ListCreateAPIView):
@@ -67,7 +72,6 @@ class DeleteBanner(generics.RetrieveDestroyAPIView):
             raise Http404
 
 
-
 class ProdusFilter(django_filters.FilterSet):
     producator = django_filters.ChoiceFilter(
         choices=Produs.objects.order_by('producator').values_list('producator', 'producator').distinct()
@@ -78,34 +82,30 @@ class ProdusFilter(django_filters.FilterSet):
     motor = django_filters.ChoiceFilter(
         choices=Produs.objects.order_by('motor').values_list('motor', 'motor').distinct()
     )
+    numar_usi = django_filters.ChoiceFilter(
+        choices=Produs.objects.order_by('numar_usi').values_list('numar_usi', 'numar_usi').distinct()
+    )
+    numar_pasageri = django_filters.ChoiceFilter(
+        choices=Produs.objects.order_by('numar_pasageri').values_list('numar_pasageri', 'numar_pasageri').distinct()
+    )
+    caroserie = django_filters.ChoiceFilter(
+        choices=Produs.objects.order_by('caroserie').values_list('caroserie', 'caroserie').distinct()
+    )
+    an = django_filters.RangeFilter(label='An între')
+    capacitate_cilindrica = django_filters.RangeFilter(label='Capacitate Cilindrica între')
+
     class Meta:
         model = Produs
         fields = [
         'producator',
         'cutia',
         'motor',
-
+        'numar_usi',
+        'numar_pasageri',
+        'caroserie',
+        'an',
+        'capacitate_cilindrica',
         ]
-        # 'numar_usi',
-        # 'numar_pasageri',
-        # 'caroserie',
-        # 'an',
-        # 'capacitate_cilindrica',
-        # 'price1',
-    # numar_usi = django_filters.ChoiceFilter(
-    #     choices=Produs.objects.order_by('numar_usi').values_list('numar_usi', 'numar_usi').distinct()
-    # )
-    # numar_pasageri = django_filters.ChoiceFilter(
-    #     choices=Produs.objects.order_by('numar_pasageri').values_list('numar_pasageri', 'numar_pasageri').distinct()
-    # )
-    # caroserie = django_filters.ChoiceFilter(
-    #     choices=Produs.objects.order_by('caroserie').values_list('caroserie', 'caroserie').distinct()
-    # )
-    # an = django_filters.RangeFilter(label='An între')
-    # capacitate_cilindrica = django_filters.RangeFilter(label='Capacitate Cilindrica între')
-    # price1 = django_filters.RangeFilter(label='Price între')
-
-
 
 
 class ListProdus(generics.ListAPIView):
@@ -360,4 +360,49 @@ class ProductRatingsView(generics.ListAPIView):
         product_id = self.kwargs['product_id']
 
         return Rating.objects.filter(produs_id=product_id)
+
+
+
+@csrf_exempt
+def reservation_email(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            prenume = data.get("prenume", "")
+            virsta = data.get("virsta", "")
+            phone = data.get("phone", "")
+            fromDate = data.get("fromDate", "")
+            toDate = data.get("toDate", "")
+            carInfo = data.get("carInfo", {})
+
+            car_id = carInfo.get("id", "")
+            car_name = carInfo.get("name", "")
+            car_producer = carInfo.get("producator", "")
+
+            totalDays = data.get("totalDays", "")
+            priceForTotalDays = data.get("priceForTotalDays", "")
+            Pret_final = data.get("Pret_final", "")
+
+            message = (
+                f'Rezervarea Masinilor:'
+                f'\nNume: {prenume}\nVîrsta: {virsta} ani\nTelefon: {phone}'
+                f'\nDe la: {fromDate}\nPână la: {toDate}\n\nDetalii produs:'
+                f'\nNume Produs: {car_name}\nProducător: {car_producer}'
+                f'\nNumăr total de zile: {totalDays}\nPreț pentru o zi: {priceForTotalDays} €'
+                f'\nPreț total: {Pret_final} €'
+            )
+
+            send_mail(
+                f'Mesaj nou de la {prenume}',
+                message,
+                'a0b68cb239e6d6',  # Your Gmail address
+                ['a0b68cb239e6d6'],  # Recipient's email address
+                fail_silently=False,
+            )
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+
+    return JsonResponse({'error': 'Metoda incorectă. Se așteaptă o cerere POST.'})
+
 

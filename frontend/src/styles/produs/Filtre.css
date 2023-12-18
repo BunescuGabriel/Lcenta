@@ -1,0 +1,81 @@
+/* Stil pentru containerul principal */
+.car-filters {
+  display: flex;
+  flex-direction: column; /* Schimbăm direcția de afișare a conținutului */
+  align-items: center; /* Centrăm conținutul pe axa orizontală */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 0 auto;
+  width: 50%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+/* Stil pentru zona de filtre */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px; /* Adăugăm spațiu între filtre și buton */
+}
+
+/* Stil pentru fiecare select */
+.personalizare,
+.personalizare-input {
+  width: calc(30% - 10px);
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* Stil pentru input-urile de tip number */
+.personalizare-input {
+  width: calc(45% - 10px);
+  margin-right: 10px;
+}
+
+/* Stil pentru liniuță */
+.dash {
+  margin: 0 5px;
+}
+
+/* Stil pentru buton */
+.filter-buton {
+  width: 100%;
+  text-align: center;
+}
+
+.personalizare-buton {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Adăugăm o tranziție lină pentru culoarea butonului */
+
+  /* Efect de umbră la hover */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.personalizare-buton:hover {
+  background-color: #0056b3; /* Schimbăm culoarea la hover */
+}
+.input-with-dash {
+  display: flex;
+  align-items: center;
+  width: 30%;
+}
+
+.input-with-dash .personalizare-input {
+  width: calc(45% - 5px); /* Ajustează dimensiunea pentru fiecare input */
+}
+
+.input-with-dash .dash {
+  margin: 0 5px;
+}

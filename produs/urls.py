@@ -13,6 +13,7 @@ urlpatterns = [
     path('car-update/<int:pk>', views.UpdateProdus.as_view()),
 
     path('filter/', views.ListProdus.as_view()),
+    path('reservation-email', views.reservation_email, name='reservation_email'),
 
     path('comments', AddCommentView.as_view()),
     path('car/<int:produs_id>/comments/<int:pk>', views.DeleteGetCommentView.as_view()),
