@@ -21,16 +21,16 @@
       const [error, setError] = useState(null);
       const [currentPage, setCurrentPage] = useState(1);
       const productsPerPage = 12;
-
+      const [filteredProducts, setFilteredProducts] = useState([]);
       const [producers, setProducers] = useState([]);
       const [motorOptions, setMotorOptions] = useState([]);
       const [cutiaOptions, setCutiaOptions] = useState([]);
+      const reversedProducts = [...products].reverse();
       const [usiOptions, setUsiOptions] = useState([]);
       const [pasageriOptions, setPasageriOptions] = useState([]);
       const [caroserieOptions, setCaroserieOptions] = useState([]);
       const [yearRange, setYearRange] = useState({ min: '', max: '' });
       const [capacityRange, setCapacityRange] = useState({ min: '', max: '' });
-
 
       const [filters, setFilters] = useState({
         producator: "",
@@ -136,7 +136,7 @@
       return response.json();
     })
     .then((data) => {
-      setProducts(data);
+      setFilteredProducts(data);
       setLoading(false);
     })
     .catch((error) => {
@@ -157,15 +157,17 @@
         return <div>Error: {error}</div>;
       }
 
-      const indexOfLastProduct = currentPage * productsPerPage;
-      const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-      const currentProducts = products.slice(
-        indexOfFirstProduct,
-        indexOfLastProduct
-      );
 
-      const pages = Math.ceil(products.length / productsPerPage);
-      const pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
+        const indexOfLastProduct = currentPage * productsPerPage;
+        const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+        const currentProducts = reversedProducts.slice(
+            indexOfFirstProduct,
+            indexOfLastProduct
+        );
+
+        // Calculul numărului de pagini
+        const pages = Math.ceil(reversedProducts.length / productsPerPage);
+        const pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
 
       return (
         <Container>
@@ -309,77 +311,119 @@
         </option>
       ))}
     </select>
-    <div className="input-with-dash">
-  <input
-    className="personalizare-input"
-    type="number"
-    name="anMin"
-    placeholder="An de la"
-    value={yearRange.min}
-    onChange={(e) =>
-      setYearRange({ ...yearRange, min: e.target.value })
+                    <div className="filter-group">
+                    <h2 className={"input-with-dash-titlu"}>An de fabricare</h2>
+                    <div className="input-with-dash">
+<input
+  className="personalizare-input"
+  type="number"
+  name="anMin"
+  placeholder="de la"
+  value={yearRange.min}
+  min={1990} // Setarea valorii minime acceptate
+  max={new Date().getFullYear()} // Setarea valorii maxime la anul curent
+  onChange={(e) => {
+    let value = parseInt(e.target.value);
+    if (!isNaN(value)) {
+      if (value < 1990) {
+        value = 1990; // Resetare automată la 1990 dacă valoarea introdusă este mai mică
+      }
+      setYearRange({ ...yearRange, min: value });
+    } else {
+      setYearRange({ ...yearRange, min: '' }); // Resetare la gol pentru valori invalide
     }
-    onBlur={(e) =>
-      setYearRange({
-        ...yearRange,
-        min: e.target.value === '' ? '' : parseInt(e.target.value),
-      })
+  }}
+  onBlur={(e) => {
+    const value = e.target.value === '' ? '' : parseInt(e.target.value);
+    setYearRange({ ...yearRange, min: value });
+  }}
+/>
+<div className="dash">-</div>
+<input
+  className="personalizare-input"
+  type="number"
+  name="anMax"
+  placeholder="până la"
+  value={yearRange.max}
+  min={1990} // Setarea valorii minime acceptate
+  max={new Date().getFullYear()} // Setarea valorii maxime la anul curent
+  onChange={(e) => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value) && value >= 1990 && value <= new Date().getFullYear()) {
+      setYearRange({ ...yearRange, max: value });
+    } else {
+      setYearRange({ ...yearRange, max: '' }); // Resetare la gol pentru valori invalide
     }
-  />
-  <div className="dash">-</div>
-  <input
-    className="personalizare-input"
-    type="number"
-    name="anMax"
-    placeholder="An până la"
-    value={yearRange.max}
-    onChange={(e) =>
-      setYearRange({ ...yearRange, max: e.target.value })
-    }
-    onBlur={(e) =>
-      setYearRange({
-        ...yearRange,
-        max: e.target.value === '' ? '' : parseInt(e.target.value),
-      })
-    }
-  />
-</div>
+  }}
+  onBlur={(e) => {
+    const value = e.target.value === '' ? '' : parseInt(e.target.value);
+    setYearRange({ ...yearRange, max: value });
+  }}
+/>
 
-<div className="input-with-dash">
-  <input
-    className="personalizare-input"
-    type="number"
-    name="capacitate_cilindrica_min"
-    placeholder="Capacitate de la"
-    value={capacityRange.min}
-    onChange={(e) =>
-      setCapacityRange({ ...capacityRange, min: e.target.value })
+
+                    </div>
+
+                </div>
+                    <div  className="filter-group">
+                    <h2 className={"input-with-dash-titlu"}>
+                      Capacitatea motorului <span className="cm3">cm<sup>3</sup></span>
+                </h2>
+                        <div className="input-with-dash">
+<input
+  className="personalizare-input"
+  type="number"
+  step="0.1" // Adăugarea pasului de 0.1
+  name="capacitate_cilindrica_min"
+  placeholder="de la"
+  value={capacityRange.min}
+  onChange={(e) => {
+    const value = parseFloat(e.target.value);
+    if (!isNaN(value) && value >= 0 && value <= 4) {
+      setCapacityRange({ ...capacityRange, min: value });
+    } else {
+      setCapacityRange({ ...capacityRange, min: '' }); // Reset to empty if invalid input
     }
-    onBlur={(e) =>
-      setCapacityRange({
-        ...capacityRange,
-        min: e.target.value === '' ? '' : parseInt(e.target.value),
-      })
+  }}
+  onBlur={(e) => {
+    const value = e.target.value === '' ? '' : parseFloat(e.target.value);
+    if (!isNaN(value) && value >= 0 && value <= 4) {
+      setCapacityRange({ ...capacityRange, min: value });
+    } else {
+      setCapacityRange({ ...capacityRange, min: '' }); // Reset to empty if invalid input
     }
-  />
+  }}
+/>
+
+
   <div className="dash">-</div>
-  <input
-    className="personalizare-input"
-    type="number"
-    name="capacitate_cilindrica_max"
-    placeholder="Capacitate până la"
-    value={capacityRange.max}
-    onChange={(e) =>
-      setCapacityRange({ ...capacityRange, max: e.target.value })
-    }
-    onBlur={(e) =>
-      setCapacityRange({
-        ...capacityRange,
-        max: e.target.value === '' ? '' : parseInt(e.target.value),
-      })
-    }
-  />
+<input
+      className="personalizare-input"
+      type="number"
+      step="0.1"
+      name="capacitate_cilindrica_max"
+      placeholder="până la"
+      value={capacityRange.max}
+      onChange={(e) => {
+        const value = parseFloat(e.target.value);
+        if (!isNaN(value) && value >= 0 && value <= 4) {
+          setCapacityRange({ ...capacityRange, max: value });
+        } else {
+          setCapacityRange({ ...capacityRange, max: '' });
+        }
+      }}
+      onBlur={(e) => {
+        const value = e.target.value === '' ? '' : parseFloat(e.target.value);
+        if (!isNaN(value) && value >= 0 && value <= 4) {
+          setCapacityRange({ ...capacityRange, max: value });
+        } else {
+          setCapacityRange({ ...capacityRange, max: '' });
+        }
+      }}
+    />
+
 </div>
+                </div>
 
 
           </div >
@@ -390,7 +434,8 @@
 
 
           <div className="product-list">
-            {currentProducts.map((product) => (
+                  {(filteredProducts.length > 0 ? filteredProducts : currentProducts).map((product) => (
+                  // {currentProducts.map((product) => (
               <Link to={`/product/${product.id}`} key={product.id}>
                 <div
                   className="product-card"
@@ -449,6 +494,8 @@
               </Link>
             ))}
           </div>
+
+
           <div className="pagination">
             {currentPage > 1 && (
               <button onClick={() => setCurrentPage(currentPage - 1)}>

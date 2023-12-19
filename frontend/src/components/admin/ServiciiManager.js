@@ -146,7 +146,7 @@ const ServiciiManager = () => {
       <div className="service-listt">
         <h2 className="service-titlee">List of Services</h2>
         <div className="service-itemsm">
-          {services.map((service, index) => (
+          {services.slice().reverse().map((service, index) => (
             <div className="service-item" key={index}>
               {updateServiceId === service.id ? (
                 <div className={"Create--service"}>

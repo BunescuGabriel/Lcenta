@@ -135,7 +135,15 @@ function BannerManager() {
 
       <ul>
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          {banners.map((banner) => (
+          <div className="banner-containe" onClick={() => setIsModalVisible(true)}>
+            <div className="banner-imagee">
+              <FontAwesomeIcon icon={faPlus} size="4x" /> {/* Use the plus icon */}
+            </div>
+            <div className="banner-inf">
+              <p>Add Banner</p>
+            </div>
+          </div>
+          {banners.slice().reverse().map((banner) => (
             <div key={banner.id} className="banner-conta">
               <div className="banner-imagee">
                 <img src={banner.banner} alt={banner.name_banner} />
@@ -149,15 +157,6 @@ function BannerManager() {
             </div>
           ))}
 
-          {/* Add a container for the "Add Banner" item */}
-          <div className="banner-conta" onClick={() => setIsModalVisible(true)}>
-            <div className="banner-imagee">
-              <FontAwesomeIcon icon={faPlus} size="4x" /> {/* Use the plus icon */}
-            </div>
-            <div className="banner-inf">
-              <p>Add Banner</p>
-            </div>
-          </div>
         </div>
       </ul>
 

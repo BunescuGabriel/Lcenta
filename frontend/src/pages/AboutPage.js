@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import AboutComponent from "../components/about/DespreNoi";
 import ContactComponent from "../components/about/Contact";
+import Intro from "../components/about/Harta";
 
 const AboutPage = () => {
   return (
@@ -10,6 +11,7 @@ const AboutPage = () => {
       <Header />
       <AboutComponent />
         <ContactComponent/>
+        {/*<Intro/>*/}
         <Footer/>
     </div>
   );

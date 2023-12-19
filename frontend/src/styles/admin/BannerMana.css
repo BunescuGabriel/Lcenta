@@ -1,4 +1,4 @@
-.banner-conta {
+.banner-containe {
   display: flex;
   flex-direction: column; /* Stack items vertically */
   align-items: center;
@@ -10,13 +10,29 @@
   height: 300px;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 10px;
   text-align: center;
 }
 
+.banner-conta {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: 10px;
+  background-color: rgba(255, 255, 255, 0.74);
+  width: 286px;
+  height: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+
+}
+
 .banner-imagee img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  height: 250px;
 }
 
 .banner-inf {

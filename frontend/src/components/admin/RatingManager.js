@@ -45,7 +45,7 @@ const RatingsManager = () => {
   return (
     <Container>
       <div className="product-list">
-        {products.map((product) => (
+        {products.slice().reverse().map((product) => (
           <Card
             style={{ cursor: "pointer" }}
             onClick={() => handleProductClick(product)}

@@ -1,14 +1,15 @@
 /* Stil pentru containerul principal */
 .users-manager-container {
-  width: 166%; /* Lățimea completă a containerului */
+  width: 160%; /* Lățimea completă a containerului */
   padding: 20px;
   background-color: #f7f7f7;
   border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-height: 600px; /* Ajustați înălțimea containerului la max-height pentru a face lista derulabilă */
-  overflow-y: auto; /* Face lista derulabilă dacă depășește înălțimea */
+  /*height: 600px; !* Ajustați înălțimea containerului la max-height pentru a face lista derulabilă *!*/
+  /*overflow-y: auto; !* Face lista derulabilă dacă depășește înălțimea *!*/
   margin: 0 auto;
+  margin-left: 20px;
 }
 
 /* Stil pentru titlul listei de utilizatori */

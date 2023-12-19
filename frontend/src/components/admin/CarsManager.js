@@ -416,7 +416,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
   return (
     <div>
       <div className="product-list-add">
-         {products.map((product, index) => (
+         {products.slice().reverse().map((product, index) => (
           <div
             style={{ cursor: "pointer" }}
             onClick={() => handleProductClick(product)}

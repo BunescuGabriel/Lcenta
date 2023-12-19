@@ -102,7 +102,7 @@ const Meniul = () => {
         {
           activeComponent === 'ServiciiManager' && (
             <div>
-              <h1>Editarea Ratingului pentru un produs anumit!!</h1>
+              <h1>Editarea Serviciilor prestate!!</h1>
               <ServiciiManager />
             </div>
           )
