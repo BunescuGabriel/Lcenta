@@ -25,6 +25,7 @@
       const [producers, setProducers] = useState([]);
       const [motorOptions, setMotorOptions] = useState([]);
       const [cutiaOptions, setCutiaOptions] = useState([]);
+      const [noFilteredProductsMessage, setNoFilteredProductsMessage] = useState(false);
       const reversedProducts = [...products].reverse();
       const [usiOptions, setUsiOptions] = useState([]);
       const [pasageriOptions, setPasageriOptions] = useState([]);
@@ -136,9 +137,15 @@
       return response.json();
     })
     .then((data) => {
-      setFilteredProducts(data);
-      setLoading(false);
-    })
+        setFilteredProducts(data);
+   if (data.length === 0) {
+     setNoFilteredProductsMessage(true);
+     setTimeout(() => {
+       setNoFilteredProductsMessage(false);
+     }, 5000);
+   }
+   setLoading(false);
+ })
     .catch((error) => {
       setError("Error fetching filtered products");
       setLoading(false);
@@ -432,6 +439,11 @@
                 </div>
             </div>
 
+            {noFilteredProductsMessage && (
+      <div className="error-message">
+        Nu au fost găsite produse după filtrare.
+      </div>
+    )}
 
           <div className="product-list">
                   {(filteredProducts.length > 0 ? filteredProducts : currentProducts).map((product) => (

@@ -297,6 +297,8 @@ class DeleteServicii(generics.RetrieveUpdateDestroyAPIView):
             raise Http404
 
 
+from django.core.mail import send_mail
+from django.conf import settings
 
 @csrf_exempt
 def send_email(request):
@@ -312,8 +314,8 @@ def send_email(request):
             send_mail(
                 f'Contactare: mesaj nou de la {name}',
                 f'Nume: {name}\nEmail: {email}\nTelefon: {phone}\nMesaj: {message}',
-                'a0b68cb239e6d6',  # Adresa ta de email Gmail
-                ['a0b68cb239e6d6'],  # Lista de destinatari
+                email,  # Adresa ta de email Gmail
+                [settings.EMAIL_HOST_USER],  # Lista de destinatari
                 fail_silently=False,
             )
             return JsonResponse({'success': True})

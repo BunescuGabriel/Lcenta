@@ -204,15 +204,16 @@ SIMPLE_JWT = {
 }
 
 
-EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
-EMAIL_HOST_USER = 'a0b68cb239e6d6'
-EMAIL_HOST_PASSWORD = 'd6d22fe26012ef'
-EMAIL_PORT = '2525'
+# EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+# EMAIL_HOST_USER = 'a0b68cb239e6d6'
+# EMAIL_HOST_PASSWORD = 'd6d22fe26012ef'
+# EMAIL_PORT = '2525'
 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'  # Adresa serverului SMTP pentru Gmail
-# EMAIL_PORT = 587  # Portul serverului SMTP pentru Gmail (587 este portul implicit pentru TLS)
-# EMAIL_USE_TLS = True  # Setează True dacă folosești TLS pentru conexiunea SMTP
-# EMAIL_HOST_USER = 'bmef13619@gmail.com'  # Adresa ta de email Gmail pentru autentificare SMTP
-# EMAIL_HOST_PASSWORD = '060597932'  # Parola pentru adresa ta de email Gmail
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Adresa serverului SMTP pentru Gmail
+EMAIL_PORT = 587  # Portul serverului SMTP pentru Gmail (587 este portul implicit pentru TLS)
+EMAIL_USE_TLS = True  # Setează True dacă folosești TLS pentru conexiunea SMTP
+EMAIL_HOST_USER = 'supremerentals.srl@gmail.com'  # Adresa ta de email Gmail pentru autentificare SMTP
+EMAIL_HOST_PASSWORD = 'qgoe cmbu rmtt ztwy'  # Parola pentru adresa ta de email Gmail
+

@@ -12,10 +12,10 @@ from rest_framework.exceptions import PermissionDenied
 import django_filters
 from django_filters import rest_framework as filters
 import json
-from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class CreateBanner(generics.ListCreateAPIView):
@@ -387,7 +387,7 @@ def reservation_email(request):
                 f'Rezervarea Masinilor:'
                 f'\nNume: {prenume}\nVîrsta: {virsta} ani\nTelefon: {phone}'
                 f'\nDe la: {fromDate}\nPână la: {toDate}\n\nDetalii produs:'
-                f'\nNume Produs: {car_name}\nProducător: {car_producer}'
+                f'\nNume Produs: {car_producer} {car_name}'
                 f'\nNumăr total de zile: {totalDays}\nPreț pentru o zi: {priceForTotalDays} €'
                 f'\nPreț total: {Pret_final} €'
             )
@@ -395,8 +395,8 @@ def reservation_email(request):
             send_mail(
                 f'Rezervarea Masinilor: mesaj nou de la {prenume}',
                 message,
-                'a0b68cb239e6d6',  # Your Gmail address
-                ['a0b68cb239e6d6'],  # Recipient's email address
+                virsta,  # Your Gmail address
+                [settings.EMAIL_HOST_USER],  # Recipient's email address
                 fail_silently=False,
             )
             return JsonResponse({'success': True})
