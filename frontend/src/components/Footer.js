@@ -36,7 +36,7 @@ const Footer = () => {
           <FaFacebook /> <a className={"contact-linkk"} href="https://www.facebook.com/ChirieAutoBALTI" target="_blank" rel="noopener noreferrer">Supreme Rentals</a>
         </p>
             <p className="contact-info">
-              <a className={"contact-linkk"} href="mailto:adresa@email.com" target="_blank" rel="noopener noreferrer"><FaEnvelope /> adresa@email.com</a>
+              <a className={"contact-linkk"} href="mailto:adresa@email.com" target="_blank" rel="noopener noreferrer"><FaEnvelope />supremerentals.srl@gmail.com</a>
           </p>
           </ul>
         </div>

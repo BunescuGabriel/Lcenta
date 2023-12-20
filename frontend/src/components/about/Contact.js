@@ -123,7 +123,7 @@ const ContactComponent = () => {
           <FaFacebook /> <a className={"contact-link"} href="https://www.facebook.com/ChirieAutoBALTI" target="_blank" rel="noopener noreferrer">Supreme Rentals</a>
         </p>
           <p className="contact-info">
-              <a className={"contact-link"} href="mailto:adresa@email.com" target="_blank" rel="noopener noreferrer"><FaEnvelope /> adresa@email.com</a>
+              <a className={"contact-link"} href="mailto:adresa@email.com" target="_blank" rel="noopener noreferrer"><FaEnvelope />supremerentals.srl@gmail.com</a>
           </p>
         <p className="contact-info"><FaClock /> Orar de lucru: 24/24</p>
       </div>
