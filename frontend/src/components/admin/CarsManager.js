@@ -15,6 +15,7 @@ const CarsManager = () => {
   const [error, setError] = useState(null);
   const [showAddCarModal, setShowAddCarModal] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+    const [dropzoneActive, setDropzoneActive] = useState(false);
   const [userIsSuperUser, setUserIsSuperUser] = useState(false);
   const [showEditCarModal, setShowEditCarModal] = useState(false);
   const [produsData, setProdusData] = useState({
@@ -272,7 +273,8 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
   }
 };
 
-  const handleUpdateProduct = async () => {
+  const handleUpdateProduct = async (event) => {
+      event.preventDefault(); // Prevent the default form submission behavior
   try {
     const storedAccessToken = localStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken && selectedProduct) {
@@ -293,11 +295,23 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
       formData.append('price5', selectedProduct.price5);
       formData.append('an', selectedProduct.an);
       formData.append('capacitate_cilindrica', selectedProduct.capacitate_cilindrica);
-      if (selectedProduct && selectedProduct.uploaded_images) {
+      // if (selectedProduct && selectedProduct.uploaded_images) {
+      //   selectedProduct.uploaded_images.forEach((image, index) => {
+      //     formData.append(`uploaded_images[${index}]`, image);
+      //     });
+      //   }
+      if (selectedProduct.uploaded_images && selectedProduct.uploaded_images.length > 0) {
         selectedProduct.uploaded_images.forEach((image, index) => {
           formData.append(`uploaded_images[${index}]`, image);
-          });
-        }
+        });
+      }
+
+      if (selectedProduct.images_to_delete && selectedProduct.images_to_delete.length > 0) {
+        selectedProduct.images_to_delete.forEach((imageId, index) => {
+          formData.append(`images_to_delete[${index}]`, imageId);
+        });
+      }
+
       await axios.put(`http://localhost:8000/api/produs/car-update/${selectedProduct.id}`, formData, {
         headers: {
           Authorization: `Bearer ${storedAccessToken}`,
@@ -311,6 +325,9 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
     console.error('Error updating product:', error);
   }
 };
+
+
+
   const handleProductClick = (selectedProduct) => {
   setSelectedProduct(selectedProduct);
   setShowEditCarModal(true);
@@ -398,6 +415,21 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
     uploaded_images: acceptedFiles,
   });
 };
+  const handleImageDelete = (event,imageIndex) => {
+      event.preventDefault(); // Împiedică acțiunea implicită a butonului
+  const updatedImages = selectedProduct.images.filter((_, index) => index !== imageIndex);
+  const imagesToDelete = selectedProduct.images[imageIndex].id; // presupunând că ID-ul imaginii este în câmpul 'id'
+
+  setSelectedProduct((prevProduct) => ({
+    ...prevProduct,
+    images: updatedImages,
+    images_to_delete: [...(prevProduct.images_to_delete || []), imagesToDelete], // adaugă ID-ul imaginii de șters
+  }));
+  setDropzoneActive(false);
+};
+
+
+
 
 const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpdate } = useDropzone({
   onDrop: onDropForUpdate,
@@ -828,20 +860,31 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
             <FontAwesomeIcon icon={faPlus} size="4x" />
           </div>
         <ul>
-          <div className="image-container">
-            {selectedProduct && selectedProduct.images.map((image, index) => (
-            // <img className={"img-update"} key={index} src={image.image}  alt={`Image ${index}`} />
-            <div key={index} className="image-wrapper">
-                <img className="img-update" src={image.image} alt={`Image ${index}`} />
-                <p className={"name-images"}>{image.image}</p> {/* Adaugă numele imaginii */}
-            </div>
-            ))}
-          </div>
+  {selectedProduct && selectedProduct.uploaded_images && selectedProduct.uploaded_images.length > 0 && (
+      selectedProduct.uploaded_images.map((image, index) => (
+        <li key={index}>
+          <p>{image.name}</p>
+        </li>
+      ))
+    )}
+
         </ul>
       </div>
 
+        <div className="gallery-update">
+  {selectedProduct &&
+    selectedProduct.images.map((image, index) => (
+      <div className="image-item--update" key={index}>
+        <img className="image-update" src={image.image} alt={`Image ${index}`} />
+        <button className="delete-button" type="button" onClick={(e) => handleImageDelete(e, index)}>Delete</button>
+        <p className="image-description--update">{image.image}</p>
+      </div>
+    ))}
+</div>
 
-    <button  type="button1" onClick={() => handleUpdateProduct(selectedProduct.id)}>Actualizează Produs</button>
+
+
+    <button  type="submit" >Actualizează Produs</button>
 
     <button  type="button" onClick={() => setShowEditCarModal(false)}>Close</button>
   </form>

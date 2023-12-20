@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import '../../styles/about/Contact.css';
 import { FaPhone, FaMapMarkerAlt, FaClock, FaInstagram, FaFacebook,FaEnvelope,FaViber  } from 'react-icons/fa';
-import {MapContainer} from "./MapContainer";
 
 const ContactComponent = () => {
     const [formData, setFormData] = useState({

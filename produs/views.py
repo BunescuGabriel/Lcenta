@@ -164,27 +164,10 @@ class UpdateProdus(RetrieveUpdateDestroyAPIView):
                 raise PermissionDenied("You cannot delete a rating after logging out.")
 
             if user.is_superuser:
-                # Verificăm dacă există imagini încărcate în request.data
-                uploaded_images = request.data.get('uploaded_images', [])
-
                 serializer = self.get_serializer(instance, data=request.data, partial=True)
 
                 if serializer.is_valid():
-                    # Dacă nu sunt imagini încărcate noi, actualizăm doar alte câmpuri
-                    if not uploaded_images:
-                        serializer.save()
-                    else:
-                        # Ștergem imaginile existente doar dacă sunt imagini noi încărcate
-                        instance.images.all().delete()
-                        serializer.save()
-
-                    # Dacă există imagini noi, procesăm relația imaginilor
-                    existing_images = instance.images.all()
-
-                    for image in existing_images:
-                        if image not in uploaded_images:
-                            image.delete()
-
+                    serializer.save()
                     return Response(serializer.data)
 
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

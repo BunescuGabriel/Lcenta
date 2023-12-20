@@ -23,6 +23,11 @@ class ProdusSerializer(serializers.ModelSerializer):
         required=False
     )
 
+    images_to_delete = serializers.ListField(
+        child=serializers.IntegerField(),  # presupunând că se folosesc ID-uri pentru imagini
+        write_only=True,
+        required=False
+    )
     class Meta:
         model = models.Produs
         fields = '__all__'
@@ -38,7 +43,19 @@ class ProdusSerializer(serializers.ModelSerializer):
         uploaded_images = validated_data.pop("uploaded_images", [])
         for image in uploaded_images:
             models.Images.objects.create(produs=instance, image=image)
+
+        # Aici se face ștergerea imaginilor
+        # images_to_delete = self.context['request'].data.get('images_to_delete', [])
+        images_to_delete = validated_data.pop('images_to_delete', [])
+        for image_id in images_to_delete:
+            try:
+                image_to_delete = models.Images.objects.get(id=image_id, produs=instance)
+                image_to_delete.delete()
+            except models.Images.DoesNotExist:
+                pass
+
         return super().update(instance, validated_data)
+
 
 
 class CommentsSerializer(serializers.ModelSerializer):
