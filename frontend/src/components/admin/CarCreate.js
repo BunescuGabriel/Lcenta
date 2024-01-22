@@ -329,7 +329,7 @@ const AN_CHOICES = Array.from({ length: currentYear - startYear + 1 }, (_, index
       </label>
       <br />
       <label>
-      Price 1:
+      1-2 Zile:
       <input
         type="number"
         value={produsData.price1}
@@ -338,7 +338,7 @@ const AN_CHOICES = Array.from({ length: currentYear - startYear + 1 }, (_, index
     </label>
       <br />
       <label>
-      Price2 :
+      3-7 Zile:
       <input
         type="number"
         value={produsData.price2}
@@ -347,7 +347,7 @@ const AN_CHOICES = Array.from({ length: currentYear - startYear + 1 }, (_, index
     </label>
       <br />
       <label>
-      Price 3:
+      8-20 Zile:
       <input
         type="number"
         value={produsData.price3}
@@ -356,7 +356,7 @@ const AN_CHOICES = Array.from({ length: currentYear - startYear + 1 }, (_, index
     </label>
       <br />
       <label>
-      Price 4:
+      21-45 Zile:
       <input
         type="number"
         value={produsData.price4}
@@ -365,7 +365,7 @@ const AN_CHOICES = Array.from({ length: currentYear - startYear + 1 }, (_, index
     </label>
       <br />
       <label>
-      Price 5:
+      46+ Zile:
       <input
         type="number"
         value={produsData.price5}

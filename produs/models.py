@@ -69,7 +69,7 @@ class Produs(models.Model):
     ]
     numar_pasageri = models.IntegerField(choices=PASAGERI_CHOICES, default=NOT_SPECIFIED_PASAGERI)
 
-    Limita_de_KM = models.CharField(max_length=200, default='fără limită')
+    Limita_de_KM = models.TextField(default='fara limita')
     descriere = models.TextField()
 
     VAN = 0
@@ -109,11 +109,11 @@ class Produs(models.Model):
     AN_CHOICES = [(year, str(year)) for year in range(start_year, current_year + 1)]
     an = models.IntegerField(choices=AN_CHOICES, default=current_year)
 
-    CAPACITATE_CHOICES = [(i / 10, str(i / 10)) for i in range(10, 41)]
+    CAPACITATE_CHOICES = [(i / 10, str(i / 10)) for i in range(8, 41)]
 
     capacitate_cilindrica = models.FloatField(
         choices=CAPACITATE_CHOICES,
-        default=1.0
+        default=0.8
     )
 
     price1 = models.IntegerField()

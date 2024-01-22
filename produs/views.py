@@ -378,7 +378,7 @@ def reservation_email(request):
             send_mail(
                 f'Rezervarea Masinilor: mesaj nou de la {prenume}',
                 message,
-                virsta,  # Your Gmail address
+                virsta,
                 [settings.EMAIL_HOST_USER],  # Recipient's email address
                 fail_silently=False,
             )

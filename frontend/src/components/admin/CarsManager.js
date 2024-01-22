@@ -35,7 +35,7 @@ const CarsManager = () => {
     price4: 0,
     price5: 0,
     an: new Date().getFullYear(),
-    capacitate_cilindrica: 1.0,
+    capacitate_cilindrica: 0.8,
   });
 
   const fetchUserAccess = async () => {
@@ -172,7 +172,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
   };
 
   const CAPACITATE_CHOICES = [];
-  for (let i = 10; i <= 40; i++) {
+  for (let i = 8; i <= 40; i++) {
     const value = i / 10;
     CAPACITATE_CHOICES.push([value, value.toString()]);
   }
@@ -241,7 +241,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
         price4: 0,
         price5: 0,
         an: new Date().getFullYear(),
-        capacitate_cilindrica: 1.0,
+        capacitate_cilindrica: 0.8,
       });
    fetchCar();
   }
@@ -553,8 +553,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
       <br />
       <label>
         Limita de KM:
-        <input
-          type="text"
+        <textarea
           name="Limita_de_KM"
           value={produsData.Limita_de_KM}
           onChange={handleInputChange}
@@ -613,7 +612,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
       </label>
       <br />
       <label>
-      Price 1:
+      1-2 Zile :
       <input
         type="number"
         value={produsData.price1}
@@ -622,7 +621,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
     </label>
       <br />
       <label>
-      Price2 :
+      3-7 Zile :
       <input
         type="number"
         value={produsData.price2}
@@ -631,7 +630,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
     </label>
       <br />
       <label>
-      Price 3:
+      8-20 Zile :
       <input
         type="number"
         value={produsData.price3}
@@ -640,7 +639,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
     </label>
       <br />
       <label>
-      Price 4:
+      21-45 Zile :
       <input
         type="number"
         value={produsData.price4}
@@ -649,7 +648,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
     </label>
       <br />
       <label>
-      Price 5:
+      46+ Zile :
       <input
         type="number"
         value={produsData.price5}
@@ -747,8 +746,8 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
       <br />
       <label>
         Limita de KM:
-        <input
-          type="text"
+        <textarea
+          // type="text"
           name="Limita_de_KM"
           value={selectedProduct ? selectedProduct.Limita_de_KM : ''}
           onChange={handleInputUpdate}
@@ -807,7 +806,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
       </label>
       <br />
       <label>
-      Price 1:
+      1-2 Zile :
       <input
         type="number"
         value={selectedProduct ? selectedProduct.price1 : ''}
@@ -816,7 +815,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
     </label>
       <br />
       <label>
-      Price2 :
+      3-7 Zile :
       <input
         type="number"
         value={selectedProduct ? selectedProduct.price2 : ''}
@@ -825,7 +824,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
     </label>
       <br />
       <label>
-      Price 3:
+      8-20 Zile :
       <input
         type="number"
         value={selectedProduct ? selectedProduct.price3 : ''}
@@ -834,7 +833,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
     </label>
       <br />
       <label>
-      Price 4:
+      21-45 Zile :
       <input
         type="number"
         value={selectedProduct ? selectedProduct.price4 : ''}
@@ -843,7 +842,7 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
     </label>
       <br />
       <label>
-      Price 5:
+      46+ Zile :
       <input
         type="number"
         value={selectedProduct ? selectedProduct.price5 : ''}

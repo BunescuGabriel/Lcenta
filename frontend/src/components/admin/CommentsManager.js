@@ -3,6 +3,7 @@ import { Container, Card, Image, Spinner, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import '../../styles/produs/Car.css';
+import '../../styles/admin/Commen.css';
 import '../../styles/admin/CommentsMana.css';
 import DeleteComments from "./DeleteComments";
 
@@ -44,12 +45,12 @@ const CommentsManager = () => {
 
   return (
     <Container>
-      <div className="product-list">
+      <div className="product-list-com">
         {products.slice().reverse().map((product) => (
           <Card
             style={{ cursor: "pointer" }}
             onClick={() => handleProductClick(product)}
-            className="product-card"
+            className="product-card-com"
             key={product.id}
           >
             <Card.Body>

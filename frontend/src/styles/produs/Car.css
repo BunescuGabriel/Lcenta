@@ -10,7 +10,7 @@
 .product-card {
   width: 340px;
   margin: 10px;
-  height: 400px;
+  height: 360px;
   border-radius: 10px;
   cursor: pointer;
   transition: box-shadow 0.3s;
