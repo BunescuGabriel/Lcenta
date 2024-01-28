@@ -4,10 +4,3 @@ services:
     build: frontend
     ports:
       - "3000:3000"
-
-  backend:
-    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
