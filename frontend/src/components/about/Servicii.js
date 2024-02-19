@@ -3,9 +3,6 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import axios from 'axios';
-
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import '../../styles/about/Servicii.css';
 
 const ServiceComponent = () => {
@@ -15,10 +12,8 @@ const ServiceComponent = () => {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    // Facem o cerere GET către backend pentru a obține serviciile
-    axios.get('http://127.0.0.1:8000/api/about/servicii') // Înlocuiți '/api/servicii' cu ruta reală către API-ul de backend
+    axios.get('http://127.0.0.1:8000/api/about/servicii')
       .then(response => {
-        // Salvăm serviciile obținute în starea componentei
         setServices(response.data);
       })
       .catch(error => {
@@ -40,7 +35,7 @@ const ServiceComponent = () => {
   return (
     <div className="Service-container" onMouseEnter={() => setShowArrows(true)} onMouseLeave={() => setShowArrows(false)}>
       <div className="text-overlay">
-        <h2 className="title-service">Serviciile noastre</h2>
+        <h2 className="title-service">Serviciile Noastre</h2>
         <div className="servicii-caruseli">
           <Slider {...settings}>
             {services.map((service, index) => (
