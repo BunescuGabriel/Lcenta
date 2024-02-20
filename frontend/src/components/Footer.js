@@ -42,7 +42,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; {new Date().getFullYear()} Numele Companiei. Toate drepturile rezervate.</p>
+        <p>&copy; {new Date().getFullYear()} Supreme Rentals. Toate drepturile rezervate.</p>
       </div>
     </footer>
   );
