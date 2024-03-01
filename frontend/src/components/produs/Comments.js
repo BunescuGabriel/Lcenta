@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // You need to install Axios
+import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import '../../styles/produs/Comments.css';
@@ -7,10 +7,11 @@ import { format } from 'date-fns';
 
 const ProductComments = ({ productId }) => {
   const [comments, setComments] = useState([]);
+  const [userNames, setUserNames] = useState({});
 
   const fetchUserInfo = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/users/profile/${userId}/`); // Înlocuiți cu endpoint-ul corect pentru obținerea informațiilor despre utilizator
+      const response = await axios.get(`http://localhost:8000/api/users/profile/${userId}/`);
       return response.data;
     } catch (error) {
       console.error('Error fetching user info:', error);
@@ -29,15 +30,12 @@ const ProductComments = ({ productId }) => {
 
   useEffect(() => {
     fetchComments();
-
     const refreshInterval = setInterval(fetchComments, 1000);
 
     return () => {
       clearInterval(refreshInterval);
     };
   }, [productId]);
-
-  const [userNames, setUserNames] = useState({});
 
   useEffect(() => {
     const fetchUserNames = async () => {
@@ -46,8 +44,8 @@ const ProductComments = ({ productId }) => {
         const userInfo = await fetchUserInfo(comment.user_id);
         if (userInfo) {
           userNamesData[comment.user_id] = {
-            firstName: userInfo.first_name,
-            lastName: userInfo.last_name,
+            firstName: userInfo.first_name || 'Unknown',
+            lastName: userInfo.last_name || 'User',
             avatar: userInfo.avatar,
           };
         }
@@ -66,7 +64,7 @@ const ProductComments = ({ productId }) => {
         {comments.slice().reverse().map((comment) => (
           <li key={comment.id} className="comment-item">
             <div className="user-info">
-              {userNames[comment.user_id] ? (
+              {userNames[comment.user_id] && userNames[comment.user_id].avatar ? (
                 <img
                   src={userNames[comment.user_id].avatar}
                   alt={`Avatar for ${userNames[comment.user_id].firstName} ${userNames[comment.user_id].lastName}`}
@@ -77,9 +75,7 @@ const ProductComments = ({ productId }) => {
               )}
               <div className="user-details">
                 <p className="user-name">
-                  {userNames[comment.user_id]
-                    ? `${userNames[comment.user_id].firstName} ${userNames[comment.user_id].lastName}`
-                    : 'Unknown User'}
+                  {userNames[comment.user_id] ? `${userNames[comment.user_id].firstName} ${userNames[comment.user_id].lastName}` : 'Unknown User'}
                 </p>
                 <p className="comment-text">{comment.comment}</p>
               </div>
