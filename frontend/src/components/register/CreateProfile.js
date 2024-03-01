@@ -20,47 +20,45 @@ const CreateProfile = ({ userData, onProfileCreationSuccess }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+
   const handleImageUpload = (acceptedFiles) => {
-    // Manipulați încărcarea imaginii aici și actualizați starea avatarului
-    const file = acceptedFiles[0]; // Ia doar primul fișier în cazul în care utilizatorul a încărcat mai multe
-    setFormData({ ...formData, avatar: file });
-  };
+  const file = acceptedFiles[0];
+  setFormData({ ...formData, avatar: file });
+};
 
-  const handleCreateProfile = async () => {
-    const { first_name, last_name, phoneNumber, birthday, gender, avatar } = formData;
+const handleCreateProfile = async () => {
+  const { first_name, last_name, phoneNumber, birthday, gender, avatar } = formData;
 
-    if (!userData || !userData.id) {
-      console.error('User data is missing or does not contain an ID.');
-      return;
-    }
+  if (!userData || !userData.id) {
+    console.error('User data is missing or does not contain an ID.');
+    return;
+  }
 
-    const userId = userData.id;
+  const userId = userData.id;
 
-    // Verificați dacă fiecare câmp este gol și setați-l ca "null" dacă este cazul
-    const requestData = {
-      user_id: userId,
-      first_name: first_name || null,
-      last_name: last_name || null,
-      phoneNumber: phoneNumber || null,
-      birthday: birthday || null,
-      gender: gender,
-      avatar: avatar || null,
-    };
+  // Verificați dacă fiecare câmp este gol și setați-l ca "null" dacă este cazul
+  const requestData = new FormData();
+  requestData.append('user_id', userId);
+  requestData.append('first_name', first_name || '');
+  requestData.append('last_name', last_name || '');
+  requestData.append('phoneNumber', phoneNumber || '');
+  requestData.append('birthday', birthday || '');
+  requestData.append('gender', gender);
+  requestData.append('avatar', avatar || ''); // Asigurați-vă că imaginea este transmisă corect
 
-    try {
-      const response = await axios.post('http://localhost:8000/api/users/create-profile', requestData);
-      console.log('Profile created:', response.data);
-      // Pasați user_id către funcția de succes
-      onProfileCreationSuccess(response.data.user_id);
-      navigate('/login');
+  try {
+    const response = await axios.post('http://localhost:8000/api/users/create-profile', requestData);
+    console.log('Profile created:', response.data);
+    // Pasați user_id către funcția de succes
+    onProfileCreationSuccess(response.data.user_id);
+    navigate('/login');
+    // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce profilul a fost creat
+  } catch (error) {
+    console.error('Error creating Profile:', error.message);
+    // Afișați un mesaj de eroare pentru utilizator
+  }
+};
 
-
-      // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce profilul a fost creat
-    } catch (error) {
-      console.error('Error creating Profile:', error.message);
-      // Afișați un mesaj de eroare pentru utilizator
-    }
-  };
 
   return (
     <div>

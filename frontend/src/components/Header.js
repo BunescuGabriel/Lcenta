@@ -107,28 +107,26 @@ function Header() {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      if (offset > 90) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
+  const handleScroll = () => {
+    const offset = window.scrollY;
+    const scrollThreshold = 210; // Pragul de scrolare pentru a considera că utilizatorul a trecut de antet
+    setIsScrolled(offset > scrollThreshold);
+  };
 
-    window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll);
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
+
+
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <a href="/"><img src={logo} alt="Home" className="logo-img" /></a>
       <nav className="navigation-bar">
         <ul>
-          {/*<li><a href="/">Home</a></li>*/}
           <li><a href="/about">About</a></li>
           <li><a href="/conditii">TERMENI ȘI CONDIȚII</a></li>
           {userIsSuperUser && <li><a href="/admin">Admin</a></li>}

@@ -14,7 +14,6 @@ function RegisterPage() {
     console.log('User registered with ID:', user_id);
     setUserData({ id: user_id });
 
-    // Trecerea la următorul pas (Profile) automat
     setStep(2);
   };
 

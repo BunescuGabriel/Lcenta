@@ -17,7 +17,7 @@ body {
   align-items: center;
   border-radius: 10px;
   position: relative;
-  transition: top 0.3s ease-in-out;
+transition: top 0.3s ease-in-out, background 0.3s ease-in-out;
   background: linear-gradient(135deg, #2d4dff, #00ccff, #0c0c0c);
   background-size: 400% 400%;
   animation: gradientAnimation 10s ease infinite alternate,

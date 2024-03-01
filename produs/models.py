@@ -109,10 +109,8 @@ class Produs(models.Model):
     AN_CHOICES = [(year, str(year)) for year in range(start_year, current_year + 1)]
     an = models.IntegerField(choices=AN_CHOICES, default=current_year)
 
-    CAPACITATE_CHOICES = [(i / 10, str(i / 10)) for i in range(8, 41)]
-
-    capacitate_cilindrica = models.FloatField(
-        choices=CAPACITATE_CHOICES,
+    capacitate_cilindrica = models.CharField(
+        max_length=100,
         default=0.8
     )
 

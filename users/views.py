@@ -130,22 +130,14 @@ class CreateProfile(generics.CreateAPIView):
         if gender not in [choice[0] for choice in Profiles.GENDER_CHOICES]:
             return Response({'gender': 'Invalid gender value'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Verificăm dacă 'avatar' este o imagine validă
         if avatar is not None:
             try:
-                # Deschide imaginea folosind PIL pentru a verifica validitatea
                 img = Image.open(avatar)
-                # Verifică dacă imaginea este într-un format acceptat, de exemplu, JPEG sau PNG
                 if img.format not in ('JPEG', 'PNG'):
                     return Response({'avatar': 'Invalid image format'}, status=status.HTTP_400_BAD_REQUEST)
-                # Verifică dacă dimensiunile imaginii sunt acceptabile (poți seta limitele aici)
-                if img.width > 1000 or img.height > 1000:
-                    return Response({'avatar': 'Image dimensions are too large'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
-                # Dacă apar erori la deschiderea sau verificarea imaginii, returnează o eroare
                 return Response({'avatar': 'Invalid image'}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Setăm valorile furnizate și celelalte ca "None"
         serializer.save(
             first_name=first_name,
             last_name=last_name,

@@ -100,6 +100,8 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
       [name]: value,
     });
   };
+
+
   const handleCutieChange = (event) => {
     const { value } = event.target;
     setProdusData({

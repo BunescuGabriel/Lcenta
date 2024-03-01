@@ -1,4 +1,4 @@
-    import React, { useState, useEffect } from "react";
+    import React, { useState, useEffect, useRef  } from "react";
     import { Link } from "react-router-dom";
     import { Container, Image, Spinner } from "react-bootstrap";
     import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,6 +38,8 @@
         cutia: "",
         motor: "",
       });
+
+      const productListRef = useRef(null);
 
       useEffect(() => {
       fetch("http://localhost:8000/api/produs/car")
@@ -104,6 +106,17 @@
           setLoading(false);
         });
     }, []);
+
+  //     useEffect(() => {
+  //   window.scrollTo({ top: 0, behavior: "smooth" }); // Scrolare în partea de sus a paginii la schimbarea paginii
+  // }, [currentPage]);
+
+      useEffect(() => {
+  if (productListRef.current) {
+    window.scrollTo({ top: productListRef.current.offsetTop, behavior: "smooth" });
+  }
+}, [currentPage]);
+
 
       useEffect(() => {
 
@@ -177,10 +190,10 @@
         const pageNumbers = Array.from({ length: pages }, (_, i) => i + 1);
 
       return (
-        <Container>
+        <Container >
 
 
-            <div className="car-filters">
+            <div className="car-filters" ref={productListRef}>
                 <div className="filters">
             <select
                 className="personalizare"
@@ -437,7 +450,7 @@
                 <div className={"filter-buton"}>
                   <button className={"personalizare-buton"} onClick={handleFilterApplyClick}>Aplică filtrele</button>
                 </div>
-            </div>
+            </div >
 
             {noFilteredProductsMessage && (
       <div className="error-message">
@@ -445,7 +458,7 @@
       </div>
     )}
 
-          <div className="product-list">
+          <div className="product-list" >
                   {(filteredProducts.length > 0 ? filteredProducts : currentProducts).map((product) => (
                   // {currentProducts.map((product) => (
               <Link to={`/product/${product.id}`} key={product.id}>
@@ -453,13 +466,15 @@
                   className="product-card"
                   onClick={() => handleProductClick(product)}
                 >
-                  {product.images.length > 0 && (
+                    <div className= "container-images">
+                        {product.images.length > 0 && (
                     <Image
                       src={product.images[0].image}
                       fluid
                       className="product-image"
                     />
                   )}
+                    </div>
                   <div className="product-details">
                     <p className="product-name-car">
                       {product.producator} {product.name}
