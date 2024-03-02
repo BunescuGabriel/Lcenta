@@ -29,11 +29,12 @@ const ProductComments = ({ productId }) => {
   };
 
   useEffect(() => {
-    fetchComments();
-    const refreshInterval = setInterval(fetchComments, 1000);
+    const interval = setInterval(fetchComments, 5000); // Reîmprospătăm datele la fiecare 5 secunde
+
+    fetchComments(); // Inițial, solicităm datele
 
     return () => {
-      clearInterval(refreshInterval);
+      clearInterval(interval); // Oprim intervalul atunci când componenta se demontează
     };
   }, [productId]);
 

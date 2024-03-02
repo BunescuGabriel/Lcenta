@@ -2,55 +2,48 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../../styles/produs/ListRating.css';
 
-const ListRating = ({ productId, onUpdateTotalVotes   }) => {
-  const [ratings, setRatings] = useState([]);
+const ListRating = ({ productId, onUpdateTotalVotes }) => {
   const [ratingCounts, setRatingCounts] = useState([0, 0, 0, 0, 0]);
+  const [totalVotes, setTotalVotes] = useState(0);
 
-  const fetchData = () => {
-    axios.get(`http://localhost:8000/api/produs/ratings-list/${productId}`)
-      .then(response => {
-        setRatings(response.data);
-        onUpdateTotalVotes(response.data.length);
-      })
-      .catch(error => {
-        console.error('Eroare la preluarea datelor:', error);
+  const fetchRatings = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8000/api/produs/ratings-list/${productId}`);
+      const ratings = response.data;
+      const newRatingCounts = [0, 0, 0, 0, 0];
+      let totalVotes = ratings.length;
+
+      ratings.forEach(rating => {
+        newRatingCounts[rating.rating - 1]++;
       });
+
+      const ratingPercentages = newRatingCounts.map(count => {
+        return (count / totalVotes) * 100;
+      });
+
+      ratingPercentages.reverse();
+
+      setRatingCounts(ratingPercentages);
+      setTotalVotes(totalVotes);
+      onUpdateTotalVotes(totalVotes);
+    } catch (error) {
+      console.error('Error fetching ratings:', error);
+    }
   };
 
   useEffect(() => {
-    fetchData(); // Inițial, solicităm datele
+    fetchRatings(); // Inițial, solicităm datele
 
-    const refreshInterval = setInterval(() => {
-      fetchData(); // Reîmprospătăm datele la fiecare 5 secunde
-    }, 1000);
+    const interval = setInterval(fetchRatings, 5000); // Reîmprospătăm datele la fiecare 5 secunde
 
     return () => {
-      clearInterval(refreshInterval); // Oprim intervalul atunci când componenta se demontează
-    }
+      clearInterval(interval); // Oprim intervalul atunci când componenta se demontează
+    };
   }, [productId]);
-
-  useEffect(() => {
-    const newRatingCounts = [0, 0, 0, 0, 0];
-
-    ratings.forEach(rating => {
-      newRatingCounts[rating.rating - 1]++;
-    });
-
-    const totalVotes = ratings.length;
-
-    const ratingPercentages = newRatingCounts.map(count => {
-      return (count / totalVotes) * 100;
-    });
-
-    ratingPercentages.reverse();
-
-    setRatingCounts(ratingPercentages);
-  }, [ratings]);
 
   return (
     <div className="list-rating-container">
-      <h1 className="list-rating-title">Ratings and Comments </h1>
-      {/*<p>Total Votes: {ratings.length}</p>*/}
+      <h1 className="list-rating-title">Ratings and Comments</h1>
       <ul className="list-rating-list">
         {ratingCounts.map((percentage, index) => (
           <li key={index} className="list-rating-item">
@@ -65,6 +58,6 @@ const ListRating = ({ productId, onUpdateTotalVotes   }) => {
       </ul>
     </div>
   );
-}
+};
 
 export default ListRating;

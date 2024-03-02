@@ -47,7 +47,6 @@ const CarDetail = (  ) => {
     const filledStars = Math.floor(rating); // Partea întreagă a rating-ului
     const hasHalfStar = rating - filledStars !== 0; // Verificăm dacă avem jumătate de stea
 
-    // Generăm iconițele de stele colorate sau goale în funcție de valoarea rating-ului
     for (let i = 0; i < totalStars; i++) {
       if (i < filledStars) {
         stars.push(<FontAwesomeIcon icon={faStar} key={i} color="#FFD700" />);
@@ -65,7 +64,7 @@ const CarDetail = (  ) => {
       .then((response) => response.json())
       .then((data) => {
         setCar(data);
-        setTotalRating(data.total_rating); // Update totalRating state
+        setTotalRating(data.total_rating);
       })
       .catch((error) => {
         console.error("Error fetching car details:", error);
@@ -73,12 +72,10 @@ const CarDetail = (  ) => {
   };
 
   useEffect(() => {
-    // Initial fetch when the component mounts
     fetchCarData();
 
-    const interval = setInterval(fetchCarData, 5000); // 30 seconds in milliseconds
+    const interval = setInterval(fetchCarData, 5000);
 
-    // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
   }, [id]);
 
@@ -175,19 +172,19 @@ const CarDetail = (  ) => {
 
 const Pret_final = calculatePrice() * totalDays;
 
- useEffect(() => {
-    let timeoutId;
-
-    if (messageSent) {
-      timeoutId = setTimeout(() => {
-        setMessageSent(false);
-      }, 5000); // 5 secunde în milisecunde
-    }
-
-    return () => {
-      clearTimeout(timeoutId);
-    };
-  }, [messageSent]);
+ // useEffect(() => {
+ //    let timeoutId;
+ //
+ //    if (messageSent) {
+ //      timeoutId = setTimeout(() => {
+ //        setMessageSent(false);
+ //      }, 5000); // 5 secunde în milisecunde
+ //    }
+ //
+ //    return () => {
+ //      clearTimeout(timeoutId);
+ //    };
+ //  }, [messageSent]);
 
 
   if (!car) {
@@ -201,9 +198,14 @@ const Pret_final = calculatePrice() * totalDays;
       <div className="column1">
 
         <Carousel showStatus={false} showThumbs={true} infiniteLoop={true}>
-      {car.images.map((image, index) => (
+      {/*{car.images.map((image, index) => (*/}
+      {/*  <div key={index}>*/}
+      {/*    <img src={image.image} alt={`Image ${index}`} />*/}
+      {/*  </div>*/}
+      {/*))}*/}
+      {car && car.images && car.images.map((image, index) => (
         <div key={index}>
-          <img src={image.image} alt={`Image ${index}`} />
+            <img src={image.image} alt={`Image ${index}`} />
         </div>
       ))}
     </Carousel>
