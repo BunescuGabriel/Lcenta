@@ -26,7 +26,7 @@ const Address = () => {
 
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem("accessToken");
+    const storedAccessToken = sessionStorage.getItem("accessToken"); // Utilizare sessionStorage
 
     if (storedAccessToken) {
       setAccessToken(storedAccessToken);
@@ -83,7 +83,7 @@ const Address = () => {
 
   const loadData = async () => {
     try {
-      const storedAccessToken = localStorage.getItem("accessToken");
+      const storedAccessToken = sessionStorage.getItem("accessToken"); // Utilizare sessionStorage
 
       if (storedAccessToken) {
         const userAddressResponse = await axios.get('http://localhost:8000/api/users/address', {

@@ -22,7 +22,7 @@ const DeleteRating = ({ productId }) => {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -85,7 +85,7 @@ const DeleteRating = ({ productId }) => {
         .delete(`http://localhost:8000/api/produs/car/${productId}/rating/${ratingId}`, {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,
           },
         })
         .then(() => {

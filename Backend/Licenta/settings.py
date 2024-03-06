@@ -130,7 +130,7 @@ DATABASES = {
        'NAME': 'mariadb',
         'USER': 'root',
         'PASSWORD': '1234',
-        'HOST': 'localhost', # pentru docker in loc de localhost trebuie de pus db
+        'HOST': 'db', # pentru docker in loc de localhost trebuie de pus db
         'PORT': '3306',
     }
 }

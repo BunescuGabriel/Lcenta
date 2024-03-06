@@ -27,7 +27,7 @@ const CarsCreate = (onCreateProduct  ) => {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -163,7 +163,7 @@ const AN_CHOICES = Array.from({ length: currentYear - startYear + 1 }, (_, index
   const handleSubmit = async (event, fetchCar) => {
   event.preventDefault();
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken) {
       const formData = new FormData();
       formData.append('name', produsData.name);

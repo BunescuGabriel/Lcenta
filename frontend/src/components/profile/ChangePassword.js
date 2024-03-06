@@ -22,7 +22,7 @@ const ChangePassword = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem("accessToken");
+    const storedAccessToken = sessionStorage.getItem("accessToken");
 
     if (storedAccessToken) {
       setAccessToken(storedAccessToken);
@@ -38,20 +38,20 @@ const ChangePassword = () => {
   };
 
   const toggleShowPassword = (passwordType) => {
-  switch (passwordType) {
-    case "old_password":
-      setShowOldPassword(!showOldPassword);
-      break;
-    case "new_password":
-      setShowNewPassword(!showNewPassword);
-      break;
-    case "confirm_new_password":
-      setShowConfirmPassword(!showConfirmPassword);
-      break;
-    default:
-      break;
-  }
-};
+    switch (passwordType) {
+      case "old_password":
+        setShowOldPassword(!showOldPassword);
+        break;
+      case "new_password":
+        setShowNewPassword(!showNewPassword);
+        break;
+      case "confirm_new_password":
+        setShowConfirmPassword(!showConfirmPassword);
+        break;
+      default:
+        break;
+    }
+  };
 
 
   const handleSubmit = async (e) => {
@@ -71,7 +71,7 @@ const ChangePassword = () => {
       console.log("Răspuns de la server:", response.data);
       // setMessage("Password changed successfully!");
       setError("");
-        navigate('/');
+      navigate('/');
     } catch (error) {
       console.error("Eroare de la server:", error.response.data);
       setMessage("");
@@ -83,7 +83,7 @@ const ChangePassword = () => {
     <div className="custom-div-c">
       <form onSubmit={handleSubmit} className="custom-form-c">
         <div className="input-wrapper">
-          <label  className="inputlabel">Old Password</label>
+          <label className="inputlabel">Old Password</label>
           <input
             type={showOldPassword ? "text" : "password"}
             name="old_password"
@@ -93,16 +93,16 @@ const ChangePassword = () => {
             required
             className="input-element"
           />
-         <span
-  className={`password-togglee ${showOldPassword ? "active" : ""}`}
-  onClick={() => toggleShowPassword("old_password")}
->
-  {showOldPassword ? "👁" : "👁"}
-</span>
+          <span
+            className={`password-togglee ${showOldPassword ? "active" : ""}`}
+            onClick={() => toggleShowPassword("old_password")}
+          >
+            {showOldPassword ? "👁" : "👁"}
+          </span>
 
         </div>
         <div className="input-wrapper">
-          <label  className="inputlabel">New Password</label>
+          <label className="inputlabel">New Password</label>
           <input
             type={showNewPassword ? "text" : "password"}
             name="new_password"
@@ -113,11 +113,11 @@ const ChangePassword = () => {
             className="input-element"
           />
           <span
-  className={`password-togglee ${showNewPassword ? "active" : ""}`}
-  onClick={() => toggleShowPassword("new_password")}
->
-  {showNewPassword ? "👁" : "👁"}
-</span>
+            className={`password-togglee ${showNewPassword ? "active" : ""}`}
+            onClick={() => toggleShowPassword("new_password")}
+          >
+            {showNewPassword ? "👁" : "👁"}
+          </span>
 
         </div>
         <div className="input-wrapper">
@@ -132,11 +132,11 @@ const ChangePassword = () => {
             className="input-element"
           />
           <span
-  className={`password-togglee ${showConfirmPassword ? "active" : ""}`}
-  onClick={() => toggleShowPassword("confirm_new_password")}
->
-  {showConfirmPassword ? "👁" : "👁"}
-</span>
+            className={`password-togglee ${showConfirmPassword ? "active" : ""}`}
+            onClick={() => toggleShowPassword("confirm_new_password")}
+          >
+            {showConfirmPassword ? "👁" : "👁"}
+          </span>
 
         </div>
         <button type="submit" className="submit-button">Confirm</button>

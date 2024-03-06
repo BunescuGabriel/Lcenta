@@ -43,14 +43,14 @@ function Login() {
 
       if (response.status === 200) {
         const data = response.data;
-        localStorage.setItem('accessToken', data.access_token);
+        sessionStorage.setItem('accessToken', data.access_token);
         console.log('is_superuser:', data.is_superuser);
 
         if (data.is_superuser > 0) {
-          // Redirecționează utilizatorii cu grad mai mare de 0 la ruta protejată /admin
+          // Redirect superusers to the protected /admin route
           navigate('/admin');
         } else {
-            navigate('/');
+          navigate('/');
         }
       } else {
         alertError('Invalid username or password.');

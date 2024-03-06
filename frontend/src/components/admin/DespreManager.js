@@ -51,7 +51,7 @@ const DespreManager = (effect, deps) => {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -110,7 +110,7 @@ const DespreManager = (effect, deps) => {
 
   const addCondition = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         const dataToSend = { ...newCondition };
 
@@ -141,7 +141,7 @@ const DespreManager = (effect, deps) => {
 
   const addDescription = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         const response = await axios.post(
           'http://localhost:8000/api/about/detalii',
@@ -178,7 +178,7 @@ const DespreManager = (effect, deps) => {
 
   const stergeConditii = async (conditiId) => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         await axios.delete(`http://localhost:8000/api/about/despre/${conditiId}`, {
           headers: {
@@ -197,7 +197,7 @@ const DespreManager = (effect, deps) => {
 
   const stergeDescriere = async (descriereId) => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         await axios.delete(`http://localhost:8000/api/about/detalii/${descriereId}`, {
           headers: {
@@ -217,7 +217,7 @@ const DespreManager = (effect, deps) => {
 
 const updateCondition = async () => {
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken && selectedCondition) {
       const dataToUpdate = { ...newCondition };
 
@@ -250,7 +250,7 @@ const updateCondition = async () => {
 
 const updateDescrierea = async () => {
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken && SelectedDescrierea) {
       const dataToUpdate = { ...newDescription };
 

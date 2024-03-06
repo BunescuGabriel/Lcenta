@@ -20,7 +20,7 @@ const ServiciiManager = () => {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -53,7 +53,7 @@ const ServiciiManager = () => {
 
   const handleServiceSubmit = async (e) => {
     e.preventDefault();
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
 
     if (userIsSuperUser && storedAccessToken) {
       try {
@@ -80,7 +80,7 @@ const ServiciiManager = () => {
 
    const handleServiceUpdate = async (service) => {
     if (updateServiceId === service.id) {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         try {
           if (updatedService !== '') { // Verificăm dacă s-a introdus un nou serviciu pentru a face actualizarea
@@ -111,7 +111,7 @@ const ServiciiManager = () => {
   };
 
   const handleServiceDelete = async (serviceId) => {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken) {
       try {
         await axios.delete(`http://localhost:8000/api/about/servicii/${serviceId}`, {

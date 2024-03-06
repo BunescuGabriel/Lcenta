@@ -40,7 +40,7 @@ const CarsManager = () => {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -195,7 +195,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
   const AddCar = async (event) => {
   event.preventDefault();
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken) {
       const formData = new FormData();
       formData.append('name', produsData.name);
@@ -254,7 +254,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
   const handleDeleteProduct = async (productId, event) => {
     event.stopPropagation();
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     const response = await axios.delete(`http://localhost:8000/api/produs/d_car/${productId}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -278,7 +278,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
   const handleUpdateProduct = async (event) => {
       event.preventDefault(); // Prevent the default form submission behavior
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken && selectedProduct) {
       const formData = new FormData();
       formData.append('name', selectedProduct.name);

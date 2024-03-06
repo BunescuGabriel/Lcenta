@@ -13,7 +13,7 @@ const Rating = ({ productId }) => {
   const [accessToken, setAccessToken] = useState('');
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken'); // Utilizare sessionStorage
     if (storedAccessToken) {
       setAccessToken(storedAccessToken);
       loadUserEmail(storedAccessToken);
@@ -23,8 +23,8 @@ const Rating = ({ productId }) => {
     // Verificați dacă utilizatorul a acordat deja un rating produsului
     checkUserRating();
 
-    // Verificați dacă există un rating salvat în localStorage și setați-l în starea componentei.
-    const storedRating = localStorage.getItem(`rating_${productId}`);
+    // Verificați dacă există un rating salvat în sessionStorage și setați-l în starea componentei.
+    const storedRating = sessionStorage.getItem(`rating_${productId}`);
     if (storedRating) {
       setRating(parseInt(storedRating, 10));
       setHasUserRated(true);
@@ -42,8 +42,8 @@ const Rating = ({ productId }) => {
           setRating(response.data.rating);
           setHasUserRated(true);
 
-          // Actualizați rating-ul în localStorage
-          localStorage.setItem(`rating_${productId}`, response.data.rating);
+          // Actualizați rating-ul în sessionStorage
+          sessionStorage.setItem(`rating_${productId}`, response.data.rating);
         }
       }
     } catch (error) {
@@ -112,8 +112,8 @@ const Rating = ({ productId }) => {
           setRating(newRating);
           setHasUserRated(true);
 
-          // Actualizați rating-ul în localStorage
-          localStorage.setItem(`rating_${productId}`, newRating);
+          // Actualizați rating-ul în sessionStorage
+          sessionStorage.setItem(`rating_${productId}`, newRating);
         } else {
           console.error('Error adding rating:', ratingResponse);
         }

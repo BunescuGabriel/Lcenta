@@ -52,7 +52,7 @@ const ConditiiManager = (effect, deps) => {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -111,7 +111,7 @@ const ConditiiManager = (effect, deps) => {
 
   const addCondition = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         const dataToSend = { ...newCondition };
 
@@ -146,7 +146,7 @@ const ConditiiManager = (effect, deps) => {
 
   const addDescription = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         const response = await axios.post(
           'http://localhost:8000/api/about/descriere',
@@ -183,7 +183,7 @@ const ConditiiManager = (effect, deps) => {
 
   const stergeConditii = async (conditiId) => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         await axios.delete(`http://localhost:8000/api/about/conditi/${conditiId}`, {
           headers: {
@@ -202,7 +202,7 @@ const ConditiiManager = (effect, deps) => {
 
   const stergeDescriere = async (descriereId) => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         await axios.delete(`http://localhost:8000/api/about/descriere/${descriereId}`, {
           headers: {
@@ -221,7 +221,7 @@ const ConditiiManager = (effect, deps) => {
 
   const updateCondition = async () => {
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken && selectedCondition) {
       const dataToUpdate = { ...newCondition };
 
@@ -258,7 +258,7 @@ const ConditiiManager = (effect, deps) => {
 
 const updateDescrierea = async () => {
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken && SelectedDescrierea) {
       const dataToUpdate = { ...newDescription };
 

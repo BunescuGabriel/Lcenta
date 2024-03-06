@@ -18,7 +18,7 @@ const TermeniManager = () => {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -77,7 +77,7 @@ const TermeniManager = () => {
 
   const adaugaTermen = async () => {
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser === true && storedAccessToken) {
       const dataToSend = { ...newTermenData };
 
@@ -114,7 +114,7 @@ const TermeniManager = () => {
 
   const stergeTermen = async (termeniId) => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         await axios.delete(`http://localhost:8000/api/about/termini/${termeniId}`, {
           headers: {
@@ -133,7 +133,7 @@ const TermeniManager = () => {
 
   const actualizeazaTermen = async () => {
   try {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken && selectedTermen) {
       const dataToUpdate = { ...newTermenData };
 

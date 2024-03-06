@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPlus, faTimes} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import '../../styles/admin/BannerMana.css';
-
 
 function BannerManager() {
   const [banners, setBanners] = useState([]);
@@ -20,7 +19,7 @@ function BannerManager() {
   }, []);
 
   const fetchBanners = () => {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (storedAccessToken) {
       axios.get('http://localhost:8000/api/produs/banners', {
         headers: {
@@ -81,7 +80,7 @@ function BannerManager() {
   }
 
   const createBanner = () => {
-    if (isSuperUser) { // Verificați gradul de super-utilizator
+    if (isSuperUser) {
       const formData = new FormData();
       formData.append('name_banner', name_banner);
       formData.append('banner', banner);
@@ -89,7 +88,7 @@ function BannerManager() {
       axios.post('http://localhost:8000/api/produs/banners', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+          'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,
         },
       })
         .then(() => {
@@ -104,17 +103,16 @@ function BannerManager() {
           setError(error.response.data.banner);
         });
     } else {
-      // Afisați o eroare sau mesaj că utilizatorul nu are privilegii
       setError('Nu aveți privilegii pentru a crea un banner.');
     }
   }
 
   const deleteBanner = (bannerId) => {
-    if (isSuperUser) { // Verificați gradul de super-utilizator
+    if (isSuperUser) {
       axios.delete(`http://localhost:8000/api/produs/banners/${bannerId}`, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+          'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,
         },
       })
         .then(() => {
@@ -124,7 +122,6 @@ function BannerManager() {
           console.error('Error deleting banner:', error);
         });
     } else {
-
       setError('Nu aveți privilegii pentru a șterge un banner.');
     }
   }
@@ -137,7 +134,7 @@ function BannerManager() {
         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
           <div className="banner-containe" onClick={() => setIsModalVisible(true)}>
             <div className="banner-imagee">
-              <FontAwesomeIcon icon={faPlus} size="4x" /> {/* Use the plus icon */}
+              <FontAwesomeIcon icon={faPlus} size="4x" />
             </div>
             <div className="banner-inf">
               <p>Add Banner</p>
@@ -156,7 +153,6 @@ function BannerManager() {
               </div>
             </div>
           ))}
-
         </div>
       </ul>
 

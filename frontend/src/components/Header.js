@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faUser,faGlobe, faClock  } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faGlobe, faClock } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/Header.css';
 import logo from '../images/logo.jpg';
-import logo2 from '../images/logo2.png';
-
 
 function Header() {
   const [loading, setLoading] = useState(true);
@@ -18,7 +16,7 @@ function Header() {
   });
   const [userIsSuperUser, setUserIsSuperUser] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const accessToken = localStorage.getItem('accessToken');
+  const accessToken = sessionStorage.getItem('accessToken');
   const menuRef = useRef(null);
 
   const fetchUserData = async () => {
@@ -53,7 +51,7 @@ function Header() {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -107,20 +105,18 @@ function Header() {
   }, []);
 
   useEffect(() => {
-  const handleScroll = () => {
-    const offset = window.scrollY;
-    const scrollThreshold = 210; // Pragul de scrolare pentru a considera că utilizatorul a trecut de antet
-    setIsScrolled(offset > scrollThreshold);
-  };
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      const scrollThreshold = 210; // Pragul de scrolare pentru a considera că utilizatorul a trecut de antet
+      setIsScrolled(offset > scrollThreshold);
+    };
 
-  window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll);
 
-  return () => {
-    window.removeEventListener('scroll', handleScroll);
-  };
-}, []);
-
-
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
@@ -130,31 +126,28 @@ function Header() {
           <li><a href="/about">DESPRE NOI</a></li>
           <li><a href="/conditii">TERMENI ȘI CONDIȚII</a></li>
           {userIsSuperUser && <li><a href="/admin">Admin</a></li>}
-
         </ul>
       </nav>
 
       <div className={"LOCAL-TIMING"}>
         <span className="icon-globe"> &#127758;</span>
-          {/*  /!*<FontAwesomeIcon icon={faGlobe} className="icon-globe" />*!/*/}
-          <li className="horizontal-list">
+        <li className="horizontal-list">
           <ul>
             <li className={"abcc"}>Bălți</li>
             <li className={"abc"}>Moldova</li>
           </ul>
         </li>
       </div>
-        <div className={"LOCAL-TIMING"}>
-          <FontAwesomeIcon icon={faClock } className="icon-globee" />
-          <li className="horizontal-list">
+
+      <div className={"LOCAL-TIMING"}>
+        <FontAwesomeIcon icon={faClock} className="icon-globee" />
+        <li className="horizontal-list">
           <ul>
             <li className={"abcc"}>Luni - Duminică</li>
             <li className={"abc"}>24/24</li>
           </ul>
         </li>
-        </div>
-
-
+      </div>
 
       <div className="user-menu">
         {accessToken ? (

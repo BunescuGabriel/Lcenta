@@ -22,7 +22,7 @@ const DeleteComments = ({ productId }) => {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -85,7 +85,7 @@ const DeleteComments = ({ productId }) => {
       .delete(`http://localhost:8000/api/produs/car/${productId}/comments/${commentId}`, {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+          'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,
         },
       })
       .then(() => {

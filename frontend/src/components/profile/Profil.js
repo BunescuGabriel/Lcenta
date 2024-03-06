@@ -43,7 +43,7 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem("accessToken");
+    const storedAccessToken = sessionStorage.getItem("accessToken");
 
     if (storedAccessToken) {
       setAccessToken(storedAccessToken);
@@ -101,7 +101,7 @@ const Profile = () => {
 
   const loadData = async () => {
     try {
-      const storedAccessToken = localStorage.getItem("accessToken");
+      const storedAccessToken = sessionStorage.getItem("accessToken");
 
       if (storedAccessToken) {
         const userProfileResponse = await axios.get('http://localhost:8000/api/users/users-profile', {
@@ -155,25 +155,24 @@ const Profile = () => {
           {loading ? (
             <p className="loading-text">Loading...</p>
           ) : (
-
-              <div className="column-profile">
-  <div className="column-container">
-    <div className="column-left">
-      <h2 className="section-title">Personal Information</h2>
-      <p className="info-label">Name: {userProfile.first_name} {userProfile.last_name}</p>
-      <p className="info-label">Email: {userProfile.email}</p>
-      <p className="info-label">Phone Number: {userProfile.phoneNumber}</p>
-      <p className="info-label">Date of Birth: {userProfile.birthday}</p>
-      <p className="info-label">Gender: {userProfile.gender === 0 ? 'Male' : userProfile.gender === 1 ? 'Female' : 'Unspecified'}</p>
-      <button className="edit-button" onClick={handleOpenEditForm}>Edit</button>
-    </div>
-    <div className="column-right">
-      <div className="avatarr-container">
-        <img src={userProfile.avatar} alt="Avatar" className="avatarr" />
-      </div>
-    </div>
-  </div>
-</div>
+            <div className="column-profile">
+              <div className="column-container">
+                <div className="column-left">
+                  <h2 className="section-title">Personal Information</h2>
+                  <p className="info-label">Name: {userProfile.first_name} {userProfile.last_name}</p>
+                  <p className="info-label">Email: {userProfile.email}</p>
+                  <p className="info-label">Phone Number: {userProfile.phoneNumber}</p>
+                  <p className="info-label">Date of Birth: {userProfile.birthday}</p>
+                  <p className="info-label">Gender: {userProfile.gender === 0 ? 'Male' : userProfile.gender === 1 ? 'Female' : 'Unspecified'}</p>
+                  <button className="edit-button" onClick={handleOpenEditForm}>Edit</button>
+                </div>
+                <div className="column-right">
+                  <div className="avatarr-container">
+                    <img src={userProfile.avatar} alt="Avatar" className="avatarr" />
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>

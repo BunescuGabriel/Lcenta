@@ -12,7 +12,7 @@ const AddComment = ({ productId }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // New state to track user login status
 
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedAccessToken = sessionStorage.getItem('accessToken'); // Use sessionStorage
     if (storedAccessToken) {
       setAccessToken(storedAccessToken);
       loadUserEmail(storedAccessToken);

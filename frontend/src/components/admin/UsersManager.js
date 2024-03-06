@@ -4,7 +4,6 @@ import '../../styles/admin/UsersMana.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faTimes } from "@fortawesome/free-solid-svg-icons";
 
-
 function UsersManager() {
   const [users, setUsers] = useState([]);
   const [userNames, setUserNames] = useState({});
@@ -12,7 +11,7 @@ function UsersManager() {
 
   const fetchUserAccess = async () => {
     try {
-      const storedAccessToken = localStorage.getItem('accessToken');
+      const storedAccessToken = sessionStorage.getItem('accessToken'); // Folosirea sessionStorage în loc de localStorage
       if (storedAccessToken) {
         const response = await axios.get('http://localhost:8000/api/users/users-profile', {
           headers: {
@@ -88,7 +87,7 @@ function UsersManager() {
         await axios.patch(`http://localhost:8000/api/users/${userId}`, { is_superuser: isSuperuser }, {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`, // Folosirea sessionStorage în loc de localStorage
           },
         });
         setUsers((prevUsers) =>
@@ -110,7 +109,7 @@ function UsersManager() {
         await axios.delete(`http://localhost:8000/api/users/${userId}`, {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`, // Folosirea sessionStorage în loc de localStorage
           },
         });
 
