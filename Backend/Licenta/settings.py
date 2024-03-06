@@ -118,32 +118,26 @@ WSGI_APPLICATION = 'Licenta.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite4',
-#     }
-# }
-
-DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': BASE_DIR / 'db.sqlite4',
-     }
- }
+#      'default': {
+#          'ENGINE': 'django.db.backends.sqlite3',
+#          'NAME': BASE_DIR / 'db.sqlite4',
+#      }
+#  }
 
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.mysql',
-       'NAME': 'supremerentals-db',
-        # 'NAME': str(BASE_DIR / 'mariadb'),
+       'NAME': 'mariadb',
         'USER': 'root',
         'PASSWORD': '1234',
-        # 'USER': 'supremerentals',
-        # 'PASSWORD': 'supremerentals',
-        'HOST': 'localhost',
+        'HOST': 'localhost', # pentru docker in loc de localhost trebuie de pus db
         'PORT': '3306',
     }
 }
+    # 'HOST': 'db',
+# 'NAME': 'supremerentals-db',
+# 'USER': 'supremerentals',
+# 'PASSWORD': 'supremerentals',
 
 
 AUTH_USER_MODEL = 'users.Users'
@@ -187,6 +181,7 @@ MEDIA_ROOT = '/media/'
 
 # STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 

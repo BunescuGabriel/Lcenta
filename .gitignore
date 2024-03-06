@@ -1,11 +1,12 @@
 # Ignoră baza de date SQLite
 db.sqlite3
+db.sqlite4
 
 # Ignoră directorul media/avatar
-media/avatar
-media/banner
-media/car
-media/servicii
+Backend/media/avatar
+Backend/media/banner
+Backend/media/car
+Backend/media/servicii
 
 # Ignoră directorul .idea
 .idea
