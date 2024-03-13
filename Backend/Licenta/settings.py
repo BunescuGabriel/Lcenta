@@ -182,6 +182,7 @@ MEDIA_ROOT = '/media/'
 # STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
@@ -235,4 +236,3 @@ EMAIL_PORT = 587  # Portul serverului SMTP pentru Gmail (587 este portul implici
 EMAIL_USE_TLS = True  # Setează True dacă folosești TLS pentru conexiunea SMTP
 EMAIL_HOST_USER = 'supremerentals.srl@gmail.com'  # Adresa ta de email Gmail pentru autentificare SMTP
 EMAIL_HOST_PASSWORD = 'qgoe cmbu rmtt ztwy'  # Parola pentru adresa ta de email Gmail
-

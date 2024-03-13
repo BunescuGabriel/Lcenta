@@ -10,3 +10,4 @@ Backend/media/servicii
 
 # Ignoră directorul .idea
 .idea
+venv
