@@ -6,14 +6,36 @@
 trigger:
 - master
 
-pool:
-  vmImage: ubuntu-latest
+pool: Server
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- task: CmdLine@2
+  inputs:
+    script: |
+      ls
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: DockerCompose@0
+  displayName: 'Run Docker Compose'
+  inputs:
+    action: 'Build services'
+    dockerComposeFile: 'docker-compose.yml'
+    projectName: 'yourapp'
+    buildImages: true
+- task: DockerCompose@0
+  displayName: 'Down Docker Compose'
+  inputs:
+    action: 'Run a Docker Compose command'
+    dockerComposeFile: 'docker-compose.yml'
+    projectName: 'yourapp'
+    dockerComposeCommand: 'down'
+    
+
+
+- task: DockerCompose@0
+  displayName: 'Up Docker Compose'
+  inputs:
+    action: 'Run a Docker Compose command'
+    dockerComposeFile: 'docker-compose.yml'
+    projectName: 'yourapp'
+    dockerComposeCommand: 'up'
+    arguments: '-d'
