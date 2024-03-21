@@ -13,15 +13,31 @@ services:
   django:
     image: backend
     build: Backend
-    command: python Backend/manage.py runserver 0.0.0.0:8000
+    #    command: python Backend/manage.py runserver 0.0.0.0:8000
+    command: gunicorn config.wsgi --bind 0.0.0.0:8000
+    ports:
+      - "8000:8000"
     volumes:
-      - .:/Backend
+#      - .:/Backend
+      - ./Backend:/Backend
     depends_on:
       db:
         condition: service_healthy
 
     healthcheck:
       test: ["CMD", "python3", "Backend/manage.py", "migrate"]
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:8000"
+    volumes:
+      - ./nginx/nginx-setup.conf:/etc/nginx/conf.Licenta/default.conf:ro
+      - ./frontend/build:/var/www/frontend
+    depends_on:
+      - django
+      - frontend
+
 
   db:
     image: mariadb

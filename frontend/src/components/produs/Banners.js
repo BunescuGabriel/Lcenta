@@ -10,7 +10,6 @@ const BannerSlider = () => {
   const [showArrows, setShowArrows] = useState(false);
 
   useEffect(() => {
-    // Faceți o cerere către API-ul Django pentru a obține lista de bannere
     axios.get('http://localhost:8000/api/produs/banners')
       .then(response => {
         setBanners(response.data);

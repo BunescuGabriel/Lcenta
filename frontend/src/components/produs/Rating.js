@@ -11,54 +11,62 @@ const Rating = ({ productId }) => {
   const [userId, setUserId] = useState(null);
   const [hasUserRated, setHasUserRated] = useState(false);
   const [accessToken, setAccessToken] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasFetchedRating, setHasFetchedRating] = useState(false);
 
   useEffect(() => {
-    const storedAccessToken = sessionStorage.getItem('accessToken'); // Utilizare sessionStorage
+    const storedAccessToken = sessionStorage.getItem('accessToken');
     if (storedAccessToken) {
       setAccessToken(storedAccessToken);
       loadUserEmail(storedAccessToken);
       setIsLoggedIn(true);
     }
+  }, []);
 
-    // Verificați dacă utilizatorul a acordat deja un rating produsului
-    checkUserRating();
-
-    // Verificați dacă există un rating salvat în sessionStorage și setați-l în starea componentei.
-    const storedRating = sessionStorage.getItem(`rating_${productId}`);
-    if (storedRating) {
-      setRating(parseInt(storedRating, 10));
-      setHasUserRated(true);
+  useEffect(() => {
+    if (isLoggedIn && accessToken && productId && !hasUserRated && !isLoading && !hasFetchedRating) {
+      fetchUserRating();
     }
-  }, [productId]); // Adăugați productId ca dependență pentru a reîncărca rating-ul atunci când productId se schimbă.
+  }, [productId, isLoggedIn, accessToken, hasUserRated, isLoading, hasFetchedRating]);
 
-  const checkUserRating = async () => {
+  const fetchUserRating = async () => {
     try {
-      if (isLoggedIn && userId) {
-        const response = await axios.get(
-          `http://localhost:8000/api/produs/ratings/${productId}/`
-        );
-
-        if (response.status === 200 && response.data.rating) {
-          setRating(response.data.rating);
-          setHasUserRated(true);
-
-          // Actualizați rating-ul în sessionStorage
-          sessionStorage.setItem(`rating_${productId}`, response.data.rating);
+      setIsLoading(true);
+      const response = await axios.get(
+        `http://localhost:8000/api/produs/ratings/${productId}/`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
+      );
+      if (response.status === 200 && response.data.rating) {
+        setRating(response.data.rating);
+        setHasUserRated(true);
+      } else {
+        setRating(0);
+        setHasUserRated(false);
       }
     } catch (error) {
-      console.error('Error checking user rating:', error);
+      console.error('Error fetching user rating:', error);
+    } finally {
+      setIsLoading(false);
+      setHasFetchedRating(true);
     }
   };
 
   const loadUserEmail = async (token) => {
     try {
-      const response = await axios.get('http://localhost:8000/api/users/users-profile', {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        'http://localhost:8000/api/users/users-profile',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.status === 200 && response.data.length > 0) {
         const user = response.data[0];
@@ -74,7 +82,9 @@ const Rating = ({ productId }) => {
 
   const fetchUserIdByEmail = async (email) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${email}/`);
+      const response = await axios.get(
+        `http://localhost:8000/api/users/get-user-id-by-email/${email}/`
+      );
 
       if (response.status === 200 && response.data.user_id) {
         setUserId(response.data.user_id);
@@ -87,7 +97,11 @@ const Rating = ({ productId }) => {
   };
 
   const handleRatingChange = async (newRating) => {
-    await handleRateProduct(newRating);
+    try {
+      await handleRateProduct(newRating);
+    } catch (error) {
+      console.error('Error adding rating:', error);
+    }
   };
 
   const handleRateProduct = async (newRating) => {
@@ -103,7 +117,7 @@ const Rating = ({ productId }) => {
           {
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${accessToken}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           }
         );
@@ -111,14 +125,13 @@ const Rating = ({ productId }) => {
         if (ratingResponse.status === 201) {
           setRating(newRating);
           setHasUserRated(true);
-
-          // Actualizați rating-ul în sessionStorage
-          sessionStorage.setItem(`rating_${productId}`, newRating);
         } else {
           console.error('Error adding rating:', ratingResponse);
         }
       } else {
-        console.log('Utilizatorul nu este autentificat. Vă rugăm să vă autentificați pentru a evalua produsul.');
+        console.log(
+          'Utilizatorul nu este autentificat. Vă rugăm să vă autentificați pentru a evalua produsul.'
+        );
       }
     } catch (error) {
       console.error('Error adding rating:', error);

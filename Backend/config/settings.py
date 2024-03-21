@@ -90,7 +90,7 @@ REST_FRAMEWORK = {
 
 }
 
-ROOT_URLCONF = 'Licenta.urls'
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -110,7 +110,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Licenta.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
@@ -176,14 +176,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 MEDIA_ROOT = '/media/'
-
-# STATIC_ROOT = BASE_DIR / "staticfiles_build" / "static"
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+# settings.py
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = BASE_DIR / 'static'
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Default primary key field type

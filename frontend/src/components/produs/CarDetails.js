@@ -1,59 +1,63 @@
-import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
-import '../../styles/produs/CarDetails.css';
-import '../../styles/produs/Rezervation.css';
-import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
+import "../../styles/produs/CarDetails.css";
+import "../../styles/produs/Rezervation.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import {
-    faCar,
-    faCarSide,
-    faCog,
-    faGasPump,
-    faStar,
-    faStarHalf,
-    faTachometerAlt,
-    faUser,
-    faUsers
+  faCar,
+  faCarSide,
+  faCog,
+  faGasPump,
+  faStar,
+  faStarHalf,
+  faTachometerAlt,
+  faUser,
+  faUsers,
 } from "@fortawesome/free-solid-svg-icons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Carousel} from 'react-responsive-carousel';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Carousel } from "react-responsive-carousel";
 import ProductComments from "./Comments";
 import AddComment from "./AddComments";
 import Rating from "./Rating";
 import ListRating from "./List_Rating";
-import {FaIdBadge, FaPhone} from "react-icons/fa";
+import { FaIdBadge, FaPhone } from "react-icons/fa";
 
-
-const CarDetail = (  ) => {
+const CarDetail = () => {
   const { id } = useParams();
   const [car, setCar] = useState(null);
-
-  // Add a new state for the total_rating
   const [totalRating, setTotalRating] = useState(0);
-   const [totalVotes, setTotalVotes] = useState(0);
-   const [formData, setFormData] = useState({
+  const [totalVotes, setTotalVotes] = useState(0);
+  const [formData, setFormData] = useState({
     prenume: "",
     virsta: "",
     phone: "",
     fromDate: "",
     toDate: "",
   });
-   const [messageSent, setMessageSent] = useState(false);
-     const [error, setError] = useState('');
-     const [totalDays, setTotalDays] = useState(0);
+  const [messageSent, setMessageSent] = useState(false);
+  const [error, setError] = useState("");
+  const [totalDays, setTotalDays] = useState(0);
+  const intervalRef = useRef(null); // Referință către interval
 
   const renderStars = (rating) => {
     const stars = [];
-    const totalStars = 5; // Numărul total de stele
-    const filledStars = Math.floor(rating); // Partea întreagă a rating-ului
-    const hasHalfStar = rating - filledStars !== 0; // Verificăm dacă avem jumătate de stea
+    const totalStars = 5;
+    const filledStars = Math.floor(rating);
+    const hasHalfStar = rating - filledStars !== 0;
 
     for (let i = 0; i < totalStars; i++) {
       if (i < filledStars) {
-        stars.push(<FontAwesomeIcon icon={faStar} key={i} color="#FFD700" />);
+        stars.push(
+          <FontAwesomeIcon icon={faStar} key={i} color="#FFD700" />
+        );
       } else if (hasHalfStar && i === filledStars) {
-        stars.push(<FontAwesomeIcon icon={faStarHalf} key={i} color="#FFD700" />);
+        stars.push(
+          <FontAwesomeIcon icon={faStarHalf} key={i} color="#FFD700" />
+        );
       } else {
-        stars.push(<FontAwesomeIcon icon={faStar} key={i} color="#C0C0C0" />);
+        stars.push(
+          <FontAwesomeIcon icon={faStar} key={i} color="#C0C0C0" />
+        );
       }
     }
     return stars;
@@ -72,36 +76,60 @@ const CarDetail = (  ) => {
   };
 
   useEffect(() => {
+    const onFocus = () => {
+      fetchCarData();
+      startInterval(); // Repornim intervalul când fereastra devine activă
+    };
+
+    const onBlur = () => {
+      stopInterval(); // Oprim intervalul când fereastra devine inactivă
+    };
+
+    window.addEventListener("focus", onFocus);
+    window.addEventListener("blur", onBlur);
+
     fetchCarData();
+    startInterval(); // Pornim intervalul când componenta este montată
 
-    const interval = setInterval(fetchCarData, 5000);
-
-    return () => clearInterval(interval);
+    return () => {
+      // Curățăm evenimentele la demontare
+      window.removeEventListener("focus", onFocus);
+      window.removeEventListener("blur", onBlur);
+      stopInterval(); // Oprim intervalul când componenta este demontată
+    };
   }, [id]);
 
- const handleChange = (e) => {
+  const startInterval = () => {
+    intervalRef.current = setInterval(fetchCarData, 5000);
+  };
+
+  const stopInterval = () => {
+    clearInterval(intervalRef.current);
+  };
+
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
-    };
-
-    useEffect(() => {
-  const calculateTotalDays = () => {
-    if (formData.fromDate && formData.toDate) {
-      const fromDateTime = new Date(formData.fromDate).getTime();
-      const toDateTime = new Date(formData.toDate).getTime();
-      const timeDifference = toDateTime - fromDateTime;
-      const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
-      setTotalDays(daysDifference);
-    } else {
-      setTotalDays(0);
-    }
   };
 
-  calculateTotalDays();
-}, [formData.fromDate, formData.toDate]);
+  useEffect(() => {
+    const calculateTotalDays = () => {
+      if (formData.fromDate && formData.toDate) {
+        const fromDateTime = new Date(formData.fromDate).getTime();
+        const toDateTime = new Date(formData.toDate).getTime();
+        const timeDifference = toDateTime - fromDateTime;
+        const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        setTotalDays(daysDifference);
+      } else {
+        setTotalDays(0);
+      }
+    };
+
+    calculateTotalDays();
+  }, [formData.fromDate, formData.toDate]);
 
 
  const sendRezervation = async () => {
@@ -172,21 +200,6 @@ const CarDetail = (  ) => {
 
 const Pret_final = calculatePrice() * totalDays;
 
- // useEffect(() => {
- //    let timeoutId;
- //
- //    if (messageSent) {
- //      timeoutId = setTimeout(() => {
- //        setMessageSent(false);
- //      }, 5000); // 5 secunde în milisecunde
- //    }
- //
- //    return () => {
- //      clearTimeout(timeoutId);
- //    };
- //  }, [messageSent]);
-
-
   if (!car) {
     return <div>Loading...</div>;
   }
@@ -205,7 +218,7 @@ const Pret_final = calculatePrice() * totalDays;
       {/*))}*/}
       {car && car.images && car.images.map((image, index) => (
         <div key={index}>
-            <img src={image.image} alt={`Image ${index}`} />
+            <img src={image.image} alt={`Image`} />
         </div>
       ))}
     </Carousel>
