@@ -27,18 +27,6 @@ services:
     healthcheck:
       test: ["CMD", "python3", "Backend/manage.py", "migrate"]
 
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:8000"
-    volumes:
-      - ./nginx/nginx-setup.conf:/etc/nginx/conf.Licenta/default.conf:ro
-      - ./frontend/build:/var/www/frontend
-    depends_on:
-      - django
-      - frontend
-
-
   db:
     image: mariadb
     restart: always
