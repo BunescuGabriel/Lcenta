@@ -42,7 +42,7 @@
       const productListRef = useRef(null);
 
       useEffect(() => {
-      fetch("http://localhost:8000/api/produs/car")
+      fetch("http://127.0.0.1/api/produs/car")
         .then((response) => response.json())
         .then((data) => {
           const uniqueProducers = [
@@ -142,7 +142,7 @@
     capacitate_cilindrica_max: capacityRange.max,
   }).toString();
 
-  fetch(`http://localhost:8000/api/produs/filter/?${queryParams}`)
+  fetch(`http://127.0.0.1/api/produs/filter/?${queryParams}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");

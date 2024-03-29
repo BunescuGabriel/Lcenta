@@ -15,7 +15,8 @@ SECRET_KEY = 'django-insecure-lni7o_=wk*qukh&m-%3&h6dsju$#$l%02_5qf6=iz45w-0t8$m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', "62.72.21.70"]
 
 
 # Application definition
@@ -57,6 +58,8 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://supremerentals.md",
+    "http://62.72.21.70",
 
 ]
 
@@ -177,14 +180,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = '/media/'
-# settings.py
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATIC_ROOT = BASE_DIR / 'static'
-# STATIC_ROOT = BASE_DIR / 'staticfiles'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Default primary key field type

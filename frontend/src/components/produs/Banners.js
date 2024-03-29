@@ -10,7 +10,7 @@ const BannerSlider = () => {
   const [showArrows, setShowArrows] = useState(false);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/api/produs/banners')
+    axios.get('http://supremerentals.md//api/produs/banners')
       .then(response => {
         setBanners(response.data);
       })
