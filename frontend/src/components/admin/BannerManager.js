@@ -21,7 +21,7 @@ function BannerManager() {
   const fetchBanners = () => {
     const storedAccessToken = sessionStorage.getItem('accessToken');
     if (storedAccessToken) {
-      axios.get('http://localhost:8000/api/produs/banners', {
+      axios.get('https://supremerentals.md/api/produs/banners', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${storedAccessToken}`,
@@ -34,7 +34,7 @@ function BannerManager() {
           console.error('Error fetching banners:', error);
         });
 
-      axios.get('http://localhost:8000/api/users/users-profile', {
+      axios.get('https://supremerentals.md/api/users/users-profile', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${storedAccessToken}`,
@@ -45,7 +45,7 @@ function BannerManager() {
             const user = response.data[0];
             if (user.user && user.user.email) {
               const userEmail = user.user.email;
-              axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`)
+              axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`)
                 .then((userResponse) => {
                   setUserId(userResponse.data.user_id);
                   setIsSuperUser(userResponse.data.is_superuser);
@@ -85,7 +85,7 @@ function BannerManager() {
       formData.append('name_banner', name_banner);
       formData.append('banner', banner);
 
-      axios.post('http://localhost:8000/api/produs/banners', formData, {
+      axios.post('https://supremerentals.md/api/produs/banners', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,
@@ -109,7 +109,7 @@ function BannerManager() {
 
   const deleteBanner = (bannerId) => {
     if (isSuperUser) {
-      axios.delete(`http://localhost:8000/api/produs/banners/${bannerId}`, {
+      axios.delete(`https://supremerentals.md/api/produs/banners/${bannerId}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,

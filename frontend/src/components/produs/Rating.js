@@ -33,7 +33,7 @@ const Rating = ({ productId }) => {
     try {
       setIsLoading(true);
       const response = await axios.get(
-        `http://localhost:8000/api/produs/ratings/${productId}/`,
+        `https://supremerentals.md/api/produs/ratings/${productId}/`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const Rating = ({ productId }) => {
   const loadUserEmail = async (token) => {
     try {
       const response = await axios.get(
-        'http://localhost:8000/api/users/users-profile',
+        'https://supremerentals.md/api/users/users-profile',
         {
           headers: {
             'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const Rating = ({ productId }) => {
   const fetchUserIdByEmail = async (email) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/api/users/get-user-id-by-email/${email}/`
+        `https://supremerentals.md/api/users/get-user-id-by-email/${email}/`
       );
 
       if (response.status === 200 && response.data.user_id) {
@@ -108,7 +108,7 @@ const Rating = ({ productId }) => {
     try {
       if (isLoggedIn && userId) {
         const ratingResponse = await axios.post(
-          'http://localhost:8000/api/produs/ratings/',
+          'https://supremerentals.md/api/produs/ratings/',
           {
             rating: newRating,
             produs: productId,

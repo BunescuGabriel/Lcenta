@@ -79,7 +79,7 @@ const Profile = () => {
       }
 
       const response = await axios.patch(
-        'http://localhost:8000/api/users/users-profile',
+        'https://supremerentals.md/api/users/users-profile',
         updatedFormData,
         {
           headers: {
@@ -104,7 +104,7 @@ const Profile = () => {
       const storedAccessToken = sessionStorage.getItem("accessToken");
 
       if (storedAccessToken) {
-        const userProfileResponse = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const userProfileResponse = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${storedAccessToken}`,

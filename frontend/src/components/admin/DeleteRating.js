@@ -12,7 +12,7 @@ const DeleteRating = ({ productId }) => {
 
   const fetchUserInfo = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/users/profile/${userId}/`);
+      const response = await axios.get(`https://supremerentals.md/api/users/profile/${userId}/`);
       return response.data;
     } catch (error) {
       console.error('Error fetching user info:', error);
@@ -24,7 +24,7 @@ const DeleteRating = ({ productId }) => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
-        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${storedAccessToken}`,
@@ -34,7 +34,7 @@ const DeleteRating = ({ productId }) => {
           const user = response.data[0];
           if (user.user && user.user.email) {
             const userEmail = user.user.email;
-            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
           }
         }
@@ -46,7 +46,7 @@ const DeleteRating = ({ productId }) => {
 
   const fetchRatings = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/produs/ratings-list/${productId}`);
+      const response = await axios.get(`https://supremerentals.md/api/produs/ratings-list/${productId}`);
       setRatings(response.data);
     } catch (error) {
       console.error('Error fetching ratings:', error);
@@ -82,7 +82,7 @@ const DeleteRating = ({ productId }) => {
   const handleDeleteRating = (ratingId) => {
     if (userIsSuperUser) {
       axios
-        .delete(`http://localhost:8000/api/produs/car/${productId}/rating/${ratingId}`, {
+        .delete(`https://supremerentals.md/api/produs/car/${productId}/rating/${ratingId}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,

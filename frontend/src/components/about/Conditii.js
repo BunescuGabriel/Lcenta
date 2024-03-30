@@ -8,7 +8,7 @@ const ConditiiComponent = () => {
 
   useEffect(() => {
     // Fetch all conditions
-    axios.get('http://localhost:8000/api/about/conditi/')
+    axios.get('https://supremerentals.md/api/about/conditi/')
       .then(response => {
         setConditions(response.data);
       })
@@ -20,7 +20,7 @@ const ConditiiComponent = () => {
   useEffect(() => {
     // Fetch descriptions for each condition
     conditions.forEach(condition => {
-      axios.get(`http://localhost:8000/api/about/conditii/${condition.id}`)
+      axios.get(`https://supremerentals.md/api/about/conditii/${condition.id}`)
         .then(response => {
           setDescriptions(prevDescriptions => ({
             ...prevDescriptions,

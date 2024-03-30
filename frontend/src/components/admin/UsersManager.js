@@ -13,7 +13,7 @@ function UsersManager() {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken'); // Folosirea sessionStorage în loc de localStorage
       if (storedAccessToken) {
-        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${storedAccessToken}`,
@@ -23,7 +23,7 @@ function UsersManager() {
           const user = response.data[0];
           if (user.user && user.user.email) {
             const userEmail = user.user.email;
-            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
           }
         }
@@ -40,7 +40,7 @@ function UsersManager() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/users/');
+        const response = await axios.get('https://supremerentals.md/api/users/');
         setUsers(response.data);
       } catch (error) {
         console.error('Eroare la preluarea datelor:', error);
@@ -52,7 +52,7 @@ function UsersManager() {
 
   const fetchUserInfo = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/users/profile/${userId}/`);
+      const response = await axios.get(`https://supremerentals.md/api/users/profile/${userId}/`);
       return response.data;
     } catch (error) {
       console.error('Eroare la preluarea informațiilor despre utilizator:', error);
@@ -84,7 +84,7 @@ function UsersManager() {
   const handleUpdateUser = async (userId, isSuperuser) => {
     if (userIsSuperUser) {
       try {
-        await axios.patch(`http://localhost:8000/api/users/${userId}`, { is_superuser: isSuperuser }, {
+        await axios.patch(`https://supremerentals.md/api/users/${userId}`, { is_superuser: isSuperuser }, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`, // Folosirea sessionStorage în loc de localStorage
@@ -106,7 +106,7 @@ function UsersManager() {
   const handleDeleteUser = async (userId) => {
     if (userIsSuperUser) {
       try {
-        await axios.delete(`http://localhost:8000/api/users/${userId}`, {
+        await axios.delete(`https://supremerentals.md/api/users/${userId}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`, // Folosirea sessionStorage în loc de localStorage

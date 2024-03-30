@@ -58,8 +58,8 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
-    "http://supremerentals.md",
-    "http://62.72.21.70",
+    "https://supremerentals.md",
+    "https://62.72.21.70",
 
 ]
 
@@ -133,7 +133,7 @@ DATABASES = {
        'NAME': 'mariadb',
         'USER': 'root',
         'PASSWORD': '1234',
-        'HOST': 'db', # pentru docker in loc de localhost trebuie de pus db
+        'HOST': 'localhost', # pentru docker in loc de localhost trebuie de pus db
         'PORT': '3306',
     }
 }

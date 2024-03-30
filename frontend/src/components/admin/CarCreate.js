@@ -29,7 +29,7 @@ const CarsCreate = (onCreateProduct  ) => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
-        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -39,7 +39,7 @@ const CarsCreate = (onCreateProduct  ) => {
           const user = response.data[0];
           if (user.user && user.user.email) {
             const userEmail = user.user.email;
-            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
             console.log(setUserIsSuperUser)
           }
@@ -186,7 +186,7 @@ const AN_CHOICES = Array.from({ length: currentYear - startYear + 1 }, (_, index
         formData.append(`uploaded_images[${index}]`, image);
       });
 
-      await axios.post('http://localhost:8000/api/produs/car-create', formData, {
+      await axios.post('https://supremerentals.md/api/produs/car-create', formData, {
         headers: {
           Authorization: `Bearer ${storedAccessToken}`,
           'Content-Type': 'multipart/form-data',

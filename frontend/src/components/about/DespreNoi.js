@@ -9,7 +9,7 @@ const AboutComponent = () => {
   useEffect(() => {
     const fetchConditions = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/about/despre/');
+        const response = await axios.get('https://supremerentals.md/api/about/despre/');
         setConditions(response.data);
       } catch (error) {
         console.error('Error fetching conditions:', error);
@@ -24,7 +24,7 @@ const AboutComponent = () => {
       try {
         const descriptionsData = {};
         for (const condition of conditions) {
-          const response = await axios.get(`http://localhost:8000/api/about/despre/${condition.id}/`);
+          const response = await axios.get(`https://supremerentals.md/api/about/despre/${condition.id}/`);
           descriptionsData[condition.id] = response.data.detalii;
         }
         setDescriptions(descriptionsData);

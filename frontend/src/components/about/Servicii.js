@@ -12,7 +12,7 @@ const ServiceComponent = () => {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1/api/about/servicii')
+    axios.get('https://supremerentals.md/api/about/servicii')
       .then(response => {
         setServices(response.data);
       })

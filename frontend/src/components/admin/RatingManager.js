@@ -15,7 +15,7 @@ const RatingsManager = () => {
 
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/produs/car")
+    fetch("https://supremerentals.md/api/produs/car")
       .then((response) => response.json())
       .then((data) => {
         setProducts(data);

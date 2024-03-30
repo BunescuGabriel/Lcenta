@@ -59,7 +59,7 @@ const Address = () => {
       // Adăugați obiectul adresei la obiectul de actualizare a profilului
 
       const response = await axios.patch(
-        'http://localhost:8000/api/users/address',
+        'https://supremerentals.md/api/users/address',
         updatedData,
         {
           headers: {
@@ -86,7 +86,7 @@ const Address = () => {
       const storedAccessToken = sessionStorage.getItem("accessToken"); // Utilizare sessionStorage
 
       if (storedAccessToken) {
-        const userAddressResponse = await axios.get('http://localhost:8000/api/users/address', {
+        const userAddressResponse = await axios.get('https://supremerentals.md/api/users/address', {
           headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${storedAccessToken}`,

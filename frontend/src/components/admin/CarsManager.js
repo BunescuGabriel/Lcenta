@@ -42,7 +42,7 @@ const CarsManager = () => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
-        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -52,7 +52,7 @@ const CarsManager = () => {
           const user = response.data[0];
           if (user.user && user.user.email) {
             const userEmail = user.user.email;
-            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
             console.log(setUserIsSuperUser)
           }
@@ -64,7 +64,7 @@ const CarsManager = () => {
   };
 
   const fetchCar = () => {
-    fetch("http://localhost:8000/api/produs/car")
+    fetch("https://supremerentals.md/api/produs/car")
       .then((response) => response.json())
       .then((data) => {
         setProducts(data);
@@ -218,7 +218,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
         formData.append(`uploaded_images[${index}]`, image);
       });
 
-      await axios.post('http://localhost:8000/api/produs/car-create', formData, {
+      await axios.post('https://supremerentals.md/api/produs/car-create', formData, {
         headers: {
           Authorization: `Bearer ${storedAccessToken}`,
           'Content-Type': 'multipart/form-data',
@@ -255,7 +255,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
     event.stopPropagation();
   try {
     const storedAccessToken = sessionStorage.getItem('accessToken');
-    const response = await axios.delete(`http://localhost:8000/api/produs/d_car/${productId}`, {
+    const response = await axios.delete(`https://supremerentals.md/api/produs/d_car/${productId}`, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${storedAccessToken}`,
@@ -314,7 +314,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
         });
       }
 
-      await axios.put(`http://localhost:8000/api/produs/car-update/${selectedProduct.id}`, formData, {
+      await axios.put(`https://supremerentals.md/api/produs/car-update/${selectedProduct.id}`, formData, {
         headers: {
           Authorization: `Bearer ${storedAccessToken}`,
           'Content-Type': 'multipart/form-data',

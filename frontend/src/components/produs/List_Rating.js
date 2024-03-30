@@ -11,7 +11,7 @@ const ListRating = ({ productId, onUpdateTotalVotes }) => {
 
   const fetchRatings = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/produs/ratings-list/${productId}`);
+      const response = await axios.get(`https://supremerentals.md/api/produs/ratings-list/${productId}`);
       const ratings = response.data;
       const newRatingCounts = [0, 0, 0, 0, 0];
       let total = ratings.length;

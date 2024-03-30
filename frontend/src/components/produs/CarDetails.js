@@ -64,7 +64,7 @@ const CarDetail = () => {
   };
 
   const fetchCarData = () => {
-    fetch(`http://localhost:8000/api/produs/car/${id}`)
+    fetch(`https://supremerentals.md/api/produs/car/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setCar(data);
@@ -147,7 +147,7 @@ const CarDetail = () => {
                  Pret_final: calculatePrice() * totalDays,
              };
 
-             const response = await fetch('http://localhost:8000/api/produs/reservation-email', {
+             const response = await fetch('https://supremerentals.md/api/produs/reservation-email', {
                  method: 'POST',
                  headers: {
                      'Content-Type': 'application/json',

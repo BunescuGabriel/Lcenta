@@ -20,7 +20,7 @@ const TermeniManager = () => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
-        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -30,7 +30,7 @@ const TermeniManager = () => {
           const user = response.data[0];
           if (user.user && user.user.email) {
             const userEmail = user.user.email;
-            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
             console.log(setUserIsSuperUser)
           }
@@ -43,7 +43,7 @@ const TermeniManager = () => {
 
   const fetchTermeni = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/about/terminii');
+      const response = await axios.get('https://supremerentals.md/api/about/terminii');
       setTermeni(response.data);
     } catch (error) {
       console.error('There was a problem fetching the data:', error);
@@ -86,7 +86,7 @@ const TermeniManager = () => {
       }
 
       const response = await axios.post(
-        'http://localhost:8000/api/about/termini',
+        'https://supremerentals.md/api/about/termini',
         dataToSend,
         {
           headers: {
@@ -116,7 +116,7 @@ const TermeniManager = () => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
-        await axios.delete(`http://localhost:8000/api/about/termini/${termeniId}`, {
+        await axios.delete(`https://supremerentals.md/api/about/termini/${termeniId}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -142,7 +142,7 @@ const TermeniManager = () => {
       }
 
       const response = await axios.put(
-        `http://localhost:8000/api/about/termini/${selectedTermen.id}`,
+        `https://supremerentals.md/api/about/termini/${selectedTermen.id}`,
         dataToUpdate,
         {
           headers: {

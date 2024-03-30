@@ -13,7 +13,7 @@ const ProductComments = ({ productId }) => {
 
   const fetchUserInfo = async (userId) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/users/profile/${userId}/`);
+      const response = await axios.get(`https://supremerentals.md/api/users/profile/${userId}/`);
       return response.data;
     } catch (error) {
       console.error('Error fetching user info:', error);
@@ -23,7 +23,7 @@ const ProductComments = ({ productId }) => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/produs/comments-list/${productId}`);
+      const response = await axios.get(`https://supremerentals.md/api/produs/comments-list/${productId}`);
       setComments(response.data);
       setLoading(false);
     } catch (error) {

@@ -29,7 +29,8 @@ services:
 #    image: nginx:latest
 #    ports:
 #      - "80:80"
-#    volumes:
+#    volumes:celar
+
 #      - ./nginx/nginx-setup.conf:/etc/nginx/conf.d/default.conf:ro
 #      - ./Backend/media:/Backend/media
 #      - ./Backend/static:/Backend/static

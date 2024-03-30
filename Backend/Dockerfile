@@ -12,6 +12,5 @@ COPY . .
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
-#CMD ["gunicorn", "config.wsgi", "--bind", "0.0.0.0:8000"]
-CMD ["gunicorn", "config.wsgi", "--bind", "62.72.21.70:8000"]
-
+CMD ["gunicorn", "config.wsgi", "--bind", "0.0.0.0:8000"]
+git 

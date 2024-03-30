@@ -22,7 +22,7 @@ const AddComment = ({ productId }) => {
 
   const loadUserEmail = async (token) => {
     try {
-      const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+      const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
@@ -43,7 +43,7 @@ const AddComment = ({ productId }) => {
 
   const fetchUserIdByEmail = async (email) => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${email}/`);
+      const response = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${email}/`);
 
       if (response.status === 200 && response.data.user_id) {
         setUserId(response.data.user_id);
@@ -58,7 +58,7 @@ const AddComment = ({ productId }) => {
   const handleSubmit = async () => {
     try {
       if (isLoggedIn && userId) {
-        const commentResponse = await axios.post('http://localhost:8000/api/produs/comments', {
+        const commentResponse = await axios.post('https://supremerentals.md/api/produs/comments', {
           comment: comment,
           produs: productId,
           user_id: userId,

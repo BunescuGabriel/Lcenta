@@ -24,7 +24,7 @@ const ContactComponent = () => {
   // Verificăm dacă toate câmpurile sunt completate
   if (formData.name && formData.email && formData.phone && formData.message) {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/about/send-email', {
+      const response = await fetch('https://supremerentals.md/api/about/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

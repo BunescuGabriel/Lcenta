@@ -7,7 +7,7 @@ const TermeniComponent = () => {
   useEffect(() => {
     async function fetchTermeni() {
       try {
-        const response = await fetch('http://localhost:8000/api/about/terminii', {
+        const response = await fetch('https://supremerentals.md/api/about/terminii', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',

@@ -6,7 +6,7 @@ function Logout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:8000/api/authen/logout', {
+    fetch('https://supremerentals.md/api/authen/logout', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${sessionStorage.getItem('accessToken')}`,

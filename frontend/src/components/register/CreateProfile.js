@@ -47,7 +47,7 @@ const handleCreateProfile = async () => {
   requestData.append('avatar', avatar || ''); // Asigurați-vă că imaginea este transmisă corect
 
   try {
-    const response = await axios.post('http://localhost:8000/api/users/create-profile', requestData);
+    const response = await axios.post('https://supremerentals.md/api/users/create-profile', requestData);
     console.log('Profile created:', response.data);
     // Pasați user_id către funcția de succes
     onProfileCreationSuccess(response.data.user_id);

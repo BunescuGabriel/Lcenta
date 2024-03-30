@@ -73,7 +73,7 @@ const Register = ({ onRegistrationSuccess }) => {
 
         // După înregistrare, faceți o cerere pentru a obține ID-ul utilizatorului
         axios
-          .get(`http://localhost:8000/api/users/get-user-id-by-email/${email}/`)
+          .get(`https://supremerentals.md/api/users/get-user-id-by-email/${email}/`)
           .then((response) => {
             const { user_id } = response.data;
 

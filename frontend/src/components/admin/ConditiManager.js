@@ -54,7 +54,7 @@ const ConditiiManager = (effect, deps) => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
-        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -64,7 +64,7 @@ const ConditiiManager = (effect, deps) => {
           const user = response.data[0];
           if (user.user && user.user.email) {
             const userEmail = user.user.email;
-            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
           }
         }
@@ -76,7 +76,7 @@ const ConditiiManager = (effect, deps) => {
 
   useEffect(() => {
     fetchUserAccess();
-    axios.get('http://localhost:8000/api/about/conditi/')
+    axios.get('https://supremerentals.md/api/about/conditi/')
       .then(response => {
         setConditions(response.data);
       })
@@ -87,7 +87,7 @@ const ConditiiManager = (effect, deps) => {
 
   useEffect(() => {
     conditions.forEach(condition => {
-      axios.get(`http://localhost:8000/api/about/conditii/${condition.id}`)
+      axios.get(`https://supremerentals.md/api/about/conditii/${condition.id}`)
         .then(response => {
           setDescriptions(prevDescriptions => ({
             ...prevDescriptions,
@@ -102,7 +102,7 @@ const ConditiiManager = (effect, deps) => {
 
   const refreshData = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/about/conditi/');
+    const response = await axios.get('https://supremerentals.md/api/about/conditi/');
     setConditions(response.data);
   } catch (error) {
     console.error('Error refreshing conditions:', error);
@@ -120,7 +120,7 @@ const ConditiiManager = (effect, deps) => {
         }
 
         const response = await axios.post(
-          'http://localhost:8000/api/about/conditii',
+          'https://supremerentals.md/api/about/conditii',
           dataToSend,
           {
             headers: {
@@ -149,7 +149,7 @@ const ConditiiManager = (effect, deps) => {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         const response = await axios.post(
-          'http://localhost:8000/api/about/descriere',
+          'https://supremerentals.md/api/about/descriere',
           newDescription,
           {
             headers: {
@@ -185,7 +185,7 @@ const ConditiiManager = (effect, deps) => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
-        await axios.delete(`http://localhost:8000/api/about/conditi/${conditiId}`, {
+        await axios.delete(`https://supremerentals.md/api/about/conditi/${conditiId}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -204,7 +204,7 @@ const ConditiiManager = (effect, deps) => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
-        await axios.delete(`http://localhost:8000/api/about/descriere/${descriereId}`, {
+        await axios.delete(`https://supremerentals.md/api/about/descriere/${descriereId}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -230,7 +230,7 @@ const ConditiiManager = (effect, deps) => {
       }
 
       const response = await axios.put(
-        `http://localhost:8000/api/about/conditi/${selectedCondition.id}`,
+        `https://supremerentals.md/api/about/conditi/${selectedCondition.id}`,
         dataToUpdate,
         {
           headers: {
@@ -263,7 +263,7 @@ const updateDescrierea = async () => {
       const dataToUpdate = { ...newDescription };
 
       const response = await axios.put(
-        `http://localhost:8000/api/about/descriere/${SelectedDescrierea.id}`,
+        `https://supremerentals.md/api/about/descriere/${SelectedDescrierea.id}`,
         dataToUpdate,
         {
           headers: {

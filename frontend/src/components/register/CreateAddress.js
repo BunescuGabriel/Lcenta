@@ -40,7 +40,7 @@ const CreateAddress = ({ userData }) => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8000/api/users/create-address',
+        'https://supremerentals.md/api/users/create-address',
         requestData,
       );
 

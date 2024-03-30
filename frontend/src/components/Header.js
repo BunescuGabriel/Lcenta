@@ -21,7 +21,7 @@ function Header() {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+      const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${accessToken}`,
@@ -53,7 +53,7 @@ function Header() {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
-        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${storedAccessToken}`,
@@ -63,7 +63,7 @@ function Header() {
           const user = response.data[0];
           if (user.user && user.user.email) {
             const userEmail = user.user.email;
-            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
           }
         }

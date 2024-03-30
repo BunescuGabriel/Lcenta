@@ -53,7 +53,7 @@ const DespreManager = (effect, deps) => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
-        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -63,7 +63,7 @@ const DespreManager = (effect, deps) => {
           const user = response.data[0];
           if (user.user && user.user.email) {
             const userEmail = user.user.email;
-            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
           }
         }
@@ -75,7 +75,7 @@ const DespreManager = (effect, deps) => {
 
   useEffect(() => {
     fetchUserAccess();
-    axios.get('http://localhost:8000/api/about/despre/')
+    axios.get('https://supremerentals.md/api/about/despre/')
       .then(response => {
         setConditions(response.data);
       })
@@ -86,7 +86,7 @@ const DespreManager = (effect, deps) => {
 
   useEffect(() => {
     conditions.forEach(condition => {
-      axios.get(`http://localhost:8000/api/about/despre/${condition.id}/`)
+      axios.get(`https://supremerentals.md/api/about/despre/${condition.id}/`)
         .then(response => {
           setDescriptions(prevDescriptions => ({
             ...prevDescriptions,
@@ -101,7 +101,7 @@ const DespreManager = (effect, deps) => {
 
   const refreshData = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/about/despre/');
+    const response = await axios.get('https://supremerentals.md/api/about/despre/');
     setConditions(response.data);
   } catch (error) {
     console.error('Error refreshing conditions:', error);
@@ -115,7 +115,7 @@ const DespreManager = (effect, deps) => {
         const dataToSend = { ...newCondition };
 
         const response = await axios.post(
-          'http://localhost:8000/api/about/despre',
+          'https://supremerentals.md/api/about/despre',
           dataToSend,
           {
             headers: {
@@ -144,7 +144,7 @@ const DespreManager = (effect, deps) => {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
         const response = await axios.post(
-          'http://localhost:8000/api/about/detalii',
+          'https://supremerentals.md/api/about/detalii',
           newDescription,
           {
             headers: {
@@ -180,7 +180,7 @@ const DespreManager = (effect, deps) => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
-        await axios.delete(`http://localhost:8000/api/about/despre/${conditiId}`, {
+        await axios.delete(`https://supremerentals.md/api/about/despre/${conditiId}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -199,7 +199,7 @@ const DespreManager = (effect, deps) => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (userIsSuperUser && storedAccessToken) {
-        await axios.delete(`http://localhost:8000/api/about/detalii/${descriereId}`, {
+        await axios.delete(`https://supremerentals.md/api/about/detalii/${descriereId}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -222,7 +222,7 @@ const updateCondition = async () => {
       const dataToUpdate = { ...newCondition };
 
       const response = await axios.put(
-        `http://localhost:8000/api/about/despre/${selectedCondition.id}`,
+        `https://supremerentals.md/api/about/despre/${selectedCondition.id}`,
         dataToUpdate,
         {
           headers: {
@@ -255,7 +255,7 @@ const updateDescrierea = async () => {
       const dataToUpdate = { ...newDescription };
 
       const response = await axios.put(
-        `http://localhost:8000/api/about/detalii/${SelectedDescrierea.id}`,
+        `https://supremerentals.md/api/about/detalii/${SelectedDescrierea.id}`,
         dataToUpdate,
         {
           headers: {

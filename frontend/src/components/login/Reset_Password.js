@@ -12,7 +12,7 @@ function ResetPassword() {
   };
 
   const handleResetPassword = () => {
-    fetch('http://localhost:8000/api/authen/reset-password', {
+    fetch('https://supremerentals.md/api/authen/reset-password', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

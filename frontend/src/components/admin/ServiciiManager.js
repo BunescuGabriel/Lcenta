@@ -22,7 +22,7 @@ const ServiciiManager = () => {
     try {
       const storedAccessToken = sessionStorage.getItem('accessToken');
       if (storedAccessToken) {
-        const response = await axios.get('http://localhost:8000/api/users/users-profile', {
+        const response = await axios.get('https://supremerentals.md/api/users/users-profile', {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
@@ -32,7 +32,7 @@ const ServiciiManager = () => {
           const user = response.data[0];
           if (user.user && user.user.email) {
             const userEmail = user.user.email;
-            const userResponse = await axios.get(`http://localhost:8000/api/users/get-user-id-by-email/${userEmail}/`);
+            const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
           }
         }
@@ -44,7 +44,7 @@ const ServiciiManager = () => {
 
   const refreshData = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/about/servicii');
+      const response = await axios.get('https://supremerentals.md/api/about/servicii');
       setServices(response.data);
     } catch (error) {
       console.error('Error refreshing services:', error);
@@ -58,7 +58,7 @@ const ServiciiManager = () => {
     if (userIsSuperUser && storedAccessToken) {
       try {
         const response = await axios.post(
-          'http://localhost:8000/api/about/servicii',
+          'https://supremerentals.md/api/about/servicii',
           { serviciu: newService },
           {
             headers: {
@@ -85,7 +85,7 @@ const ServiciiManager = () => {
         try {
           if (updatedService !== '') { // Verificăm dacă s-a introdus un nou serviciu pentru a face actualizarea
             const response = await axios.put(
-              `http://localhost:8000/api/about/servicii/${service.id}`,
+              `https://supremerentals.md/api/about/servicii/${service.id}`,
               { serviciu: updatedService || service.serviciu }, // utilizează serviciul actualizat sau cel existent
               {
                 headers: {
@@ -114,7 +114,7 @@ const ServiciiManager = () => {
     const storedAccessToken = sessionStorage.getItem('accessToken');
     if (userIsSuperUser && storedAccessToken) {
       try {
-        await axios.delete(`http://localhost:8000/api/about/servicii/${serviceId}`, {
+        await axios.delete(`https://supremerentals.md/api/about/servicii/${serviceId}`, {
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${storedAccessToken}`,
