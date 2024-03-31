@@ -20,7 +20,6 @@ function Logout() {
           navigate('/');
         } else {
           console.error('Logout error:', response.statusText);
-          navigate('/error');
         }
       })
       .catch((error) => {

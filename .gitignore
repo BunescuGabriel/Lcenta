@@ -7,6 +7,7 @@ Backend/media/avatar
 Backend/media/banner
 Backend/media/car
 Backend/media/servicii
+Backend/static
 
 # Ignoră directorul .idea
 .idea
