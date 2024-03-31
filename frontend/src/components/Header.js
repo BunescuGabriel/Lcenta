@@ -160,8 +160,10 @@ function Header() {
             {isDropdownOpen && (
               <ul className="menu">
                 <li className="user-name">{userProfile.first_name} {userProfile.last_name}</li>
-                <li><Link to="/profile">Profile</Link></li>
-                <li><Link to="/logout">Logout</Link></li>
+                {/*<li><Link to="/profile">Profile</Link></li>*/}
+                {/*<li><Link to="/logout">Logout</Link></li>*/}
+                <li><Link to="/profile" className="button-hed">Profile</Link></li>
+                <li><Link to="/logout" className="button-hed">Logout</Link></li>
               </ul>
             )}
           </div>
@@ -170,8 +172,10 @@ function Header() {
             <FontAwesomeIcon icon={faUser} className="icon" />
             {isDropdownOpen && (
               <ul className="menu">
-                <li><Link to="/login">Login</Link></li>
-                <li><Link to="/register">Register</Link></li>
+                {/*<li><Link to="/login">Login</Link></li>*/}
+                {/*<li><Link to="/register">Register</Link></li>*/}
+                <li><Link to="/login" className="button-hed">Login</Link></li>
+                <li><Link to="/register" className="button-hed">Register</Link></li>
               </ul>
             )}
           </div>

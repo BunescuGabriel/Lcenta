@@ -25,7 +25,6 @@ function Logout() {
       })
       .catch((error) => {
         console.error('Logout error:', error);
-        navigate('/error');
       });
   }, [navigate]);
 
