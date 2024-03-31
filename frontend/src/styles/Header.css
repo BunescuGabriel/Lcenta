@@ -169,10 +169,10 @@ nav ul li a {
   }
 }
 
-.menu li:hover {
-  color: #007bff;
-  background-color: #e0e0e0;
-}
+/*.menu li:hover {*/
+/*  color: #007bff;*/
+/*  !*background-color: #e0e0e0;*!*/
+/*}*/
 
 /* Stil pentru numele utilizatorului */
 .menu li:first-child {
@@ -255,14 +255,20 @@ nav ul li a {
 
 .button-hed {
   display: inline-block;
-  padding: 10px 20px;
+  width: 100%;
+  max-width: 70px; /* Setează o lățime maximă pentru buton */
+  padding: 8px 20px;
   background-color: #007bff;
   color: #fff;
   text-decoration: none;
   border: none;
-  border-radius: 5px;
+  border-radius: 14px; /* Rotunjirea colțurilor butonului */
   cursor: pointer;
   transition: background-color 0.3s ease;
+  text-align: center; /* Centrează textul în buton */
+  font-size: 12px;
+  font-weight: bold;
+  margin-top: 10px; /* Spatiu între butoane */
 }
 
 .button-hed:hover {
