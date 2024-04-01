@@ -4,7 +4,7 @@ import React from "react";
 function ProtectedRoutelogin({ children }) {
   const isAuthenticated = sessionStorage.getItem('accessToken') !== null;
 
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     return <Navigate to="/" replace />;
   }else {
         return children;
