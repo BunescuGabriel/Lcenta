@@ -45,6 +45,7 @@ function Login() {
         const data = response.data;
         sessionStorage.setItem('accessToken', data.access_token);
         console.log('is_superuser:', data.is_superuser);
+        sessionStorage.setItem('is_superuser', data.is_superuser);
 
         if (data.is_superuser > 0) {
           // Redirect superusers to the protected /admin route

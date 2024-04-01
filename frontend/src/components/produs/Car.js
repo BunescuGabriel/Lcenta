@@ -461,7 +461,10 @@
           <div className="product-list" >
                   {(filteredProducts.length > 0 ? filteredProducts : currentProducts).map((product) => (
                   // {currentProducts.map((product) => (
-              <Link to={`/product/${product.id}`} key={product.id}>
+              <Link
+                to={`/product/${product.producator.replace(/ /g, "")}-${product.name.replace(/ /g, "")}`}
+
+                    key={product.id}>
                 <div
                   className="product-card"
                   onClick={() => handleProductClick(product)}

@@ -17,6 +17,7 @@ function Logout() {
         if (response.status === 200) {
           // Logout was successful
           sessionStorage.removeItem('accessToken');
+          sessionStorage.removeItem('is_superuser');
           navigate('/');
         } else {
           console.error('Logout error:', response.statusText);
