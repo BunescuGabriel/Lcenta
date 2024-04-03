@@ -44,18 +44,13 @@ const handleCreateProfile = async () => {
   requestData.append('phoneNumber', phoneNumber || '');
   requestData.append('birthday', birthday || '');
   requestData.append('gender', gender);
-  requestData.append('avatar', avatar || ''); // Asigurați-vă că imaginea este transmisă corect
-
+  requestData.append('avatar', avatar || '');
   try {
     const response = await axios.post('https://supremerentals.md/api/users/create-profile', requestData);
-    console.log('Profile created:', response.data);
-    // Pasați user_id către funcția de succes
     onProfileCreationSuccess(response.data.user_id);
     navigate('/login');
-    // Puteți redirecționa utilizatorul sau faceți altă acțiune după ce profilul a fost creat
   } catch (error) {
     console.error('Error creating Profile:', error.message);
-    // Afișați un mesaj de eroare pentru utilizator
   }
 };
 

@@ -134,7 +134,7 @@ const Meniul = () => {
         {
           activeComponent === 'ConditiiManager' && (
             <div>
-              <h1>Editarea Termeni !!</h1>
+              <h1>Editarea Conditi !!</h1>
               <ConditiiManager />
             </div>
           )

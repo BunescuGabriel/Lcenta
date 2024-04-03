@@ -44,7 +44,6 @@ const CreateAddress = ({ userData }) => {
         requestData,
       );
 
-      console.log('Address created:', response.data);
         navigate('/login');
     } catch (error) {
       console.error('Error creating address:', error.message);

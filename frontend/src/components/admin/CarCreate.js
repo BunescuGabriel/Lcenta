@@ -41,7 +41,6 @@ const CarsCreate = (onCreateProduct  ) => {
             const userEmail = user.user.email;
             const userResponse = await axios.get(`https://supremerentals.md/api/users/get-user-id-by-email/${userEmail}/`);
             setUserIsSuperUser(userResponse.data.is_superuser > 0);
-            console.log(setUserIsSuperUser)
           }
         }
       }

@@ -79,7 +79,6 @@ const Register = ({ onRegistrationSuccess }) => {
 
             // Pasați user_id către funcția de succes
             onRegistrationSuccess(user_id);
-            console.log(onRegistrationSuccess);
           })
           .catch((error) => {
             console.error('Error getting user ID:', error);

@@ -11,7 +11,6 @@ function RegisterPage() {
   const [step, setStep] = useState(1);
 
   const handleRegistrationSuccess = (user_id) => {
-    console.log('User registered with ID:', user_id);
     setUserData({ id: user_id });
 
     setStep(2);
