@@ -39,12 +39,9 @@ const Register = ({ onRegistrationSuccess }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const { email, username, password, confirm_password } = formData;
-    if (password !== confirm_password) {
-      setFormData({ ...formData, error: 'Passwords do not match' });
-      return;
-    }
-    if (!formData.email) {
-    alertError('Please enter your email.');
+
+  if (!email.toLowerCase().endsWith('@gmail.com')) {
+    setFormData({ ...formData, error: 'Please use a Gmail.com address for registration' });
     return;
   }
     if (!formData.username) {
@@ -52,14 +49,15 @@ const Register = ({ onRegistrationSuccess }) => {
     return;
   }
 
-  if (!formData.password) {
-    alertError('Please enter your password.');
+  if (password.length < 8) {
+    setFormData({ ...formData, error: 'Password must be at least 8 characters long' });
     return;
   }
-  if (!formData.confirm_password) {
-    alertError('Please enter your confirm password.');
-    return;
-  }
+
+  if (password !== confirm_password) {
+      setFormData({ ...formData, error: 'Passwords do not match' });
+      return;
+    }
 
     axios
       .post('/register/', {
