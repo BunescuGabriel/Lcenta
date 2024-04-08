@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import "../../styles/produs/CarDetails.css";
 import "../../styles/produs/Rezervation.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 import {
   faCar,
   faCarSide,
@@ -112,6 +114,12 @@ const CarDetail = () => {
     setFormData({
       ...formData,
       [name]: value,
+    });
+  };
+   const handlePhoneChange = (value) => {
+    setFormData({
+      ...formData,
+      phone: value,
     });
   };
 
@@ -411,17 +419,30 @@ const Pret_final = calculatePrice() * totalDays;
       onChange={handleChange}
     />
       </div>
+    {/*  <div className={"icon-rezervation"}>*/}
+    {/*       <FaPhone className="iconnn"/>*/}
+    {/*<input*/}
+    {/*  type="tel"*/}
+    {/*  name="phone"*/}
+    {/*  className="phone-input-rezervation"*/}
+    {/*  placeholder="Phone"*/}
+    {/*  value={formData.phone}*/}
+    {/*  onChange={handleChange}*/}
+    {/*/>*/}
+    {/*  </div>*/}
       <div className={"icon-rezervation"}>
-           <FaPhone className="iconnn"/>
-    <input
-      type="tel"
-      name="phone"
-      className="phone-input-rezervation"
-      placeholder="Phone"
-      value={formData.phone}
-      onChange={handleChange}
-    />
-      </div>
+                <FaPhone className="iconnn" />
+                <PhoneInput
+                  country={"md"}
+                  value={formData.phone}
+                  onChange={handlePhoneChange}
+                  inputProps={{
+                    name: "phone",
+                    className: "phone-input-rezervation",
+                    placeholder: "Telefon",
+                  }}
+                />
+              </div>
 
       <div className={"pret-zile-rezervare"}>
           <p>Gaj:<span className="align-right">{car.gaj} €</span></p>

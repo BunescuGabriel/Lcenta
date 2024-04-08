@@ -30,12 +30,31 @@
   margin-left: 20px;
 }
 .name-input-rezervation,
-.email-input-rezervation,
-.phone-input-rezervation {
+.email-input-rezervation{
   width: 90%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+.phone-input-rezervation {
+  width: 84%; /* Ajustați lățimea conform preferințelor */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-left: 40px;
+}
+
+/* Stilizare pentru erorile asociate cu PhoneInput */
+.phone-input-rezervation.error {
+  border-color: red;
+}
+
+/* Stilizare pentru a afișa un mesaj de eroare sub componenta PhoneInput */
+.phone-input-rezervation ~ .error-message-rezervation {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .error-message-rezervation {

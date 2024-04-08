@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="footer-content">
         <div className="footer-left">
           <a  href="/"><img src={logo} alt="Home" className="logo-img-footer" /></a>
-          <p>Adresa noastra, contacteaza-ne prin intermediul retelelor sociale, telefon, viber, facebook sau telegram.</p>
+          <p>Contactați-ne pentru închirierea auto în Bălți prin intermediul rețelelor sociale, telefon, Viber, Facebook sau Telegram.</p>
         </div>
         <div className="footer-right">
           <h4>Linkuri Utile</h4>
