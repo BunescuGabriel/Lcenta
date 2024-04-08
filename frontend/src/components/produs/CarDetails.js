@@ -116,7 +116,8 @@ const CarDetail = () => {
       [name]: value,
     });
   };
-   const handlePhoneChange = (value) => {
+
+  const handlePhoneChange = (value) => {
     setFormData({
       ...formData,
       phone: value,
@@ -376,13 +377,13 @@ const Pret_final = calculatePrice() * totalDays;
 </div>
 
             <div className={"Rezervation"}>
-  <h2 className="rezervation-title">Make a Reservation</h2>
+  <h2 className="rezervation-title">Crează o rezervare</h2>
   <div className="rezervation-container">
     <input
       type="date"
       name="fromDate"
       className="rezervation-input"
-      placeholder="From Date"
+      placeholder="Din data"
       value={formData.fromDate}
       onChange={handleChange}
       min={new Date().toISOString().split("T")[0]}
@@ -391,7 +392,7 @@ const Pret_final = calculatePrice() * totalDays;
       type="date"
       name="toDate"
       className="rezervation-input"
-      placeholder="To Date"
+      placeholder="Până în data"
       value={formData.toDate}
       onChange={handleChange}
       min={formData.fromDate || new Date().toISOString().split("T")[0]}
@@ -425,11 +426,14 @@ const Pret_final = calculatePrice() * totalDays;
     {/*  type="tel"*/}
     {/*  name="phone"*/}
     {/*  className="phone-input-rezervation"*/}
-    {/*  placeholder="Phone"*/}
+    {/*  placeholder="Telefon"*/}
     {/*  value={formData.phone}*/}
     {/*  onChange={handleChange}*/}
     {/*/>*/}
+
+
     {/*  </div>*/}
+
       <div className={"icon-rezervation"}>
                 <FaPhone className="iconnn" />
                 <PhoneInput
