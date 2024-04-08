@@ -119,6 +119,7 @@ class Produs(models.Model):
     price3 = models.IntegerField()
     price4 = models.IntegerField()
     price5 = models.IntegerField()
+    gaj = models.IntegerField()
 
     total_rating = models.FloatField(default=0.0)
     total_votes = models.PositiveIntegerField(default=0)

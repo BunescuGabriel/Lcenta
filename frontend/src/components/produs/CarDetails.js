@@ -141,6 +141,7 @@ const CarDetail = () => {
                      id: car.id,
                      name: car.name,
                      producator: car.producator,
+                     gaj: car.gaj,
                  },
                  totalDays: totalDays,
                  priceForTotalDays: calculatePrice(),
@@ -423,6 +424,7 @@ const Pret_final = calculatePrice() * totalDays;
       </div>
 
       <div className={"pret-zile-rezervare"}>
+          <p>Gaj:<span className="align-right">{car.gaj} €</span></p>
           <p>Preț pentru o zi <span className="align-right">{calculatePrice()} €</span></p>
           <p>Total zile <span className="align-right">x{totalDays}</span></p>
           <p>Preț final <span className="align-right red-text">{Pret_final} €</span></p>

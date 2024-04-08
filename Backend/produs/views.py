@@ -361,6 +361,7 @@ def reservation_email(request):
             car_id = carInfo.get("id", "")
             car_name = carInfo.get("name", "")
             car_producer = carInfo.get("producator", "")
+            car_gaj = carInfo.get("gaj", "")
 
             totalDays = data.get("totalDays", "")
             priceForTotalDays = data.get("priceForTotalDays", "")
@@ -371,6 +372,7 @@ def reservation_email(request):
                 f'\nNume: {prenume}\nVîrsta: {virsta} ani\nTelefon: {phone}'
                 f'\nDe la: {fromDate}\nPână la: {toDate}\n\nDetalii produs:'
                 f'\nNume Produs: {car_producer} {car_name}'
+                f'\nGaj Produs:{car_gaj}€'
                 f'\nNumăr total de zile: {totalDays}\nPreț pentru o zi: {priceForTotalDays} €'
                 f'\nPreț total: {Pret_final} €'
             )

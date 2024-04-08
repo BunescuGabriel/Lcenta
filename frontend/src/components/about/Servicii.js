@@ -37,13 +37,13 @@ const ServiceComponent = () => {
       <div className="text-overlay">
         <h2 className="title-service">Serviciile Noastre</h2>
         <div className="servicii-caruseli">
-          <Slider {...settings}>
+          <Slider {...settings} className="servicii-caruseli">
             {services.map((service, index) => (
               <div className="slide-container" key={index}>
                 <p>{service.serviciu}</p>
               </div>
             ))}
-          </Slider>
+         </Slider>
         </div>
       </div>
     </div>

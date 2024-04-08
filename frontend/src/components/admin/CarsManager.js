@@ -34,6 +34,7 @@ const CarsManager = () => {
     price3: 0,
     price4: 0,
     price5: 0,
+    gaj: 50,
     an: new Date().getFullYear(),
     capacitate_cilindrica: 0.8,
   });
@@ -171,6 +172,13 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
       price5: parseInt(value, 10) || 0,
     });
   };
+  const handleGajChange = (event) => {
+    const { value } = event.target;
+    setProdusData({
+      ...produsData,
+      gaj: parseInt(value, 10) || 0,
+    });
+  };
 
   const CAPACITATE_CHOICES = [];
   for (let i = 8; i <= 40; i++) {
@@ -211,6 +219,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
       formData.append('price3', produsData.price3);
       formData.append('price4', produsData.price4);
       formData.append('price5', produsData.price5);
+      formData.append('gaj', produsData.gaj);
       formData.append('an', produsData.an);
       formData.append('capacitate_cilindrica', produsData.capacitate_cilindrica);
       produsData.uploaded_images.forEach((image, index) => {
@@ -241,6 +250,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
         price3: 0,
         price4: 0,
         price5: 0,
+        gaj: 50,
         an: new Date().getFullYear(),
         capacitate_cilindrica: 0.8,
       });
@@ -294,6 +304,7 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
       formData.append('price3', selectedProduct.price3);
       formData.append('price4', selectedProduct.price4);
       formData.append('price5', selectedProduct.price5);
+      formData.append('gaj', selectedProduct.gaj);
       formData.append('an', selectedProduct.an);
       formData.append('capacitate_cilindrica', selectedProduct.capacitate_cilindrica);
       // if (selectedProduct && selectedProduct.uploaded_images) {
@@ -408,6 +419,13 @@ const { getRootProps: getRootPropsForCreate, getInputProps: getInputPropsForCrea
     setSelectedProduct({
       ...selectedProduct,
       price5: parseInt(value, 10) || 0,
+    });
+  };
+  const handleGajUpdate = (event) => {
+    const { value } = event.target;
+    setSelectedProduct({
+      ...selectedProduct,
+      gaj: parseInt(value, 10) || 0,
     });
   };
   const onDropForUpdate = (acceptedFiles) => {
@@ -657,6 +675,15 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
       />
     </label>
       <br />
+      <label>
+     Gaj :
+      <input
+        type="number"
+        value={produsData.gaj}
+        onChange={handleGajChange}
+      />
+    </label>
+      <br />
 
 
       <div {...getRootPropsForCreate()} style={dropzoneStyles}>
@@ -848,6 +875,15 @@ const { getRootProps: getRootPropsForUpdate, getInputProps: getInputPropsForUpda
         type="number"
         value={selectedProduct ? selectedProduct.price5 : ''}
         onChange={handlePrice5Update}
+      />
+    </label>
+      <br />
+    <label>
+      Gaj :
+      <input
+        type="number"
+        value={selectedProduct ? selectedProduct.gaj : ''}
+        onChange={handleGajUpdate}
       />
     </label>
       <br />

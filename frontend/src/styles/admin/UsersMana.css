@@ -1,6 +1,7 @@
 /* Stil pentru containerul principal */
 .users-manager-container {
-  width: 160%; /* Lățimea completă a containerului */
+  /*width: 800px;*/
+  width: 96%;
   padding: 20px;
   background-color: #f7f7f7;
   border: 1px solid #ddd;
