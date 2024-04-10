@@ -8,6 +8,7 @@ Backend/media/banner
 Backend/media/car
 Backend/media/servicii
 Backend/static
+nginx/
 
 # Ignoră directorul .idea
 .idea
