@@ -47,6 +47,12 @@ class ProdusSerializer(serializers.ModelSerializer):
             models.Images.objects.create(produs=produs, image=image)
         return produs
 
+    def validate_produs(self, value):
+        max_size = 10 * 1024 * 1024  # 10MB
+        if value.size > max_size:
+            raise serializers.ValidationError("The image size should not exceed 10MB.")
+        return value
+
     def update(self, instance, validated_data):
         uploaded_images = validated_data.pop("uploaded_images", [])
         for image in uploaded_images:
