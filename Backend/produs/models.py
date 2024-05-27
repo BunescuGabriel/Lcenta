@@ -5,7 +5,7 @@ from users.models import Users
 
 class Banner(models.Model):
 
-    name_banner = models.CharField(max_length=150, null=True)
+    name_banner = models.CharField(max_length=250, null=True)
     data = models.DateTimeField(auto_now_add=True, null=True)
     banner = models.ImageField(upload_to="banner/")
 

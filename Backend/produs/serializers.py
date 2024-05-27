@@ -7,6 +7,12 @@ class BannerSerializer(serializers.ModelSerializer):
         model = models.Banner
         fields = '__all__'
 
+    def validate_banner(self, value):
+        max_size = 10 * 1024 * 1024  # 10MB
+        if value.size > max_size:
+            raise serializers.ValidationError("The image size should not exceed 10MB.")
+        return value
+
 
 class ImagesSerializer(serializers.ModelSerializer):
     class Meta:
