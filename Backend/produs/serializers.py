@@ -18,7 +18,9 @@ class ProdusSerializer(serializers.ModelSerializer):
     images = ImagesSerializer(many=True, read_only=True)
 
     uploaded_images = serializers.ListField(
-        child=serializers.ImageField(max_length=1000, allow_empty_file=False, use_url=False),
+        child=serializers.ImageField( allow_empty_file=False, use_url=False,
+        # max_length = 1000
+                                      ),
         write_only=True,
         required=False
     )

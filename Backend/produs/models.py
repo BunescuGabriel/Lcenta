@@ -141,7 +141,7 @@ class Produs(models.Model):
 
 class Images(models.Model):
     produs = models.ForeignKey(Produs, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="car/", max_length=100, null=True, default='')
+    image = models.ImageField(upload_to="car/", max_length=255, null=True, default='')
 
 
 class Rating(models.Model):

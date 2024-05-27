@@ -71,7 +71,7 @@ def login_view(request):
         'user_id': user.pk,
         'username': user.username,
         'access_token': user_token.access_token,
-        'is_superuser': is_superuser  # Adăugați gradul de utilizator în răspuns
+        'is_superuser': is_superuser
     }
     msg = {'Successfully login'}
     return response.Response( data=data, status=status.HTTP_200_OK)
