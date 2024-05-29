@@ -241,4 +241,4 @@ EMAIL_HOST = 'smtp.gmail.com'  # Adresa serverului SMTP pentru Gmail
 EMAIL_PORT = 587  # Portul serverului SMTP pentru Gmail (587 este portul implicit pentru TLS)
 EMAIL_USE_TLS = True  # Setează True dacă folosești TLS pentru conexiunea SMTP
 EMAIL_HOST_USER = 'supremerentals.srl@gmail.com'  # Adresa ta de email Gmail pentru autentificare SMTP
-EMAIL_HOST_PASSWORD = 'qgoe cmbu rmtt ztwy'  # Parola pentru adresa ta de email Gmail
+EMAIL_HOST_PASSWORD = 'tenv khba twwq bnna'  # Parola pentru adresa ta de email Gmail
