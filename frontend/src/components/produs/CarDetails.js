@@ -23,6 +23,9 @@ import AddComment from "./AddComments";
 import Rating from "./Rating";
 import ListRating from "./List_Rating";
 import { FaIdBadge, FaPhone } from "react-icons/fa";
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 const CarDetail = () => {
   const { id } = useParams();
@@ -34,13 +37,16 @@ const CarDetail = () => {
     virsta: "",
     phone: "",
     fromDate: "",
+    fromTime: "",
     toDate: "",
+    toTime: "",
   });
   const [messageSent, setMessageSent] = useState(false);
   const [error, setError] = useState("");
   const [totalDays, setTotalDays] = useState(0);
   const intervalRef = useRef(null); // Referință către interval
-
+const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const renderStars = (rating) => {
     const stars = [];
     const totalStars = 5;
@@ -141,56 +147,105 @@ const CarDetail = () => {
   }, [formData.fromDate, formData.toDate]);
 
 
- const sendRezervation = async () => {
-     if (formData.prenume && formData.virsta && formData.phone && formData.fromDate && formData.toDate) {
-         try {
-             const updatedFormData = {
-                 ...formData,
-                 carInfo: {
-                     id: car.id,
-                     name: car.name,
-                     producator: car.producator,
-                     gaj: car.gaj,
-                 },
-                 totalDays: totalDays,
-                 priceForTotalDays: calculatePrice(),
-                 Pret_final: calculatePrice() * totalDays,
-             };
+const sendRezervation = async () => {
+  if (
+    formData.prenume &&
+    formData.virsta &&
+    formData.phone &&
+    formData.fromDate &&
+    formData.fromTime &&
+    formData.toDate &&
+    formData.toTime
+  ) {
+    try {
+      const updatedFormData = {
+        ...formData,
+        carInfo: {
+          id: car.id,
+          name: car.name,
+          producator: car.producator,
+          gaj: car.gaj,
+        },
+        totalDays: totalDays,
+        priceForTotalDays: calculatePrice(),
+        Pret_final: calculateFinalPrice().finalPrice,
+        noapte_preluare:calculateFinalPrice().fromNightTax,
+        noapte_returnare:calculateFinalPrice().toNightTax
 
-             const response = await fetch('https://supremerentals.md/api/produs/reservation-email', {
-                 method: 'POST',
-                 headers: {
-                     'Content-Type': 'application/json',
-                 },
-                 body: JSON.stringify(updatedFormData),
-             });
-             if (response.ok) {
-                 setMessageSent(true);
-                 setError("");
-                 setFormData({
-                     prenume: '',
-                     virsta: '',
-                     phone: '',
-                     fromDate: '',
-                     toDate: '',
-                 });
-             } else {
-                 const errorData = await response.json();
-                 setError(errorData.error || 'Eroare la trimiterea mesajului');
-                 setMessageSent(false);
-             }
-         } catch (error) {
-             setError(`Eroare la trimiterea mesajului: ${error}`);
-             setMessageSent(false);
-         }
-     } else {
-         setError('Te rog completează toate câmpurile.');
-         setMessageSent(false);
-     }
- };
+      };
 
 
- const calculatePrice = () => {
+      const response = await fetch(
+        "https://supremerentals.md/api/produs/reservation-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedFormData),
+        }
+      );
+      if (response.ok) {
+        setMessageSent(true);
+        setError("");
+        setFormData({
+          prenume: "",
+          virsta: "",
+          phone: "",
+          fromDate: "",
+          fromTime: "",
+          toDate: "",
+          toTime: "",
+        });
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error || "Eroare la trimiterea mesajului");
+        setMessageSent(false);
+      }
+    } catch (error) {
+      setError(`Eroare la trimiterea mesajului: ${error}`);
+      setMessageSent(false);
+    }
+  } else {
+    setError("Te rog completează toate câmpurile.");
+    setMessageSent(false);
+  }
+};
+
+const isNightTime = (hour, day) => {
+  if (day === 0) { // Duminică
+    return true;
+  } else if (day === 6) { // Sâmbătă
+    return hour >= 16 || hour < 8;
+  } else {
+    return hour >= 18 || hour < 8;
+  }
+};
+
+const calculateFinalPrice = () => {
+  const fromDate = new Date(formData.fromDate + 'T' + formData.fromTime);
+  const toDate = new Date(formData.toDate + 'T' + formData.toTime);
+
+  let price = calculatePrice();
+
+  const nightTimeTaxStart = 10;
+
+  const fromNightTax = isNightTime(fromDate.getHours(), fromDate.getDay()) ? nightTimeTaxStart : 0;
+  const toNightTax = isNightTime(toDate.getHours(), toDate.getDay()) ? nightTimeTaxStart : 0;
+
+  const finalPrice = price * totalDays + fromNightTax + toNightTax;
+
+  return {
+    finalPrice: finalPrice,
+    fromNightTax: fromNightTax,
+    toNightTax: toNightTax
+  };
+};
+
+
+
+
+const calculatePrice = () => {
   let price = 0;
 
   if (totalDays >= 1 && totalDays <= 2) {
@@ -208,30 +263,75 @@ const CarDetail = () => {
   return price;
 };
 
-const Pret_final = calculatePrice() * totalDays;
+
+const openModal = (index) => {
+  setCurrentSlide(index);
+  setIsModalOpen(true);
+};
+
+const closeModal = () => {
+  setIsModalOpen(false);
+};
+
+const afterOpenModal = () => {
+  // Set focus or perform actions after modal opens, if needed
+};
 
   if (!car) {
     return <div>Loading...</div>;
   }
-
 
   return (
       <div>
     <div className="car-detail">
       <div className="column1">
 
-        <Carousel showStatus={false} showThumbs={true} infiniteLoop={true}>
-      {/*{car.images.map((image, index) => (*/}
-      {/*  <div key={index}>*/}
-      {/*    <img src={image.image} alt={`Image ${index}`} />*/}
-      {/*  </div>*/}
-      {/*))}*/}
-      {car && car.images && car.images.map((image, index) => (
-        <div key={index}>
-            <img src={image.image} alt={`Image`} />
-        </div>
-      ))}
-    </Carousel>
+        {/*<Carousel showStatus={false} showThumbs={true} infiniteLoop={true}>*/}
+        {/*    {car && car.images && car.images.map((image, index) => (*/}
+        {/*    <div key={index}>*/}
+        {/*        <img src={image.image} alt={`Image`} />*/}
+        {/*    </div>*/}
+        {/*    ))}*/}
+        {/*</Carousel>*/}
+
+          <Carousel
+          showStatus={false}
+          showThumbs={true}
+          infiniteLoop={true}
+          onClickItem={openModal}
+          selectedItem={currentSlide}
+        >
+            {car && car.images && car.images.map((image, index) => (
+            <div key={index}>
+                <img src={image.image} alt={`Image`} />
+            </div>
+            ))}
+        </Carousel>
+
+        <Modal
+          isOpen={isModalOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          contentLabel="Image Carousel Modal"
+          className="modal"
+          overlayClassName="overlay"
+        >
+          <button onClick={closeModal} className="close-modal">X</button>
+          <Carousel
+            showStatus={false}
+            showThumbs={false}
+            infiniteLoop={true}
+            selectedItem={currentSlide}
+          >
+              {car && car.images && car.images.map((image, index) => (
+              <div key={index}>
+                  <img src={image.image} alt={`Image`} />
+              </div>
+              ))}
+          </Carousel>
+        </Modal>
+
+
         <Rating productId={id} />
           <div className="container-rating-coment">
             <div className="column-totalR">
@@ -388,6 +488,14 @@ const Pret_final = calculatePrice() * totalDays;
       onChange={handleChange}
       min={new Date().toISOString().split("T")[0]}
     />
+      <input
+  type="time"
+  name="fromTime"
+  className="rezervation-input"
+  placeholder="Ora de la"
+  value={formData.fromTime}
+  onChange={handleChange}
+/>
     <input
       type="date"
       name="toDate"
@@ -397,6 +505,14 @@ const Pret_final = calculatePrice() * totalDays;
       onChange={handleChange}
       min={formData.fromDate || new Date().toISOString().split("T")[0]}
     />
+      <input
+  type="time"
+  name="toTime"
+  className="rezervation-input"
+  placeholder="Ora până la"
+  value={formData.toTime}
+  onChange={handleChange}
+/>
       <div className={"icon-rezervation"}>
           <FontAwesomeIcon icon={faUser} className="iconnn" />
     <input
@@ -420,19 +536,6 @@ const Pret_final = calculatePrice() * totalDays;
       onChange={handleChange}
     />
       </div>
-    {/*  <div className={"icon-rezervation"}>*/}
-    {/*       <FaPhone className="iconnn"/>*/}
-    {/*<input*/}
-    {/*  type="tel"*/}
-    {/*  name="phone"*/}
-    {/*  className="phone-input-rezervation"*/}
-    {/*  placeholder="Telefon"*/}
-    {/*  value={formData.phone}*/}
-    {/*  onChange={handleChange}*/}
-    {/*/>*/}
-
-
-    {/*  </div>*/}
 
       <div className={"icon-rezervation"}>
                 <FaPhone className="iconnn" />
@@ -452,7 +555,12 @@ const Pret_final = calculatePrice() * totalDays;
           <p>Gaj:<span className="align-right">{car.gaj} €</span></p>
           <p>Preț pentru o zi <span className="align-right">{calculatePrice()} €</span></p>
           <p>Total zile <span className="align-right">x{totalDays}</span></p>
-          <p>Preț final <span className="align-right red-text">{Pret_final} €</span></p>
+          <p>Taxa de noapte preluare <span className="align-right">{calculateFinalPrice().fromNightTax} €</span></p>
+          <p>Taxa de noapte returnare <span className="align-right">{calculateFinalPrice().toNightTax} €</span></p>
+
+        <p>Preț final <span className="align-right red-text">{calculateFinalPrice().finalPrice} €</span></p>
+
+
       </div>
 
 

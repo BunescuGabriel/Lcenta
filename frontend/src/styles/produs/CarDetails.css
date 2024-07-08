@@ -177,15 +177,56 @@
 }
 
 
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75); /* Semi-transparent black background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
 
+/* Modal content */
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+  margin-left: 20%;
+  max-width: 800px;
+  max-height: 100%;
+  overflow-y: auto; /* Add vertical scrolling if content is too long */
+  position: relative;
+}
 
+/* Close button */
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
 
+.close-modal:hover {
+  background: #ff1a1a;
+}
 
+/* Carousel inside modal */
+.modal .carousel .slide {
+  background: none;
+}
 
-
-
-
-
-
-
-
+.modal .carousel img {
+  width: 100%;
+  height: auto;
+}

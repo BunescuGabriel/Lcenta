@@ -355,7 +355,9 @@ def reservation_email(request):
             virsta = data.get("virsta", "")
             phone = data.get("phone", "")
             fromDate = data.get("fromDate", "")
+            fromTime = data.get("fromTime", "")
             toDate = data.get("toDate", "")
+            toTime = data.get("toTime", "")
             carInfo = data.get("carInfo", {})
 
             car_id = carInfo.get("id", "")
@@ -366,13 +368,17 @@ def reservation_email(request):
             totalDays = data.get("totalDays", "")
             priceForTotalDays = data.get("priceForTotalDays", "")
             Pret_final = data.get("Pret_final", "")
+            noapte_preluare = data.get("noapte_preluare", "")
+            noapte_returnare = data.get("noapte_returnare", "")
 
             message = (
                 f'Rezervarea Masinilor:'
                 f'\nNume: {prenume}\nVîrsta: {virsta} ani\nTelefon: {phone}'
-                f'\nDe la: {fromDate}\nPână la: {toDate}\n\nDetalii produs:'
+                f'\nDe la: {fromDate}\nora:{fromTime}\nPână la: {toDate}\nora:{toTime}\n\nDetalii produs:'
                 f'\nNume Produs: {car_producer} {car_name}'
                 f'\nGaj Produs:{car_gaj}€'
+                f'\nTaxa de noapte preluare:{noapte_preluare}€'
+                f'\nTaxa de noapte returnare:{noapte_returnare}€'
                 f'\nNumăr total de zile: {totalDays}\nPreț pentru o zi: {priceForTotalDays} €'
                 f'\nPreț total: {Pret_final} €'
             )
