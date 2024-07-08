@@ -191,42 +191,66 @@
 }
 
 /* Modal content */
-.modal {
-  background: white;
-  padding: 20px;
+.modal-caruseli-image {
+  background: transparent;
+  padding: 30px;
   border-radius: 10px;
   width: 100%;
-  margin-left: 20%;
-  max-width: 800px;
+  max-width: 700px;
   max-height: 100%;
   overflow-y: auto; /* Add vertical scrolling if content is too long */
   position: relative;
 }
 
 /* Close button */
-.close-modal {
+.close-modal-caruseli-image {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 0; /* Adjusted for better positioning */
+  right: 0; /* Adjusted for better positioning */
   background: transparent;
   color: white;
   border: none;
-  padding: 5px 10px;
+  padding: 5px 10px; /* Adjusted for better responsiveness */
   cursor: pointer;
   font-size: 16px;
   border-radius: 5px;
 }
 
-.close-modal:hover {
+.close-modal-caruseli-image:hover {
   background: #ff1a1a;
 }
 
 /* Carousel inside modal */
-.modal .carousel .slide {
+.modal-caruseli-image .carousel .slide {
   background: none;
 }
 
-.modal .carousel img {
+.modal-caruseli-image .carousel img {
   width: 100%;
   height: auto;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .modal-caruseli-image {
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  .close-modal-caruseli-image {
+    padding: 5px 15px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal-caruseli-image {
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  .close-modal-caruseli-image {
+    padding: 5px;
+    font-size: 12px;
+  }
 }

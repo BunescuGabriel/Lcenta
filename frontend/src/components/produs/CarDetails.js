@@ -313,10 +313,10 @@ const afterOpenModal = () => {
           onAfterOpen={afterOpenModal}
           onRequestClose={closeModal}
           contentLabel="Image Carousel Modal"
-          className="modal"
+          className="modal-caruseli-image"
           overlayClassName="overlay"
         >
-          <button onClick={closeModal} className="close-modal">X</button>
+          <button onClick={closeModal} className="close-modal-caruseli-image">X</button>
           <Carousel
             showStatus={false}
             showThumbs={false}
