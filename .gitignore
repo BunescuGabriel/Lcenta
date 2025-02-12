@@ -13,3 +13,67 @@ nginx/
 # Ignoră directorul .idea
 .idea
 venv
+# Ignoră fișierele și folderele generate de Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Ignoră mediul virtual (venv, env)
+venv/
+env/
+*.env
+*.venv
+
+# Ignoră fișierele de log și database SQLite
+*.log
+db.sqlite3
+db.sqlite3-journal
+
+# Ignoră fișierele de cache Django
+*.pot
+*.pyc
+*.swp
+*.swo
+
+# Ignoră fișierele de configurare și secrete
+*.secrets
+.env
+config.json
+config.yaml
+
+# Ignoră folderul `migrations/` pentru toate aplicațiile Django
+migrations/
+**/migrations/
+!**/migrations/__init__.py  # Păstrează __init__.py pentru a menține structura aplicației
+
+# Ignoră fișierele statice și media generate
+staticfiles/
+static/
+media/
+
+# Ignoră fișierele și folderele generate de editori și IDE-uri
+.vscode/
+.idea/
+*.iml
+
+# Ignoră fișierele generate de Docker
+*.dockerfile
+*.compose
+docker-compose.override.yml
+
+# Ignoră fișierele și cache-ul PyCharm
+*.pydevproject
+.project
+.metadata
+*.sublime-workspace
+
+# Ignoră fișierele node_modules (dacă folosești frontend cu Django)
+node_modules/
+npm-debug.log
+
+# Ignoră fișierele de test și de build
+coverage/
+htmlcov/
+*.cover
+*.hypothesis/
